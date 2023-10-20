@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
-const jpdRoutes = require('./routes/jpd')
+const inventoryRoutes = require('./routes/inventory')
 
 // express app
 const app = express()
@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.use('/jpd', jpdRoutes)
+app.use('/jpd', inventoryRoutes)
 
 // connect to the db
 mongoose.connect(process.env.MONGO_URI)
