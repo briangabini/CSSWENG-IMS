@@ -9,10 +9,10 @@ const mongoose = require('mongoose')
 
 // get all inventory items 
 const getInventoryItems = async (req, res) => {
-    const inventoryItems = await InventoryItem.find({})
+    const inventoryItems = await InventoryItem.find({}) // returns javascript object
     // if we want to sort const inventoryItems = await InventoryItem.find({}).sort({createdAt: })
 
-    res.status(200).json(inventoryItems)
+    res.status(200).json(inventoryItems) // sends JSON response to the client
 }
 
 // get a single inventory item using part name
@@ -40,7 +40,7 @@ const getInventoryItemById = async (req, res) => {
     }
 
     if (!inventoryItem) {
-        return res.status(404).json({ error: 'No such inventory item is found!' })
+        return res.status(404).json({error: 'No such inventory item is found!'})
     }
 
     res.status(200).json(inventoryItem)
@@ -62,6 +62,21 @@ const createInventoryItem = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+// delete in inventory item
+const deleteInventoryItemById = async(req, res) => {
+    const id = req.params
+    
+    try {
+        const inventoryItem = await InventoryItem.deleteOne({ _id: id})
+        res.status(200).json(inventoryItem)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+// edit in inventory item
+
 
 module.exports = {
     getInventoryItem,

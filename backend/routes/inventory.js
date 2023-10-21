@@ -16,13 +16,13 @@ router.get('/', getInventoryItems)
 router.get('/all-items', getInventoryItems)
 
 // GET a single item
-router.get('/:partName', getInventoryItem)
+router.get('/:partName', getInventoryItem)   
 
 // POST an inventory item
 router.post('/add-item', createInventoryItem)
 
 // DELETE an inventory item
-// router.delete('/delete-item/:partName', deleteInventoryItem) 
+router.delete('/delete-item/:partId', deleteInventoryItemById) 
 
 // UPDATE an inventory item 
 // router.patch('/update-item/:partName', updateInventoryItem) 
