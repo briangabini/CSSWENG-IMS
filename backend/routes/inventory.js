@@ -1,14 +1,14 @@
 const express = require('express')
 const {
     createInventoryItem,
+    getInventoryItem,
+    getInventoryItems
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
 
-// homepage
-router.get('/', (req, res) => {
-    res.json({ 'mssg': 'Landing site!' })
-})
+// homepage - testing lang
+router.get('/', getInventoryItems)
 
 /* INVENTORY */
 
@@ -22,10 +22,10 @@ router.get('/:partName', getInventoryItem)
 router.post('/add-item', createInventoryItem)
 
 // DELETE an inventory item
-router.delete('/:partName', deleteInventoryItem)
+// router.delete('/delete-item/:partName', deleteInventoryItem) 
 
-// UPDATE an inventory item
-router.patch('/:partName', updateInventoryItem)
+// UPDATE an inventory item 
+// router.patch('/update-item/:partName', updateInventoryItem) 
 
 // place all the routes here for now
 

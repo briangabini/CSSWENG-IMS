@@ -1,4 +1,5 @@
 const InventoryItem = require('../models/inventoryItemModel')
+const mongoose = require('mongoose')
 
 // get all inventory items based on filter
 // we can use using the .sort(), and filter using specific .find() queries
@@ -6,16 +7,46 @@ const InventoryItem = require('../models/inventoryItemModel')
 // get all inventory items based on search
 // use .find() + regex(?)
 
-// get a single inventory item
-
-
-// get all inventory items
+// get all inventory items 
 const getInventoryItems = async (req, res) => {
     const inventoryItems = await InventoryItem.find({})
     // if we want to sort const inventoryItems = await InventoryItem.find({}).sort({createdAt: })
 
     res.status(200).json(inventoryItems)
 }
+
+// get a single inventory item using part name
+const getInventoryItem = async (req, res) => {
+    const { partName } = req.params
+
+    const inventoryItem = await InventoryItem.findOne({ partName: partName })
+
+    if (!inventoryItem) {
+        return res.status(404).json({ error: 'No such inventory item is found!' })
+    }
+
+    res.status(200).json(inventoryItem)
+
+}
+
+// get a single inventory item using id
+const getInventoryItemById = async (req, res) => {
+    const { id } = req.params
+
+    const inventoryItem = await InventoryItem.findById(id)
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such inventory item is found!' })
+    }
+
+    if (!inventoryItem) {
+        return res.status(404).json({ error: 'No such inventory item is found!' })
+    }
+
+    res.status(200).json(inventoryItem)
+
+}
+
 
 // create new inventory item
 const createInventoryItem = async (req, res) => {
@@ -33,5 +64,7 @@ const createInventoryItem = async (req, res) => {
 }
 
 module.exports = {
+    getInventoryItem,
+    getInventoryItems,
     createInventoryItem
 }
