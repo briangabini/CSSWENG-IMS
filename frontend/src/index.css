@@ -3,8 +3,20 @@
 
 /* layout */
 :root {
-  --primary: #1aac83;
-  --error: #e7195a;
+  --JPD-logo-red: #E50B0B;
+  --gray-text: #525252;
+  --main-dominant-red: #FF5555;
+  --background-red: #FFF2F2;
+  --text-placeholder-gray: #868686;
+  --dark-gray-text: #222222;
+  --finances-positive: #68A767;
+  --finances-negative: #CB7373;
+  --profit-background: #EFFFEF;
+  --sales-background: #FFFAE8;
+  --profit-dark: #025100;
+  --icon-in-the-background: #FF6D6D;
+  --background-light-red: #FFF2F2;
+  --faded-text-button: #F1A8A8;
 }
 body {
   background: #f1f1f1;
