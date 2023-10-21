@@ -2,13 +2,14 @@ const express = require('express')
 const {
     createInventoryItem,
     getInventoryItem,
-    getInventoryItems
+    getInventoryItems,
+    deleteInventoryItemById
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
 
 // homepage - testing lang
-router.get('/', getInventoryItems)
+// router.get('/', getInventoryItems)
 
 /* INVENTORY */
 

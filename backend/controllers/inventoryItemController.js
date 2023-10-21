@@ -81,5 +81,6 @@ const deleteInventoryItemById = async(req, res) => {
 module.exports = {
     getInventoryItem,
     getInventoryItems,
-    createInventoryItem
+    createInventoryItem,
+    deleteInventoryItemById
 }

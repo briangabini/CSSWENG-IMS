@@ -1,16 +1,37 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-const Dashboard = () => {
-    
+// components 
+import VerifiedUserDetails from '../components/VerifiedUserDetails'
+
+const VerifiedUsers = () => {
+    const [userDetails, setVerifiedUsers] = useState(null)
+
+    useEffect(() => { 
+        const fetchVerifiedUsers = async () => { 
+            const response = await fetch('/jpd') // retrieves response from server as JSON
+            const json = await response.json() // converts the json data into an array of objects
+
+            if (response.ok) {
+                setVerifiedUsers(json)
+            }
+        }
+
+        
+
+        fetchVerifiedUsers()
+    }, [])
+
     return (
-        <div className="dashboard">
-            <h1>THIS IS THE dashboard page</h1>
+        <div className="users">
+            <h1>THIS IS THE VERIFIED USER LIST</h1>
 
-            <Link to="/">
-                Updates
-            </Link>
+            <div className="verified-users">
+                {userDetails && userDetails.map((userDetail) => (
+                    <VerifiedUserDetails key={userDetail._id}  userDetail={userDetail} /> 
+                ))} 
+            </div>
         </div>
     )
 }
 
-export default Dashboard
+export default VerifiedUsers
