@@ -9,7 +9,7 @@ const {
 const router = express.Router()
 
 // homepage - testing lang
-// router.get('/', getInventoryItems)
+router.get('/', getInventoryItems)
 
 /* INVENTORY */
 

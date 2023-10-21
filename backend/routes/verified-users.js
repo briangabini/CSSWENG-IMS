@@ -8,7 +8,7 @@ const {
 const router = express.Router()
 
 // homepage - testing lang
-router.get('/dashboard', getVerifiedUsers)
+router.get('/', getVerifiedUsers)
 
 /* INVENTORY */
 

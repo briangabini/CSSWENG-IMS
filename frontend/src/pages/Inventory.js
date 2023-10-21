@@ -8,7 +8,7 @@ const Inventory = () => {
 
     useEffect(() => { 
         const fetchInventoryItems = async () => { 
-            const response = await fetch('/jpd') // retrieves response from server as JSON
+            const response = await fetch('/jpd/inventory') // retrieves response from server as JSON
             const json = await response.json() // converts the json data into an array of objects
 
             if (response.ok) {

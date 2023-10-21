@@ -17,8 +17,8 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.use('/jpd', inventoryRoutes)
-app.use('/jpd', verifiedUserRoutes)
+app.use('/jpd/users', verifiedUserRoutes)
+app.use('/jpd/inventory', inventoryRoutes)
 
 // connect to the db
 mongoose.connect(process.env.MONGO_URI)
