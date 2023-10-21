@@ -1,5 +1,6 @@
 // import {useEffect, useState} from 'react'
-
+import {Container, Row, Col} from 'react-bootstrap';
+import Revenue from '../components/Revenue';
 const Home = () => {
     // const [inventoryItems, setInventoryItems] = useState(null)
 
@@ -17,14 +18,33 @@ const Home = () => {
     // }, [])
 
     return (
-        <div className="home">
-            <div className="inventory-items">
-                {/* {inventoryItems && inventoryItems.map((inventoryItem) => (
-                    <p key={inventoryItem._id}>{inventoryItem.partName}</p>
-                ))} */}
-            </div>
-        </div>
-    )
+        // <div className="home">
+        //     <div className="inventory-items">
+        //         {/* {inventoryItems && inventoryItems.map((inventoryItem) => (
+        //             <p key={inventoryItem._id}>{inventoryItem.partName}</p>
+        //         ))} */}
+        //     </div>
+        // </div>
+        
+        <Container className='border'>
+            <Row>
+                <Col className='greeting'>Good day, Justin Depano.</Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Revenue></Revenue>
+                </Col>
+                <Col>
+                    <Row>
+                        <Col>Item of the Month</Col>
+                    </Row>
+                    <Row>
+                        <Col>Card</Col>
+                    </Row>
+                </Col>
+            </Row>
+        </Container>
+    );
 }
 
 export default Home
