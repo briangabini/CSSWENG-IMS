@@ -2,30 +2,26 @@ const express = require('express')
 const {
     createVerifiedUser,
     getVerifiedUser,
-    getVerifiedUsers
+    getVerifiedUsers,
+    loginUser
 } = require('../controllers/userController')
 
 const router = express.Router()
 
-// homepage - testing lang
+
+// Mainly for testing, but basically calls the function that gets all users
 router.get('/', getVerifiedUsers)
 
-/* INVENTORY */
-
-// GET all inventory items
+// GETs all verified users
 router.get('/all-users', getVerifiedUsers)
 
-// GET a single item
+// GETs a single user
 router.get('/:employeeName', getVerifiedUser)   
 
-// POST an inventory item
+// send a POST request to add user to database
 router.post('/add-user', createVerifiedUser)
 
-// DELETE an inventory item
-
-// UPDATE an inventory item 
-// router.patch('/update-item/:partName', updateInventoryItem) 
-
-// place all the routes here for now
+// send a POST request to authenticate user in login page
+router.post('/login', loginUser)
 
 module.exports = router

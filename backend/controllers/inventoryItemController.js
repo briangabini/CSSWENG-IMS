@@ -79,7 +79,7 @@ const deleteInventoryItemById = async(req, res) => {
 
     } catch (error) {
         res.status(400).json({ error: error.message })
-    }
+    } 
 }
 
 // edit in inventory item
