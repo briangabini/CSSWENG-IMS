@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 
 // bootstrap
-import {Container, Row, Col, Card, Dropdown} from 'react-bootstrap'
+import {Container, Row, Col, Card, Dropdown, CardImgOverlay} from 'react-bootstrap'
 
 const VerifiedUsers = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
@@ -45,9 +45,9 @@ const VerifiedUsers = () => {
                         <Col className=''>Revenue</Col>
                     </Row>
                     <Row>
-                        <Card className='main-dominant-red w-auto px-4'>
+                        <Card className='main-dominant-red px-4 py-2 overlay'>
                             <Row>
-                                <Dropdown className='d-flex justify-content-end'>
+                                <Dropdown className='d-flex justify-content-end' variant='secondary'>
                                     <Dropdown.Toggle id="dropdown-basic" >
                                         Month
                                     </Dropdown.Toggle>
@@ -63,7 +63,7 @@ const VerifiedUsers = () => {
                                 <Col className='revenue-amt'>₱5,105,811.99</Col>
                             </Row>
                             <Row>
-                                <Card className='w-25'>
+                                <Card className='w-auto'>
                                     +28%
                                 </Card>
                             </Row>
@@ -84,7 +84,7 @@ const VerifiedUsers = () => {
             </Row>
             
             <Row className='justify-content-center'>
-                <Col className='border col-3'>
+                <Col className='border col-4'>
                     <Row className='card-title'>
                         <Col className=''>Upcoming Reminder</Col>
                     </Row>
@@ -99,7 +99,7 @@ const VerifiedUsers = () => {
                     </Row>
                 </Col>
 
-                <Col className='border col-9'>
+                <Col className='border col-8'>
                     <Row className='card-title'>
                         <Col className=''>Statistics</Col>
                     </Row>

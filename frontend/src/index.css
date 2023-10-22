@@ -61,7 +61,11 @@ header a {
 .main-dominant-red {
   background-color: var(--main-dominant-red)!important;
 }
-
+.overlay{
+  background: url(../public/icon_briefcase_.png);
+  background-repeat: no-repeat;
+  background-position: 20%;
+}
 .revenue-amt{
   font-weight: 700;
   font-size: 64px;
