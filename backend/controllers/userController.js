@@ -1,5 +1,28 @@
 const User = require('../models/userModel')
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+
+const createToken = (_id) => {
+    return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d' })
+}
+
+
+// login a user
+const loginUser = async (req, res) => {
+    const { email, password} = req.body
+
+    try {
+        const user = await User.login(email, password)
+
+        // create a token
+        const token = createToken(user._id)
+
+        res.status(200).json({ email, token })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
 
 // get all verified users
 const getVerifiedUsers = async (req, res) => {
@@ -33,7 +56,7 @@ const getVerifiedUserById = async (req, res) => {
     }
 
     if (!userDetail) {
-        return res.status(404).json({error: 'No such user is found!'})
+        return res.status(404).json({ error: 'No such user is found!' })
     }
 
     res.status(200).json(userDetail)
@@ -41,22 +64,26 @@ const getVerifiedUserById = async (req, res) => {
 }
 
 // create new user 
-const createVerifiedUser = async (req,res) => {
-    const {employeeName, password, emailAddress, role} = req.body
+const createVerifiedUser = async (req, res) => {
+    const { email, password, employeeName, role } = req.body
 
     // add doc to db
     try {
 
-        const userDetail = await User.create({employeeName, password, emailAddress, role})
-        res.status(200).json(userDetail)
-
+        const userDetail = await User.signup(email, password, employeeName, role)
+        
+        // create token
+        const token = createToken(userDetail._id)
+        
+        res.status(200).json({email, token})
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({ error: error.message })
     }
 }
 
 module.exports = {
     getVerifiedUsers,
     getVerifiedUser,
-    createVerifiedUser
+    createVerifiedUser,
+    loginUser
 }
