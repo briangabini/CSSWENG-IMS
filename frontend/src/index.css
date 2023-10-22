@@ -4,7 +4,6 @@
 /* layout */
 :root {
   --JPD-logo-red: #E50B0B;
-  --background: #FFEFEF;
   --gray-text: #525252;
   --main-dominant-red: #FF5555;
   --background-red: #FFF2F2;
@@ -18,10 +17,12 @@
   --icon-in-the-background: #FF6D6D;
   --background-light-red: #FFF2F2;
   --faded-text-button: #F1A8A8;
+  --white: #FFFFFF;
+  --black: #000000;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background-red)!important;
   margin: 0;
   font-family: "Inter";
 }
@@ -44,4 +45,25 @@ header a {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+}
+.main{
+  width: 65%!important;
+}
+.greeting {
+  font-weight: 700;
+  font-size: 36px;
+}
+.card-title{
+  color: var(--black);
+  font-weight: bold;
+  font-size: 20px;
+}
+.main-dominant-red {
+  background-color: var(--main-dominant-red)!important;
+}
+
+.revenue-amt{
+  font-weight: 700;
+  font-size: 64px;
+  color: var(--white);
 }
