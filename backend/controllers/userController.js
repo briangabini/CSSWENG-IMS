@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
 const mongoose = require('mongoose')
 
-// get all inventory items 
+// get all verified users
 const getVerifiedUsers = async (req, res) => {
     const userDetails = await User.find({}) // returns javascript object
 
@@ -22,7 +22,7 @@ const getVerifiedUser = async (req, res) => {
 
 }
 
-// get a single inventory item using id
+// get a single user using id
 const getVerifiedUserById = async (req, res) => {
     const { id } = req.params
 
@@ -54,8 +54,6 @@ const createVerifiedUser = async (req,res) => {
         res.status(400).json({error: error.message})
     }
 }
-
-// edit in inventory item
 
 module.exports = {
     getVerifiedUsers,
