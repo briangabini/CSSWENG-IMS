@@ -3,7 +3,8 @@ const {
     createInventoryItem,
     getInventoryItem,
     getInventoryItems,
-    deleteInventoryItemById
+    deleteInventoryItemById,
+    updateInventoryItemById
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
@@ -26,7 +27,7 @@ router.post('/add-item', createInventoryItem)
 router.delete('/delete-item/:id', deleteInventoryItemById) 
 
 // UPDATE an inventory item 
-// router.patch('/update-item/:partName', updateInventoryItem) 
+router.patch('/update-item/:id', updateInventoryItemById) 
 
 // place all the routes here for now
 
