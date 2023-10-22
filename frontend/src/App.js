@@ -1,3 +1,6 @@
+// bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
 
 // pages & components
