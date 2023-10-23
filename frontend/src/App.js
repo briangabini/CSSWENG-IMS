@@ -17,6 +17,7 @@ import Calendar from './pages/Calendar'
 import AddVerifiedUser from './pages/AddVerifiedUser'
 import EditVerifiedUser from './pages/EditVerifiedUser'
 import EditItem from './pages/EditItem'
+import AdminControlCenter from './pages/AdminControlCenter';
 
 function App() {
   return (
@@ -86,6 +87,11 @@ function App() {
             <Route
               path="/edit-item"
               element={<EditItem/>}
+            />
+
+            <Route
+              path='/admin-control-center'
+              element={<AdminControlCenter/>}
             />
 
           </Routes>
