@@ -19,6 +19,8 @@
   --faded-text-button: #F1A8A8;
   --white: #FFFFFF;
   --black: #000000;
+  --card1-red: #FFD4D4;
+  --card2-red: #FF9898;
 }
 
 body {
@@ -46,28 +48,84 @@ header a {
   padding: 20px;
   margin: 0 auto;
 }
+
 .main{
   width: 65%!important;
 }
-.greeting {
-  font-weight: 700;
-  font-size: 36px;
+
+.txt-white{
+  color: var(--white)!important;
 }
-.card-title{
-  color: var(--black);
-  font-weight: bold;
-  font-size: 20px;
-}
-.main-dominant-red {
+
+.bg-main-dominant-red {
   background-color: var(--main-dominant-red)!important;
 }
-.overlay{
+.bg-card1-red{
+  background-color: var(--card1-red)!important;
+}
+.bg-card2-red{
+  background-color: var(--card2-red)!important;
+}
+.bg-card3-red{
+  background-color: var(--card3-red)!important;
+}
+
+.txt-14{
+  font-size: 14px!important; /* fs-6 */
+}
+.txt-16{
+  font-size: 16px!important; /* fs-5 */
+}
+.txt-20{
+  font-size: 20px!important; /* fs-4 */
+}
+.txt-32{
+  font-size: 32px!important; /* fs-3 */
+}
+.txt-36 {
+  font-size: 36px!important; /* fs-2 */
+}
+.txt-64{
+  font-size: 64px!important; /* fs-1 */
+}
+
+
+.overlay-revenue{
   background: url(../public/icon_briefcase_.png);
   background-repeat: no-repeat;
-  background-position: 20%;
+  background-position: 2rem;
+  background-size: 10rem;
 }
-.revenue-amt{
-  font-weight: 700;
-  font-size: 64px;
-  color: var(--white);
+
+.overlay-reminder{
+  background: url(../public/icon_calendar_.png);
+  background-repeat: no-repeat;
+  background-position: 2rem;
+  background-size: 8rem;
 }
+
+.overlay-items-in-cart{
+  background: url(../public/icon_cart_.png);
+  background-repeat: no-repeat;
+  background-position: 1rem;
+  background-position-y: 6rem;
+  background-size: 7rem;
+}
+
+.overlay-payments-due{
+  background: url(../public/icon_bell_.png);
+  background-repeat: no-repeat;
+  background-position: 1rem;
+  background-position-y: 6rem;
+  background-size: 7rem;
+}
+
+.overlay-low-stock{
+  background: url(../public/icon_bar chart_.png);
+  background-repeat: no-repeat;
+  background-position: 1rem;
+  background-position-y: 6rem;
+  background-size: 7rem;
+}
+
+

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 
 // bootstrap
-import {Container, Row, Col, Card, Dropdown, CardImgOverlay} from 'react-bootstrap'
+import {Container, Row, Col, Card, Dropdown, DropdownButton, CardGroup, Stack} from 'react-bootstrap'
 
 const VerifiedUsers = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
@@ -35,32 +35,29 @@ const VerifiedUsers = () => {
         //     </div>
         // </div>
 
-        <Container className='border main'>
-            <Row className='justify-content-center'>
-                <Col className='greeting col-12 border'>Good day, Justin Depano.</Col>
+        <Container className='main'>
+            <Row className='fs-2 fw-bold col-12'>
+                Good day, Justin Depano.
             </Row>
-            <Row className='justify-content-center'>
-                <Col className='border col-8 '>
-                    <Row className='card-title '>
-                        <Col className=''>Revenue</Col>
-                    </Row>
-                    <Row>
-                        <Card className='main-dominant-red px-4 py-2 overlay'>
-                            <Row>
-                                <Dropdown className='d-flex justify-content-end' variant='secondary'>
-                                    <Dropdown.Toggle id="dropdown-basic" >
-                                        Month
-                                    </Dropdown.Toggle>
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Day</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Month</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Year</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+            <Row >
+                <Col className='col-8'>
+                    <Row className='fw-bold txt-20 my-2'>
+                        Revenue
+                    </Row>
+                    <Row className='me-2'>
+                        <Card className='p-4 bg-main-dominant-red overlay-revenue'>
+                            <Row>
+                                <DropdownButton id="dropdown-item-button" title="Month" align="end"
+                                                className='d-flex flex-row-reverse'
+                                                variant='light'>
+                                    <Dropdown.Item as="button">Day</Dropdown.Item>
+                                    <Dropdown.Item as="button">Month</Dropdown.Item>
+                                    <Dropdown.Item as="button">Year</Dropdown.Item>
+                                </DropdownButton>
                             </Row>
                             <Row>
-                                <Col className='revenue-amt'>₱5,105,811.99</Col>
+                                <Col className='m-2 txt-white fs-1 fw-bold'>₱5,105,811.99</Col>
                             </Row>
                             <Row>
                                 <Card className='w-auto'>
@@ -71,66 +68,67 @@ const VerifiedUsers = () => {
                     </Row>
                 </Col>
 
-                <Col className='border col-4'>
-                    <Row className='card-title'>
-                        <Col className='ms-4'>Item of the Month</Col>
+                <Col className='col-4 d-flex flex-column'>
+                    <Row className='fw-bold txt-20 my-2'>
+                        Item of the Month
                     </Row>
-                    <Row>
-                        <Card className='main-dominant-red w-auto mx-4 p-4' >
-                            
+                    <Row className='flex-grow-1'>
+                        <Card className='bg-main-dominant-red w-100 p-4' >
+                            {/* Content for the Card */}
                         </Card>
                     </Row>
                 </Col>
             </Row>
-            
+
             <Row className='justify-content-center'>
-                <Col className='border col-4'>
-                    <Row className='card-title'>
-                        <Col className=''>Upcoming Reminder</Col>
+                <Col className='h-100 col-4'>
+                    <Row className='fw-bold txt-20 my-2'>
+                        Upcoming Reminder
                     </Row>
                     <Row>
-                        <Card className='main-dominant-red w-auto '>
+                        <Card className='bg-main-dominant-red overlay-reminder w-auto txt-white'>
                             <Card.Body>
-                                <Card.Title>September 20</Card.Title>
-                                <Card.Subtitle>Saturday</Card.Subtitle>
-                                <Card.Text>Send payment to Arai helmet suppliers</Card.Text>
+                                <Card.Title className='txt-16 fw-bold'>September 20</Card.Title>
+                                <Card.Subtitle className='txt-14 '>Saturday</Card.Subtitle>
+                                <Card.Text className='txt-20 fw-bold my-4'>Send payment to Arai helmet suppliers</Card.Text>
                             </Card.Body>
                         </Card>
                     </Row>
                 </Col>
 
-                <Col className='border col-8'>
-                    <Row className='card-title'>
-                        <Col className=''>Statistics</Col>
+                <Col className='col-8' style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Row className='h-auto fw-bold txt-20'>
+                        <Col className='my-2'>Statistics</Col>
                     </Row>
-                    <Row>
-                        <Col className='border'>
-                            <Card>
+                    <Row className='h-auto d-flex align-items-stretch' style={{ flex: 1 }}>
+                        <Col className='h-auto'>
+                            <Card className='w-auto bg-card1-red overlay-items-in-cart h-100'>
                                 <Card.Body>
-                                    <Card.Title>5</Card.Title>
-                                    <Card.Subtitle>Itmes in Cart</Card.Subtitle>
+                                    <Card.Title className='txt-32 fw-bold'>5</Card.Title>
+                                    <Card.Subtitle className='txt-14'>Items in Cart</Card.Subtitle>
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col className='border'>
-                            <Card>
+                        <Col className='h-auto'>
+                            <Card className='bg-card2-red overlay-payments-due h-100'>
                                 <Card.Body>
-                                    <Card.Title>3</Card.Title>
-                                    <Card.Subtitle>Weekly Payments Due</Card.Subtitle>
+                                    <Card.Title className='txt-32 fw-bold'>3</Card.Title>
+                                    <Card.Subtitle className='txt-14'>Weekly Payments Due</Card.Subtitle>
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col className='border'>
-                            <Card>
+                        <Col className='h-auto'>
+                            <Card className='bg-main-dominant-red overlay-low-stock h-100'>
                                 <Card.Body>
-                                    <Card.Title>6</Card.Title>
-                                    <Card.Subtitle>Low-Stock Items</Card.Subtitle>
+                                    <Card.Title className='txt-32 fw-bold'>6</Card.Title>
+                                    <Card.Subtitle className='txt-14'>Low-Stock Items</Card.Subtitle>
                                 </Card.Body>
                             </Card>
                         </Col>
                     </Row>
                 </Col>
             </Row>
+
         </Container>
     )
 }
