@@ -1,5 +1,5 @@
 // bootstrap
-import {Container, Row, Col, Card, Dropdown, DropdownButton} from 'react-bootstrap'
+import {Container, Row, Col, Card} from 'react-bootstrap'
 import ReminderAndStatistics from '../components/ReminderAndStatistics'
 
 const AdminControlCenter = () => {
