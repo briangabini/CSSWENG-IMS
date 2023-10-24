@@ -4,7 +4,8 @@ const {
     getInventoryItem,
     getInventoryItems,
     deleteInventoryItemById,
-    updateInventoryItemById
+    updateInventoryItemById,
+    searchInventoryItemByPartname
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
@@ -17,8 +18,8 @@ router.get('/', getInventoryItems)
 // GET all inventory items
 router.get('/all-items', getInventoryItems)
 
-// GET a single item
-router.get('/:partName', getInventoryItem)   
+// // GET a single item
+// router.get('/:partName', getInventoryItem)   
 
 // POST an inventory item
 router.post('/add-item', createInventoryItem)
@@ -28,6 +29,10 @@ router.delete('/delete-item/:id', deleteInventoryItemById)
 
 // UPDATE an inventory item 
 router.patch('/update-item/:id', updateInventoryItemById) 
+
+// SEARCH and display 50 inventory items based on partName
+router.get('/search', searchInventoryItemByPartname)
+
 
 // place all the routes here for now
 

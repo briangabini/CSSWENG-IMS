@@ -100,10 +100,24 @@ const updateInventoryItemById = async(req, res) => {
     }
 }
 
+const searchInventoryItemByPartname = async (req, res) => {
+    try {
+        const search = req.query.search || "";
+        const inventoryItems = await InventoryItem.find({
+            partName: { $regex: search, $options: "i" }
+        });
+        res.status(200).json({ error: false, inventoryItems });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
+};
+
 module.exports = {
     getInventoryItem,
     getInventoryItems,
     createInventoryItem,
     deleteInventoryItemById,
-    updateInventoryItemById
+    updateInventoryItemById,
+    searchInventoryItemByPartname
 }
