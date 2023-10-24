@@ -3,7 +3,6 @@ import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } fr
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Filter from '../components/Filter'
 
 const VerifiedUserList = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
@@ -46,7 +45,10 @@ const VerifiedUserList = () => {
                         Add User
                         <img className='ms-2 mb-1' src='icon_plus_.png'></img>
                     </Button>
-                    <Filter />
+                    <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
+                        Filter: In Stock
+                        <img className='ms-2 mb-1' src='icon_sort_.png'></img>
+                    </Button>
                     <Button variant="light" size='sm' className='rounded-4 px-3 ms-2 my-2 shadow'>
                         Sort by: Date, new to old
                         <img className='ms-2 mb-1' src='icon_sort_.png'></img>
