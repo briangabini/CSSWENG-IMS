@@ -2,9 +2,11 @@
 import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const VerifiedUserList = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
+    const navigate = useNavigate();
 
     useEffect(() => { 
         const fetchVerifiedUsers = async () => { 
@@ -15,11 +17,13 @@ const VerifiedUserList = () => {
                 setVerifiedUsers(json)
             }
         }
-
         
-
         fetchVerifiedUsers()
     }, [])
+
+    const navigateAddUser = () => {
+        navigate('/add-verified-user');
+    };
         
     return (
         // <div className="users">
@@ -37,7 +41,7 @@ const VerifiedUserList = () => {
             </Row>
             <Row>
                 <ButtonToolbar className='nopadding'>
-                    <Button variant="light" size='sm' className='rounded-4 px-3 my-2 ms-auto me-2 shadow'>
+                    <Button onClick={navigateAddUser} variant="light" size='sm' className='rounded-4 px-3 my-2 ms-auto me-2 shadow'>
                         Add User
                         <img className='ms-2 mb-1' src='icon_plus_.png'></img>
                     </Button>
