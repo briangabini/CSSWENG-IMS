@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 // components 
 import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
+import SortBy from '../components/SortBy'
 
 const Inventory = () => {
     const [inventoryItems, setInventoryItems] = useState(null)
@@ -46,10 +47,7 @@ const Inventory = () => {
                         <img className='ms-2 mb-1' src='icon_datatransferdownload_.png'></img>
                     </Button>
                     <Filter />
-                    <Button variant="light" size='sm' className='rounded-4 px-3 ms-2 my-2 shadow'>
-                        Sort by: Date, new to old
-                        <img className='ms-2 mb-1' src='icon_sort_.png'></img>
-                    </Button>
+                    <SortBy />
                 </ButtonToolbar>
             </Row>
             <Row>
