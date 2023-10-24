@@ -14,26 +14,17 @@ const AdminControlCenter = () => {
             <Row >
                 <Col className='col-8'>
                     <Row className='fw-bold txt-20 my-2'>
-                        Revenue
+                        Audit Log
                     </Row>
                     <Row className='me-2'>
-                        <Card className='p-4 bg-main-dominant-red overlay-revenue'>
+                        <Card className='p-4 bg-main-dominant-red overlay-audit-log'>
                             <Row>
-                                <DropdownButton id="dropdown-item-button" title="Month" align="end"
-                                                className='d-flex flex-row-reverse'
-                                                variant='light'>
-                                    <Dropdown.Item as="button">Day</Dropdown.Item>
-                                    <Dropdown.Item as="button">Month</Dropdown.Item>
-                                    <Dropdown.Item as="button">Year</Dropdown.Item>
-                                </DropdownButton>
+                                <Col className='m-2 txt-white fs-1 fw-bold'>Juan Dela Cruz</Col>
                             </Row>
                             <Row>
-                                <Col className='m-2 txt-white fs-1 fw-bold'>₱5,105,811.99</Col>
-                            </Row>
-                            <Row>
-                                <Card className='w-auto'>
-                                    +28%
-                                </Card>
+                                <Col className='ms-2 mb-3 txt-white fs-5'>
+                                    adjusted the stock number of “Arai Astro Light Helmet” from “16” to “15”
+                                </Col>
                             </Row>
                         </Card>
                     </Row>
@@ -41,11 +32,15 @@ const AdminControlCenter = () => {
 
                 <Col className='col-4 d-flex flex-column'>
                     <Row className='fw-bold txt-20 my-2'>
-                        Item of the Month
+                        Verified User List
                     </Row>
                     <Row className='flex-grow-1'>
-                        <Card className='bg-main-dominant-red w-100 p-4' >
-                            {/* Content for the Card */}
+                        <Card className='bg-main-dominant-red w-100 p-4 overlay-user-list' >
+                            <Row className='h-100 d-flex align-items-end'>
+                                <Col className='text-center txt-white fw-bold fs-5'>
+                                    8 Verified Users
+                                </Col>
+                            </Row>
                         </Card>
                     </Row>
                 </Col>

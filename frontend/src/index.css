@@ -128,4 +128,18 @@ header a {
   background-size: 7rem;
 }
 
+.overlay-audit-log{
+  background: url(../public/icon_key_.png);
+  background-repeat: no-repeat;
+  background-position: 2rem;
+  background-size: 8rem;
+}
+
+.overlay-user-list{
+  background: url(../public/icon_person_.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 8rem;
+}
+
 
