@@ -12,6 +12,7 @@ import AuditLog from './pages/AuditLog'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 import VerifiedUserList from './pages/VerifiedUserList'
 import Calendar from './pages/Calendar'
 import AddVerifiedUser from './pages/AddVerifiedUser'
@@ -25,6 +26,8 @@ function App() {
       <BrowserRouter>
       
       <ConditionalNavbar />
+
+      <ConditionalSidebar />
 
       <div className="pages">
           <Routes>
@@ -112,6 +115,16 @@ function ConditionalNavbar(){
   }
 
   return <Navbar/>
+}
+
+function ConditionalSidebar(){
+  const location = useLocation()
+
+  if (location.pathname === '/'){
+    return null
+  }
+
+  return <Sidebar/>
 }
 
 export default App;
