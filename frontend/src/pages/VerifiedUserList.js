@@ -31,32 +31,36 @@ const VerifiedUserList = () => {
         //         ))} 
         //     </div>
         // </div>
-        <Container className='main border'>
+        <Container className='main'>
             <Row className='fs-2 fw-bold'>
                 Verified User List
             </Row>
             <Row>
-                <ButtonToolbar className='border'>
-                    <Button variant="light" size='sm' className='rounded-4 my-2 ms-auto me-2 shadow'>Add User</Button>
-                    <Button variant="light" size='sm' className='rounded-4 m-2 shadow'>Filter: In Stock</Button>
-                    <Button variant="light" size='sm' className='rounded-4 m-2 shadow'>Sort by: Date, new to old</Button>
+                <ButtonToolbar className='nopadding'>
+                    <Button variant="light" size='sm' className='rounded-4 px-3 my-2 ms-auto me-2 shadow'>
+                        Add User
+                        <img className='ms-2 mb-1' src='icon_plus_.png'></img>
+                    </Button>
+                    <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
+                        Filter: In Stock
+                        <img className='ms-2 mb-1' src='icon_sort_.png'></img>
+                    </Button>
+                    <Button variant="light" size='sm' className='rounded-4 px-3 ms-2 my-2 shadow'>
+                        Sort by: Date, new to old
+                        <img className='ms-2 mb-1' src='icon_sort_.png'></img>
+                    </Button>
                 </ButtonToolbar>
             </Row>
             <Row>
-                <InputGroup className="mb-3 nopadding">
-                    <Form.Control
-                    placeholder="Search"
-                    aria-describedby="basic-addon2"
-                    className='rounded-4'
-                    />
-                    <Button id="button-addon2"
-                    className='rounded-4'>
-                    Search
-                    </Button>
-                </InputGroup>
+            <InputGroup className="mb-5 mt-2 nopadding">
+                <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow'/>
+                <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow'>
+                    <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
+                </Button>
+            </InputGroup>
             </Row>
             <Row>
-                <Card>
+                <Card className='rounded-4 shadow'>
                     <Row className='w-100 nopadding my-2'>
                         <Col className='txt-gray-text col-4 fs-6 nopadding'>Employee Name</Col>
                         <Col className='txt-gray-text col-4 fs-6 nopadding'>Email Address</Col>
