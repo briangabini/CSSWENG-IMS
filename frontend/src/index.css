@@ -49,6 +49,10 @@ header a {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
 .main{
   width: 65%!important;
 }
@@ -57,7 +61,10 @@ header a {
   color: var(--white)!important;
 }
 .txt-gray-text{
-  color: var(--gray-text);
+  color: var(--gray-text)!important;
+}
+.txt-profit-dark{
+  color: var(--profit-dark)!important;
 }
 
 .bg-main-dominant-red {
@@ -97,7 +104,6 @@ header a {
   margin-left: 0 !important;
 }
 
-.bo
 .overlay-revenue{
   background: url(../public/icon_briefcase_.png);
   background-repeat: no-repeat;
@@ -115,25 +121,25 @@ header a {
 .overlay-items-in-cart{
   background: url(../public/icon_cart_.png);
   background-repeat: no-repeat;
-  background-position: 1rem;
-  background-position-y: 6rem;
-  background-size: 7rem;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
 }
 
 .overlay-payments-due{
   background: url(../public/icon_bell_.png);
   background-repeat: no-repeat;
-  background-position: 1rem;
-  background-position-y: 6rem;
-  background-size: 7rem;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
 }
 
 .overlay-low-stock{
-  background: url(../public/icon_bar chart_.png);
+  background: url(../public/icon_barchart_.png);
   background-repeat: no-repeat;
-  background-position: 1rem;
-  background-position-y: 6rem;
-  background-size: 7rem;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
 }
 
 .overlay-audit-log{

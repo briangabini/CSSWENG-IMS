@@ -52,12 +52,12 @@ const VerifiedUserList = () => {
                 </ButtonToolbar>
             </Row>
             <Row>
-            <InputGroup className="mb-5 mt-2 nopadding">
-                <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow'/>
-                <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow'>
-                    <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
-                </Button>
-            </InputGroup>
+                <InputGroup className="mb-5 mt-2 nopadding">
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow'/>
+                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow'>
+                        <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
+                    </Button>
+                </InputGroup>
             </Row>
             <Row>
                 <Card className='rounded-4 shadow'>
