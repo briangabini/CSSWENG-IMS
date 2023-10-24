@@ -8,7 +8,7 @@ const VerifiedUserDetails = ({userDetail}) => {
         //     <p>Role: {userDetail.role}</p>
         //     <p>Date Added: {userDetail.dateAdded}</p>
         // </div>
-        <Row className='w-100 nopadding' style={{border: "1px solid red"}}>
+        <Row className='w-100 nopadding border-top my-1'>
             <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
             <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.emailAddress}</Col>
             <Col className='txt-gray-text border col-2 fs-6 nopadding'>{userDetail.role}</Col>

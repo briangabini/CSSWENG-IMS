@@ -37,9 +37,9 @@ const VerifiedUserList = () => {
             </Row>
             <Row>
                 <ButtonToolbar className='border'>
-                    <Button variant="light" size='sm' className='my-2 ms-auto me-2 shadow'>Add User</Button>
-                    <Button variant="light" size='sm' className='m-2 shadow'>Filter: In Stock</Button>
-                    <Button variant="light" size='sm' className='m-2 shadow'>Sort by: Date, new to old</Button>
+                    <Button variant="light" size='sm' className='rounded-4 my-2 ms-auto me-2 shadow'>Add User</Button>
+                    <Button variant="light" size='sm' className='rounded-4 m-2 shadow'>Filter: In Stock</Button>
+                    <Button variant="light" size='sm' className='rounded-4 m-2 shadow'>Sort by: Date, new to old</Button>
                 </ButtonToolbar>
             </Row>
             <Row>
@@ -47,20 +47,25 @@ const VerifiedUserList = () => {
                     <Form.Control
                     placeholder="Search"
                     aria-describedby="basic-addon2"
+                    className='rounded-4'
                     />
-                    <Button variant="outline-secondary" id="button-addon2">
+                    <Button id="button-addon2"
+                    className='rounded-4'>
                     Search
                     </Button>
                 </InputGroup>
             </Row>
             <Row>
                 <Card>
-                    <Row className='w-100 nopadding' style={{border: "1px solid red"}}>
-                        <Col className='txt-gray-text border col-4 fs-6 nopadding'>Employee Name</Col>
-                        <Col className='txt-gray-text border col-4 fs-6 nopadding'>Email Address</Col>
-                        <Col className='txt-gray-text border col-2 fs-6 nopadding'>Role</Col>
-                        <Col className='txt-gray-text border col-2 fs-6 nopadding'>Date Added</Col>
+                    <Row className='w-100 nopadding my-2'>
+                        <Col className='txt-gray-text col-4 fs-6 nopadding'>Employee Name</Col>
+                        <Col className='txt-gray-text col-4 fs-6 nopadding'>Email Address</Col>
+                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Role</Col>
+                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Date Added</Col>
                     </Row>
+                    {userDetails && userDetails.map((userDetail) => (
+                    <VerifiedUserDetails key={userDetail._id}  userDetail={userDetail} /> 
+                    ))} 
                 </Card>
             </Row>
         </Container>

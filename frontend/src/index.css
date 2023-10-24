@@ -92,15 +92,12 @@ header a {
   font-size: 64px!important; /* fs-1 */
 }
 
-.shadow{
-  box-shadow: 0px 10px 22px -11px rgba(0,0,0,0.75);
-}
-
 .nopadding {
   padding: 0 !important;
-  margin: 0 !important;
+  margin-left: 0 !important;
 }
 
+.bo
 .overlay-revenue{
   background: url(../public/icon_briefcase_.png);
   background-repeat: no-repeat;

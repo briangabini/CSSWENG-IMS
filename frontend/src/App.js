@@ -65,7 +65,7 @@ function App() {
             />
 
             <Route
-              path="/VerifiedUserList"
+              path="/verified-user-list"
               element={<VerifiedUserList />}
             />
 
