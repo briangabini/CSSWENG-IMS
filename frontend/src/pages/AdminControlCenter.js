@@ -11,7 +11,7 @@ const AdminControlCenter = () => {
                 Good day, Justin Depano.
             </Row>
 
-            <Row >
+            <Row className='pe-2'>
                 <Col className='col-8'>
                     <Row className='fw-bold txt-20 my-2'>
                         Audit Log
