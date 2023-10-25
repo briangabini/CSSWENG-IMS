@@ -24,7 +24,7 @@ const VerifiedUserList = () => {
     const navigateAddUser = () => {
         navigate('/add-verified-user');
     };
-        
+    
     return (
         // <div className="users">
         //     <h1>THIS IS THE VERIFIED USER LIST</h1>
