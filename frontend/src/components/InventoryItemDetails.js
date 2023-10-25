@@ -1,6 +1,13 @@
 import { Col, Row } from "react-bootstrap"
+import { useNavigate } from 'react-router-dom'
 
 const InventoryItemDetails = ({inventoryItem}) => {
+    const navigate = useNavigate();
+    
+    const navigateEditItem = () => {
+        navigate('/edit-item');
+    };
+
     return (
         // <div className="inventory-item-details">
         //     <p>Part Name: {inventoryItem.partName}</p>
@@ -10,7 +17,7 @@ const InventoryItemDetails = ({inventoryItem}) => {
         //     <p>Retail Price: {inventoryItem.retailPrice}</p>
         // </div>
 
-    <Row className='w-100 nopadding my-2'>
+    <Row onClick={navigateEditItem} className='w-100 nopadding my-2'>
         <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
         <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
         <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
