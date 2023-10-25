@@ -9,7 +9,7 @@ const AddVerifiedUser = () => {
     const [employeeName, setEmployeeName] = useState('')
     const [role, setRole] = useState('')
     const [error, setError] = useState('')
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -19,7 +19,7 @@ const AddVerifiedUser = () => {
         console.log(role)
 
 
-        const user = {email, password, employeeName, role}
+        const user = { email, password, employeeName, role }
 
         const response = await fetch('/jpd/users/add-user', {
             method: 'POST',
@@ -59,71 +59,71 @@ const AddVerifiedUser = () => {
 
     return (
         <Container className='main'>
-        <Row className='fs-2 fw-bold'>
-            Add Verified User
-        </Row>
-        <Row>
-            <Card className='p-4 rounded-4 shadow mt-3'>
-                <Form onSubmit={handleSubmit}>
-                    {/* email input */}
-                    <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
-                        <Form.Control 
-                            type="email" 
-                            placeholder="name@example.com" 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            value={email}
-                        />
-                    </FloatingLabel>
+            <Row className='fs-2 fw-bold'>
+                Add Verified User
+            </Row>
+            <Row>
+                <Card className='p-4 rounded-4 shadow mt-3'>
+                    <Form onSubmit={handleSubmit}>
+                        {/* email input */}
+                        <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
+                            <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                            />
+                        </FloatingLabel>
 
-                    {/* full name input */}
-                    <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
-                        <Form.Control 
-                            type="text" 
-                            placeholder="User Full Name" 
-                            onChange={(e) => setEmployeeName(e.target.value)} 
-                            value={employeeName}
-                        />
-                    </FloatingLabel>
-                    
-                    {/* password input */}
-                    <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
-                        <Form.Control 
-                            type="text" 
-                            placeholder="User Given Password" 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            value={password}
-                        />
-                    </FloatingLabel>
+                        {/* full name input */}
+                        <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
+                            <Form.Control
+                                type="text"
+                                placeholder="User Full Name"
+                                onChange={(e) => setEmployeeName(e.target.value)}
+                                value={employeeName}
+                            />
+                        </FloatingLabel>
 
-                    {/* role input */}
-                    <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
-                        <Form.Select 
-                            onChange={(e) => setRole(e.target.value)} 
-                            value={role}
-                        >
-                            <option></option>
-                            <option value="Partsman">Partsman</option>
-                            <option value="Secretary">Secretary</option>
-                            <option value="Admin">Admin</option>
-                        </Form.Select>
-                    </FloatingLabel>
+                        {/* password input */}
+                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
+                            <Form.Control
+                                type="text"
+                                placeholder="User Given Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
+                            />
+                        </FloatingLabel>
 
-                    {/* admin password */}
-                    {/* for added authentication */}
-                    <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
-                        <Form.Control type="password" placeholder="Password" />
-                    </FloatingLabel>
+                        {/* role input */}
+                        <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
+                            <Form.Select
+                                onChange={(e) => setRole(e.target.value)}
+                                value={role}
+                            >
+                                <option></option>
+                                <option value="Partsman">Partsman</option>
+                                <option value="Secretary">Secretary</option>
+                                <option value="Admin">Admin</option>
+                            </Form.Select>
+                        </FloatingLabel>
 
-                    <Container fluid className='d-flex justify-content-end pt-5'>
-                        <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
-                            Add to Team
-                        </Button>
-                    </Container>
-                </Form>
-                
-            </Card>
-        </Row>
-    </Container>
+                        {/* admin password */}
+                        {/* for added authentication */}
+                        <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
+                            <Form.Control type="password" placeholder="Password" />
+                        </FloatingLabel>
+
+                        <Container fluid className='d-flex justify-content-end pt-5'>
+                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
+                                Add to Team
+                            </Button>
+                        </Container>
+                    </Form>
+
+                </Card>
+            </Row>
+        </Container>
     )
 }
 
