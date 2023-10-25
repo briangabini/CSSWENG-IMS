@@ -88,7 +88,7 @@ function App() {
             />
 
             <Route
-              path="/edit-item"
+              path="/edit-item/:id"
               element={<EditItem/>}
             />
 
