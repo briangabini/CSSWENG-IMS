@@ -1,0 +1,163 @@
+/* google font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* layout */
+:root {
+  --JPD-logo-red: #E50B0B;
+  --gray-text: #525252;
+  --main-dominant-red: #FF5555;
+  --background-red: #FFF2F2;
+  --text-placeholder-gray: #868686;
+  --dark-gray-text: #222222;
+  --finances-positive: #68A767;
+  --finances-negative: #CB7373;
+  --profit-background: #EFFFEF;
+  --sales-background: #FFFAE8;
+  --profit-dark: #025100;
+  --icon-in-the-background: #FF6D6D;
+  --background-light-red: #FFF2F2;
+  --faded-text-button: #F1A8A8;
+  --white: #FFFFFF;
+  --black: #000000;
+  --card1-red: #FFD4D4;
+  --card2-red: #FF9898;
+  --navbar-cart: #DFFFDE
+}
+
+body {
+  background-color: var(--background-red)!important;
+  margin: 0;
+  font-family: "Inter";
+}
+header {
+  background: #fff;
+}
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header a {
+  color: #333;
+  text-decoration: none;
+}
+.pages{
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main{
+  width: 65%!important;
+}
+
+.txt-white{
+  color: var(--white)!important;
+}
+.txt-gray-text{
+  color: var(--gray-text)!important;
+}
+.txt-profit-dark{
+  color: var(--profit-dark)!important;
+}
+
+.bg-main-dominant-red {
+  background-color: var(--main-dominant-red)!important;
+}
+.bg-card1-red{
+  background-color: var(--card1-red)!important;
+}
+.bg-card2-red{
+  background-color: var(--card2-red)!important;
+}
+.bg-card3-red{
+  background-color: var(--card3-red)!important;
+}
+
+.txt-14{
+  font-size: 14px!important; /* fs-6 */
+}
+.txt-16{
+  font-size: 16px!important; /* fs-5 */
+}
+.txt-20{
+  font-size: 20px!important; /* fs-4 */
+}
+.txt-32{
+  font-size: 32px!important; /* fs-3 */
+}
+.txt-36 {
+  font-size: 36px!important; /* fs-2 */
+}
+.txt-64{
+  font-size: 64px!important; /* fs-1 */
+}
+
+.nomargin {
+  margin: 0;
+}
+.nopadding {
+  padding: 0 !important;
+  margin-left: 0 !important;
+}
+
+.overlay-revenue{
+  background: url(../public/icon_briefcase_.png);
+  background-repeat: no-repeat;
+  background-position: 2rem;
+  background-size: 10rem;
+}
+
+.overlay-reminder{
+  background: url(../public/icon_calendar_.png);
+  background-repeat: no-repeat;
+  background-position: 2rem;
+  background-size: 8rem;
+}
+
+.overlay-items-in-cart{
+  background: url(../public/icon_cart_.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
+}
+
+.overlay-payments-due{
+  background: url(../public/icon_bell_.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
+}
+
+.overlay-low-stock{
+  background: url(../public/icon_barchart_.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-position-y: 80%;
+  background-size: 6rem;
+}
+
+.overlay-audit-log{
+  background: url(../public/icon_key_.png);
+  background-repeat: no-repeat;
+  background-position: 2rem;
+  background-size: 8rem;
+}
+
+.overlay-user-list{
+  background: url(../public/icon_person_.png);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 8rem;
+}
+
+
