@@ -1,6 +1,6 @@
 import { Row, Col, Modal, Button, Container } from "react-bootstrap";
 import { useState } from "react";
-
+import UserDeletionConfirmation from '../components/UserDeletionConfirmation'
 import { useNavigate } from 'react-router-dom'
 
 const VerifiedUserDetails = ({userDetail}) => {
@@ -62,7 +62,7 @@ const VerifiedUserDetails = ({userDetail}) => {
                     <Container fluid className='mt-4'>
                         <Button onClick={navigateEditUser}
                                 size='sm' variant='dark' className='me-2 shadow rounded-2 px-4'>Edit</Button>
-                        <Button size='sm' variant='danger' className='shadow rounded-2 px-4'>Delete</Button>
+                        <UserDeletionConfirmation />
                     </Container>
 
                 </Modal.Body>

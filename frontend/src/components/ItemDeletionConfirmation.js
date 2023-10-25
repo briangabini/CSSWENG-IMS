@@ -1,8 +1,8 @@
-import { Modal, Stack, FloatingLabel, Button, Container, Form } from 'react-bootstrap'
+import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
 
 
-const UserDeletionConfirmation = () => {
+const ItemDeletionConfirmation = () => {
     const [show, setShow] = useState(false);
     
     const handleClose = () => setShow(false);
@@ -22,13 +22,9 @@ const UserDeletionConfirmation = () => {
                     <Container>
                         <Stack>
                             <div className='mx-auto'><img src='exclamation_mark.png'></img></div>
-                            <div className='mx-auto mt-3 fs-4 text-center'>Please type the administrator password to confirm deletion</div>
-                            <FloatingLabel
-                                label="Administrator Password"
-                                className="my-3"
-                            >
-                                <Form.Control type="email" placeholder="name@example.com" />
-                            </FloatingLabel>
+                            <div className='mx-auto mt-3 fs-4 text-center'>
+                                Are you sure you want to delete this item?
+                            </div>
                         </Stack>
                     </Container>
                 </Modal.Body>
@@ -46,4 +42,4 @@ const UserDeletionConfirmation = () => {
     )
 }
 
-export default UserDeletionConfirmation
+export default ItemDeletionConfirmation
