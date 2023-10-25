@@ -1,9 +1,13 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
 
 // pages & components
+import Dashboard from './pages/Dashboard'
+import Header from './components/Header';
 import Inventory from './pages/Inventory'
 import SalesPage from './pages/SalesPage'
 import AddInventoryItems from './pages/AddInventoryItems'
@@ -24,6 +28,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header/>
       
       <ConditionalNavbar />
 
