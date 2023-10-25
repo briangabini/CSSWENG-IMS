@@ -5,34 +5,22 @@ const Navbar = () => {
     return (
         <header>
             <div className="container">
+                {/* Links to the dashboard */}
                 <Link to="/dashboard">
-                    <h1>JPD Garage</h1>
-                </Link>
-
-                {/* Links to the inventory */}
-                <Link to="/inventory">
-                    <p>Inventory</p>
-                </Link>
-
-                {/* Links to the Sales Page */}
-                <Link to="/sales-page">
-                    <p>Sales Page</p>
-                </Link>
-
-                {/* Links to the add items page */}
-                <Link to="/inventory/add-items">
-                    <p>Add items to Inventory</p>
+                    <h1>JPDGarage</h1>
                 </Link>
 
                 {/* Links to the shopping cart */}
                 <Link to="/shopping-cart">
-                    <p>Shopping cart</p>
+                    <button type='button' className='primary navbar-cart'><p>Cart</p></button>
+                    {/** ^^This part should have functionality to have # of items in cart */}
                 </Link>
 
                 
-                {/* Links to the audit log */}
-                <Link to="/audit-log">
-                    <p>Audit Log</p>
+                {/* Links to the login page*/}
+                <Link to="">
+                    <p>Justin Depano</p>
+                    {/** ^^This part should change name depending on logged-in user */}
                 </Link>
             </div>
         </header>

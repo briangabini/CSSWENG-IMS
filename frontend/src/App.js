@@ -1,3 +1,6 @@
+// bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
 
 // pages & components
@@ -9,11 +12,13 @@ import AuditLog from './pages/AuditLog'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 import VerifiedUserList from './pages/VerifiedUserList'
 import Calendar from './pages/Calendar'
 import AddVerifiedUser from './pages/AddVerifiedUser'
 import EditVerifiedUser from './pages/EditVerifiedUser'
 import EditItem from './pages/EditItem'
+import AdminControlCenter from './pages/AdminControlCenter';
 
 function App() {
   return (
@@ -21,6 +26,8 @@ function App() {
       <BrowserRouter>
       
       <ConditionalNavbar />
+
+      <ConditionalSidebar />
 
       <div className="pages">
           <Routes>
@@ -62,7 +69,7 @@ function App() {
 
             <Route
               path="/verified-user-list"
-              element={<VerifiedUserList/>}
+              element={<VerifiedUserList />}
             />
 
             <Route
@@ -85,6 +92,11 @@ function App() {
               element={<EditItem/>}
             />
 
+            <Route
+              path='/admin-control-center'
+              element={<AdminControlCenter/>}
+            />
+
           </Routes>
         </div>
 
@@ -103,6 +115,16 @@ function ConditionalNavbar(){
   }
 
   return <Navbar/>
+}
+
+function ConditionalSidebar(){
+  const location = useLocation()
+
+  if (location.pathname === '/'){
+    return null
+  }
+
+  return <Sidebar/>
 }
 
 export default App;
