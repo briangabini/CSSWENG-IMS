@@ -1,6 +1,61 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
+import { useState } from 'react'
 
 const AddVerifiedUser = () => {
+    // email, password, employeename, role
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [employeeName, setEmployeeName] = useState('')
+    const [role, setRole] = useState('')
+    const [error, setError] = useState('')
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        console.log(email)
+        console.log(password)
+        console.log(employeeName)
+        console.log(role)
+
+
+        const user = {email, password, employeeName, role}
+
+        const response = await fetch('/jpd/users/add-user', {
+            method: 'POST',
+            body: JSON.stringify(user), // convert to json
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        /* 
+         const response = await fetch('/api/workouts', {
+         method: 'POST',
+          body: JSON.stringify(workout),
+         headers: {
+           'Content-Type': 'application/json'
+      }
+    })
+    
+      const json = await response.json()
+        */
+
+        const json = await response.json()
+
+        if (!response.ok) {
+            setError(json.error)
+        }
+        if (response.ok) {
+            setError(null)
+            setEmail('')
+            setPassword('')
+            setEmployeeName('')
+            setRole('')
+            console.log('new user added:', json) // print to console
+        }
+    }
+
 
     return (
         <Container className='main'>
@@ -9,29 +64,47 @@ const AddVerifiedUser = () => {
         </Row>
         <Row>
             <Card className='p-4 rounded-4 shadow mt-3'>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     {/* email input */}
                     <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
-                        <Form.Control type="email" placeholder="name@example.com" />
+                        <Form.Control 
+                            type="email" 
+                            placeholder="name@example.com" 
+                            onChange={(e) => setEmail(e.target.value)} 
+                            value={email}
+                        />
                     </FloatingLabel>
 
                     {/* full name input */}
                     <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
-                        <Form.Control type="text" placeholder="User Full Name" />
+                        <Form.Control 
+                            type="text" 
+                            placeholder="User Full Name" 
+                            onChange={(e) => setEmployeeName(e.target.value)} 
+                            value={employeeName}
+                        />
                     </FloatingLabel>
                     
                     {/* password input */}
                     <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
-                        <Form.Control type="text" placeholder="User Given Password" />
+                        <Form.Control 
+                            type="text" 
+                            placeholder="User Given Password" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            value={password}
+                        />
                     </FloatingLabel>
 
                     {/* role input */}
                     <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
-                        <Form.Select>
+                        <Form.Select 
+                            onChange={(e) => setRole(e.target.value)} 
+                            value={role}
+                        >
                             <option></option>
-                            <option value="1">Partsman</option>
-                            <option value="2">Secretary</option>
-                            <option value="3">Admin</option>
+                            <option value="Partsman">Partsman</option>
+                            <option value="Secretary">Secretary</option>
+                            <option value="Admin">Admin</option>
                         </Form.Select>
                     </FloatingLabel>
 
