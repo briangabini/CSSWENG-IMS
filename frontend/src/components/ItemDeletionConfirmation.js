@@ -2,11 +2,47 @@ import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
 
 
-const ItemDeletionConfirmation = () => {
+const ItemDeletionConfirmation = ({_id}) => {
     const [show, setShow] = useState(false);
+    const [error, setError] = useState('')
     
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleDelete = async (e) => {
+
+            
+
+            const response = await fetch(`/jpd/inventory/delete-item/${_id}`, {
+                method: 'DELETE',
+            })
+
+            /* 
+             const response = await fetch('/api/workouts', {
+             method: 'POST',
+              body: JSON.stringify(workout),
+             headers: {
+               'Content-Type': 'application/json'
+          }
+        })
+        
+          const json = await response.json()
+            */
+
+            const json = await response.json()
+
+            if (!response.ok) {
+                setError(json.error)
+            }
+            if (response.ok) {
+                console.log('deleted inventory item:', json) // print to console
+            }
+        
+
+        handleClose()
+    }
+
+
 
     return (
         <>  
@@ -29,7 +65,7 @@ const ItemDeletionConfirmation = () => {
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose} className='ms-auto px-4'>
+                <Button variant="secondary" onClick={handleDelete} className='ms-auto px-4'>
                     Proceed
                 </Button>
                 <Button variant="danger" onClick={handleClose} className='me-auto px-4'>

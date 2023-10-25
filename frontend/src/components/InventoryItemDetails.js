@@ -2,12 +2,14 @@ import { Col, Row } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
 
-const InventoryItemDetails = ({inventoryItem, _id}) => {
+const InventoryItemDetails = ({ inventoryItem, _id }) => {
     const navigate = useNavigate();
 
     const navigateEditItem = () => {
         navigate(`/edit-item/${_id}`);
     };
+
+    // const navigateDelete = ()
 
     return (
         // <div className="inventory-item-details">
@@ -18,16 +20,18 @@ const InventoryItemDetails = ({inventoryItem, _id}) => {
         //     <p>Retail Price: {inventoryItem.retailPrice}</p>
         // </div>
 
-    <Row onClick={navigateEditItem} className='w-100 nopadding my-2'>
-        <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
-        <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
-        <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
-        <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
-        <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-        <Col className='txt-gray-text col-1 fs-6 nopadding'>Date Added</Col>
-        {/* for testing purposes */}
-        <ItemDeletionConfirmation />
-    </Row>
+        <>
+            <Row onClick={navigateEditItem} className='w-100 nopadding my-2'>
+                <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
+                <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-1 fs-6 nopadding'>Date Added</Col>
+                {/* for testing purposes */}
+            </Row>
+            <ItemDeletionConfirmation _id={_id} />
+        </>
     )
 }
 
