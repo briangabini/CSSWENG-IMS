@@ -10,23 +10,22 @@ const AddVerifiedUser = () => {
         <Row>
             <Card className='p-4 rounded-4 shadow mt-3'>
                 <Form>
+                    {/* email input */}
                     <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
                         <Form.Control type="email" placeholder="name@example.com" />
                     </FloatingLabel>
 
+                    {/* full name input */}
                     <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
-                        <Form.Select>
-                            <option></option>
-                            <option value="1">Juan Dela Cruz</option>
-                            <option value="1">Juan Dela Cruz</option>
-                            <option value="1">Juan Dela Cruz</option>
-                        </Form.Select>
+                        <Form.Control type="text" placeholder="User Full Name" />
                     </FloatingLabel>
                     
+                    {/* password input */}
                     <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
                         <Form.Control type="text" placeholder="User Given Password" />
                     </FloatingLabel>
 
+                    {/* role input */}
                     <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
                         <Form.Select>
                             <option></option>
@@ -35,6 +34,9 @@ const AddVerifiedUser = () => {
                             <option value="3">Admin</option>
                         </Form.Select>
                     </FloatingLabel>
+
+                    {/* admin password */}
+                    {/* for added authentication */}
                     <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
                         <Form.Control type="password" placeholder="Password" />
                     </FloatingLabel>

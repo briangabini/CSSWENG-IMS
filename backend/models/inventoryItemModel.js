@@ -25,7 +25,7 @@ const inventoryItemSchema = new Schema({
     },
     stockStatus: {
         type: String,
-        enum: ['In Stock', 'Out of Stock', 'Low Stock'], 
+        enum: ['In Stock', 'Out of Stock', 'Danger Zone'], 
         default: 'In Stock',
         required: true,
     },
