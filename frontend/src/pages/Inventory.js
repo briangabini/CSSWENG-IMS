@@ -69,7 +69,7 @@ const Inventory = () => {
                         <Col className='txt-gray-text col-2 fs-6 nopadding'>Date Added</Col>
                     </Row>
                     {inventoryItems && inventoryItems.map((inventoryItem) => (
-                       <InventoryItemDetails key={inventoryItem._id}  inventoryItem={inventoryItem} /> 
+                       <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
                     ))} 
                 </Card>
             </Row>

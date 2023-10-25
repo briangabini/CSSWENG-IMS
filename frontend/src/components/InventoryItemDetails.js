@@ -1,11 +1,11 @@
 import { Col, Row } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
 
-const InventoryItemDetails = ({inventoryItem}) => {
+const InventoryItemDetails = ({inventoryItem, _id}) => {
     const navigate = useNavigate();
-    
+
     const navigateEditItem = () => {
-        navigate('/edit-item');
+        navigate(`/edit-item/${_id}`);
     };
 
     return (
