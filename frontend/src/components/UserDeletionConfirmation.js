@@ -1,14 +1,13 @@
-import { Modal, Stack, FloatingLabel, Button } from 'react-bootstrap'
+import { Modal, Stack, FloatingLabel, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
 
 
-const VerifiedUserDetails = ({userDetail}) => {
+const UserDeletionConfirmation = () => {
     const [show, setShow] = useState(false);
     
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    console.log(userDetail);
     return (
         <>  
             <Button onClick={handleShow} 
@@ -47,4 +46,4 @@ const VerifiedUserDetails = ({userDetail}) => {
     )
 }
 
-export default VerifiedUserDetails
+export default UserDeletionConfirmation
