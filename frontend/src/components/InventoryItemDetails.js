@@ -1,5 +1,6 @@
-import { Col, Row } from "react-bootstrap"
+import { Button, Col, Row, Modal } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
 
 const InventoryItemDetails = ({ inventoryItem, _id }) => {
@@ -9,7 +10,10 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
         navigate(`/edit-item/${_id}`);
     };
 
-    // const navigateDelete = ()
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         // <div className="inventory-item-details">
@@ -20,18 +24,35 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
         //     <p>Retail Price: {inventoryItem.retailPrice}</p>
         // </div>
 
-        <>
-            <Row onClick={navigateEditItem} className='w-100 nopadding my-2'>
-                <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
-                <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-                <Col className='txt-gray-text col-1 fs-6 nopadding'>Date Added</Col>
-                {/* for testing purposes */}
-            </Row>
-            <ItemDeletionConfirmation _id={_id} />
-        </>
+    <>
+        <Row onClick={handleShow} className='w-100 nopadding my-2'>
+            <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
+            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
+            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
+            <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
+            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+            <Col className='txt-gray-text col-1 fs-6 nopadding'>Date Added</Col>
+        </Row>
+
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+            {/* Edit Item Button */}
+            <Button onClick={navigateEditItem}>Edit Item</Button>
+            {/* Delete Item Confirmation Modal */}
+            <ItemDeletionConfirmation />
+            <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+                Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+                Save Changes
+            </Button>
+            </Modal.Footer>
+        </Modal>
+    </>
     )
 }
 
