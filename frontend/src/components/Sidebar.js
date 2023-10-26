@@ -5,7 +5,6 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function Sidebar() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -17,43 +16,42 @@ function Sidebar() {
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>Quick Access Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
-
-          {/* Links to the inventory page */}
-          <Link to="/inventory">
-                <h4>Inventory</h4>
+            {/* Links to the inventory page */}
+            <Link to="/inventory">
+                <img src="icon_book_.png"></img>
+                < h5>Inventory</ h5>
             </Link>
 
             {/* Links to the finance page */}
-            <Link to="/finance">
-                <h4>Finance</h4>
+            <Link to="/sales-page">
+                < h5>Finance</ h5>
             </Link>
 
             
             {/* Links to the add item page */}
-            <Link to="/add-item">
-                <h4>Add Item</h4>
+            <Link to="/inventory/add-items">
+                < h5>Add Item</ h5>
             </Link>
 
             {/* Links to the check out page */}
-          <Link to="/check-out">
-                <h4>Check Out</h4>
+            <Link to="/shopping-cart">
+                < h5>Check Out</ h5>
             </Link>
 
             {/* Links to the shopping cart */}
             <Link to="/audit-log">
-                <h4>Audit Log</h4>
+                < h5>Audit Log</ h5>
             </Link>
 
             {/** ADD IF STATEMENT TO CHECK IF USER IS ADMIN OR NOT */}
             {/* Links to the login page*/}
             <Link to="/admin-control-center">
-                <h4>Admin Control Center</h4>
+                < h5>Admin Control Center</ h5>
             </Link>
+
         </Offcanvas.Body>
       </Offcanvas>
     </>
