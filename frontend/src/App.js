@@ -19,8 +19,6 @@ import AddVerifiedUser from './pages/AddVerifiedUser'
 import EditVerifiedUser from './pages/EditVerifiedUser'
 import EditItem from './pages/EditItem'
 import AdminControlCenter from './pages/AdminControlCenter';
-import { Row, Col, Container} from 'react-bootstrap';
-import NavigationBar from './components/Navbar';
 
 function App() {
   return (
@@ -28,7 +26,7 @@ function App() {
       <BrowserRouter>
         <Header/>
 
-      <Row fluid className='border'>
+      <ConditionalSidebar />
 
       <div className="pages">
           <Routes>
@@ -100,22 +98,21 @@ function App() {
 
           </Routes>
         </div>
-      </Row>
+
         </BrowserRouter>
 
     </div>
   );
 }
 
-
-function ConditionalNavbar(){
+function ConditionalSidebar(){
   const location = useLocation()
 
   if (location.pathname === '/'){
     return null
   }
 
-  return <NavigationBar/>
+  return <Sidebar/>
 }
 
 export default App;
