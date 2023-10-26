@@ -1,6 +1,6 @@
 import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
-
+const DOMAIN = require('../config')
 
 const ItemDeletionConfirmation = ({_id}) => {
     const [show, setShow] = useState(false);
@@ -13,7 +13,7 @@ const ItemDeletionConfirmation = ({_id}) => {
 
             
 
-            const response = await fetch(`/jpd/inventory/delete-item/${_id}`, {
+            const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
                 method: 'DELETE',
             })
 

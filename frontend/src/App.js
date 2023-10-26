@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,7 +12,6 @@ import AddInventoryItems from './pages/AddInventoryItems'
 import ShoppingCart from './pages/ShoppingCart'
 import AuditLog from './pages/AuditLog'
 import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import VerifiedUserList from './pages/VerifiedUserList'

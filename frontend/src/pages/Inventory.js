@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom'
 import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
+const DOMAIN = require('../config')
 
 const Inventory = () => {
     const [inventoryItems, setInventoryItems] = useState(null)
 
     useEffect(() => { 
         const fetchInventoryItems = async () => { 
-            const response = await fetch('/jpd/inventory') // retrieves response from server as JSON
+            const response = await fetch(DOMAIN + '/inventory') // retrieves response from server as JSON
             const json = await response.json() // converts the json data into an array of objects
 
             if (response.ok) {

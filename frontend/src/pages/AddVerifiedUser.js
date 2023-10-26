@@ -1,5 +1,6 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import { useState } from 'react'
+const DOMAIN = require('../config')
 
 const AddVerifiedUser = () => {
     // email, password, employeename, role
@@ -21,7 +22,7 @@ const AddVerifiedUser = () => {
 
         const user = { email, password, employeeName, role }
 
-        const response = await fetch('/jpd/users/add-user', {
+        const response = await fetch(DOMAIN + '/users/add-user', {
             method: 'POST',
             body: JSON.stringify(user), // convert to json
             headers: {

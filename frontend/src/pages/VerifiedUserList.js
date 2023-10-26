@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } fr
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+const DOMAIN = require('../config')
 
 const VerifiedUserList = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
@@ -10,7 +11,7 @@ const VerifiedUserList = () => {
 
     useEffect(() => { 
         const fetchVerifiedUsers = async () => { 
-            const response = await fetch('/jpd/users') // retrieves response from server as JSON
+            const response = await fetch(DOMAIN + '/users') // retrieves response from server as JSON
             const json = await response.json() // converts the json data into an array of objects
 
             if (response.ok) {
