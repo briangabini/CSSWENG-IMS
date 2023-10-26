@@ -9,22 +9,47 @@ import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
 
 const Inventory = () => {
-    const [inventoryItems, setInventoryItems] = useState(null)
+    const [inventoryItems, setInventoryItems] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => { 
-        const fetchInventoryItems = async () => { 
-            const response = await fetch('/jpd/inventory') // retrieves response from server as JSON
-            const json = await response.json() // converts the json data into an array of objects
-
-            if (response.ok) {
-                setInventoryItems(json)
-            }
+     
+    const fetchInventoryItems = async (query = '') => { 
+        let endpoint = '/jpd/inventory';
+        if (query) {
+            // if a query is present, we assume a search is intended
+            endpoint += `/search?search=${query}`; // using "query" as the query parameter name
         }
+        const response = await fetch(endpoint) // retrieves response from server as JSON
+        const json = await response.json() // converts the json data into an array of objects
 
-        
+        console.log('Is json an array?', Array.isArray(json));
+        if (response.ok) {
+            setInventoryItems(json);  // set state only if it's an array
+        } else {
+            console.error('Unexpected response:', json);
+            setInventoryItems([]);  // clear existing data or handle error appropriately
+        }
+    }
 
+    useEffect(() => {
         fetchInventoryItems()
     }, [])
+    // Handle search term changes
+    const handleSearchChange = (event) => {
+        // Update the search term state whenever the input value changes
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSearchClick = () => {
+        // Trigger the search operation when the button is clicked
+        if (searchTerm.trim()) {
+            fetchInventoryItems(searchTerm.trim());
+        } else {
+            // If search term is empty, you might want to fetch the initial data again or handle it differently
+            // Here we're just fetching the initial set again
+            fetchInventoryItems();
+        }
+    };
 
     return (
         // <div className="inventory">
@@ -52,8 +77,8 @@ const Inventory = () => {
             </Row>
             <Row>
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow'/>
-                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow'>
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange}/>
+                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
                 </InputGroup>
