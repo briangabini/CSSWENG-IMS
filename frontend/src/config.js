@@ -1,3 +1,3 @@
-const DOMAIN = "http://jpdgarage-api.vercel.app"
+const DOMAIN = "https://jpdgarage-api.vercel.app"
 
 export default DOMAIN
