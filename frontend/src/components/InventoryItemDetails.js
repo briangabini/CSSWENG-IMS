@@ -41,8 +41,8 @@ const InventoryItemDetails = ({inventoryItem}) => {
                 <Modal.Body>
 
                     <Container fluid className=''>
-                        {/**Insert if statement to change color depending on stock quality. Will be green for now */}
-                        <Card className='yellow'>
+                        {/**Insert if statement to change color depending on stock quality. Will be yellow for now */}
+                        <Card className='bg-warning'>
                             <Row className='fw-bold mx-auto pt-3 h5'>
                                 Current Stocks
                             </Row>
@@ -54,7 +54,6 @@ const InventoryItemDetails = ({inventoryItem}) => {
                                 Critical stocks remaining!
                             </Row>
                         </Card>
-
                     </Container>
 
                     <Container className='ms-3'>
@@ -105,6 +104,11 @@ const InventoryItemDetails = ({inventoryItem}) => {
                             </Col>
                             <Col className='col-6'>
                                 *insert wholesale price here*
+                            </Col>
+                        </Row>
+                        <Row className="pt-1">
+                            <Col className="txt-gray-text me-2 pt-3">
+                                Last edited at *insert time here*
                             </Col>
                         </Row>
                     </Container>
