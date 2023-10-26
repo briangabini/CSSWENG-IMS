@@ -20,6 +20,7 @@ import EditVerifiedUser from './pages/EditVerifiedUser'
 import EditItem from './pages/EditItem'
 import AdminControlCenter from './pages/AdminControlCenter';
 import { Row, Col, Container} from 'react-bootstrap';
+import NavigationBar from './components/Navbar';
 
 function App() {
   return (
@@ -115,7 +116,7 @@ function ConditionalNavbar(){
     return null
   }
 
-  return <Navbar/>
+  return <NavigationBar/>
 }
 
 export default App;
