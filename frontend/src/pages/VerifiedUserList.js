@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } fr
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-const DOMAIN = require('../config')
+import { DOMAIN } from '../config'
 
 const VerifiedUserList = () => {
     const [userDetails, setVerifiedUsers] = useState(null)

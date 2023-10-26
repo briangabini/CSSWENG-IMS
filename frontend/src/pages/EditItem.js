@@ -1,7 +1,7 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom';
-const DOMAIN = require('../config')
+import { DOMAIN } from '../config'
 
 const EditItem = () => {
 

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
-const DOMAIN = require('../config')
+import { DOMAIN } from '../config'
 
 const Inventory = () => {
     const [inventoryItems, setInventoryItems] = useState(null)

@@ -1,6 +1,6 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import { useState } from 'react'
-const DOMAIN = require('../config')
+import { DOMAIN } from '../config'
 
 const AddVerifiedUser = () => {
     // email, password, employeename, role

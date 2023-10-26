@@ -1,6 +1,6 @@
 import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
-const DOMAIN = require('../config')
+import { DOMAIN } from '../config'
 
 const ItemDeletionConfirmation = ({_id}) => {
     const [show, setShow] = useState(false);
