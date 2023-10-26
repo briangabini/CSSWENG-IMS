@@ -23,7 +23,7 @@ const AddInventoryItems = () => {
 
         const inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
 
-        const response = await fetch(DOMAIN + '/inventory/add-item', {
+        const response = await fetch('https://jpdgarage-api.vercel.app/inventory/add-item', {
             method: 'POST',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {
