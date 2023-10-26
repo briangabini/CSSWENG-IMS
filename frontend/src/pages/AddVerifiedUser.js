@@ -21,7 +21,7 @@ const AddVerifiedUser = () => {
 
 
         const user = { email, password, employeeName, role }
-
+        
         const response = await fetch(DOMAIN + '/users/add-user', {
             method: 'POST',
             body: JSON.stringify(user), // convert to json
