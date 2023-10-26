@@ -1,30 +1,27 @@
 import { Link } from 'react-router-dom'
+import Sidebar from './Sidebar.js'
+import { Container, Navbar, Nav, NavDropdown} from 'react-bootstrap'
 
-const Navbar = () => {
+const NavigationBar = () => {
 
     return (
-        <header>
-            <div className="container">
-                {/* Links to the dashboard */}
-                <Link to="/dashboard">
-                    <h1>JPDGarage</h1>
-                </Link>
-
-                {/* Links to the shopping cart */}
-                <Link to="/shopping-cart">
-                    <button type='button' className='primary navbar-cart'><p>Cart</p></button>
-                    {/** ^^This part should have functionality to have # of items in cart */}
-                </Link>
-
-                
-                {/* Links to the login page*/}
-                <Link to="">
-                    <p>Justin Depano</p>
-                    {/** ^^This part should change name depending on logged-in user */}
-                </Link>
-            </div>
-        </header>
+        <>
+        <Navbar expand="lg" className="bg-body-tertiary">
+            <Container>
+                <Sidebar />
+                <Navbar.Brand href="/dashboard" className='ms-3'>JPDGarage</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="ms-auto">
+                    <Nav.Link href="/shopping-cart">Cart</Nav.Link>
+                    <Nav.Link href="#link">Justin Depano</Nav.Link>
+                </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+            
+        </>
     )
 }
 
-export default Navbar
+export default NavigationBar
