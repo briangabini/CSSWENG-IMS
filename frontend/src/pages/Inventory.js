@@ -10,7 +10,9 @@ import SortBy from '../components/SortBy'
 import { DOMAIN } from '../config'
 
 const Inventory = () => {
-    const [inventoryItems, setInventoryItems] = useState(null)
+    const [inventoryItems, setInventoryItems] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+
     const fetchInventoryItems = async (query = '') => { 
         let endpoint = DOMAIN + '/inventory';
         if (query) {
@@ -28,7 +30,9 @@ const Inventory = () => {
             setInventoryItems([]);  // clear existing data or handle error appropriately
         }
     }
-    uuseEffect(() => {
+    useEffect(() => {
+
+        console.log("ASD")
         fetchInventoryItems()
     }, [])
 
