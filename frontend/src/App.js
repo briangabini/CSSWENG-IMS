@@ -12,7 +12,6 @@ import AddInventoryItems from './pages/AddInventoryItems'
 import ShoppingCart from './pages/ShoppingCart'
 import AuditLog from './pages/AuditLog'
 import Login from './pages/Login'
-import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import VerifiedUserList from './pages/VerifiedUserList'
 import Calendar from './pages/Calendar'
@@ -26,8 +25,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Header/>
-      
-      <ConditionalNavbar />
 
       <ConditionalSidebar />
 
@@ -106,17 +103,6 @@ function App() {
 
     </div>
   );
-}
-
-
-function ConditionalNavbar(){
-  const location = useLocation()
-
-  if (location.pathname === '/'){
-    return null
-  }
-
-  return <Navbar/>
 }
 
 function ConditionalSidebar(){
