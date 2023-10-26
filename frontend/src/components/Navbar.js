@@ -12,7 +12,7 @@ const Navbar = () => {
 
                 {/* Links to the shopping cart */}
                 <Link to="/shopping-cart">
-                    <button type='button' className='primary navbar-cart'><p>Cart</p></button>
+                    <p>Cart</p>
                     {/** ^^This part should have functionality to have # of items in cart */}
                 </Link>
 

@@ -160,10 +160,15 @@ a {
   background-size: 8rem;
 }
 
-.sidebar{
-  left: 0!important;
-  top: 0!important;
-  position: sticky!important;
-  border: 1px solid black;
-  width: auto;
+.sidebar {
+  width: 250px;
+  transition: all 0.3s;
+}
+
+.expanded {
+  width: 60px;
+}
+
+.toggle-button {
+  width: 100%;
 }
