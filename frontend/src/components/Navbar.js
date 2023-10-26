@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
+import Sidebar from './Sidebar.js'
 
 const Navbar = () => {
 
     return (
         <header>
             <div className="container">
+                <Sidebar>
+                </Sidebar>
+                
                 {/* Links to the dashboard */}
                 <Link to="/dashboard">
                     <h1>JPDGarage</h1>

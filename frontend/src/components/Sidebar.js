@@ -1,92 +1,30 @@
-import { Link } from 'react-router-dom'
-import React, { useState } from 'react';
-import { Button, Nav } from 'react-bootstrap';
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
-const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+function Sidebar() {
+  const [show, setShow] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    return (
-        <>
-          <nav
-            id="sidebarMenu"
-            class="border collapse d-lg-block sidebar collapse bg-white"
-            >
-            <div class="position-sticky">
-            <div class="list-group list-group-flush mx-3 mt-4">
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                aria-current="true"
-                >
-                <i class="fas fa-tachometer-alt fa-fw me-3"></i
-                    ><span>Main dashboard</span>
-                </a>
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple active"
-                >
-                <i class="fas fa-chart-area fa-fw me-3"></i
-                    ><span>Webiste traffic</span>
-                </a>
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-lock fa-fw me-3"></i><span>Password</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-chart-line fa-fw me-3"></i
-                ><span>Analytics</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                >
-                <i class="fas fa-chart-pie fa-fw me-3"></i><span>SEO</span>
-                </a>
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-chart-bar fa-fw me-3"></i><span>Orders</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-globe fa-fw me-3"></i
-                ><span>International</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-building fa-fw me-3"></i
-                ><span>Partners</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-calendar fa-fw me-3"></i
-                ><span>Calendar</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a
-                >
-                <a
-                href="#"
-                class="list-group-item list-group-item-action py-2 ripple"
-                ><i class="fas fa-money-bill fa-fw me-3"></i><span>Sales</span></a
-                >
-            </div>
-            </div>
-        </nav>
-        </>
-    )
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Launch
+      </Button>
+
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          Some text as placeholder. In real life you can have the elements you
+          have chosen. Like, text, images, lists, etc.
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
