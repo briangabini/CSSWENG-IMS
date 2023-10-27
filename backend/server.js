@@ -11,6 +11,7 @@ const app = express()
 app.use(cors(
     {
         origin: "https://jpdgarage.vercel.app",
+        // origin: "http://localhost:3000",
         methods: ["POST", "GET", "PATCH", "DELETE"],
         credentials: true
     }

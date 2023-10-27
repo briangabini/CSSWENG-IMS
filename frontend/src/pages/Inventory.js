@@ -15,7 +15,7 @@ const Inventory = () => {
 
      
     const fetchInventoryItems = async (query = '') => { 
-        let endpoint = '/jpd/inventory';
+        let endpoint = DOMAIN + '/inventory';
         if (query) {
             // if a query is present, we assume a search is intended
             endpoint += `/search?search=${query}`; // using "query" as the query parameter name
