@@ -106,10 +106,10 @@ const searchInventoryItemByPartname = async (req, res) => {
         const inventoryItems = await InventoryItem.find({
             partName: { $regex: search, $options: "i" }
         });
-        res.status(200).json({ error: false, inventoryItems });
+        res.status(200).json(inventoryItems);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: true, message: "Internal Server Error" });
+        // res.status(500).json({ error: true, message: "Internal Server Error" });
     }
 };
 

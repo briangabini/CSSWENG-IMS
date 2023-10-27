@@ -13,8 +13,9 @@ const Inventory = () => {
     const [inventoryItems, setInventoryItems] = useState([])
     const [searchTerm, setSearchTerm] = useState('');
 
+     
     const fetchInventoryItems = async (query = '') => { 
-        let endpoint = DOMAIN + '/inventory';
+        let endpoint = '/jpd/inventory';
         if (query) {
             // if a query is present, we assume a search is intended
             endpoint += `/search?search=${query}`; // using "query" as the query parameter name
@@ -30,12 +31,11 @@ const Inventory = () => {
             setInventoryItems([]);  // clear existing data or handle error appropriately
         }
     }
-    useEffect(() => {
 
-        console.log("ASD")
+    useEffect(() => {
         fetchInventoryItems()
     }, [])
-
+    // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
         setSearchTerm(event.target.value);
