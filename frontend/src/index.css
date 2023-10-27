@@ -160,4 +160,15 @@ a {
   background-size: 8rem;
 }
 
+.sidebar {
+  width: 250px;
+  transition: all 0.3s;
+}
 
+.expanded {
+  width: 60px;
+}
+
+.toggle-button {
+  width: 100%;
+}

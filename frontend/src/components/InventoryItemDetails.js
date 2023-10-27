@@ -1,5 +1,6 @@
-import { Col, Row } from "react-bootstrap"
+import { Button, Col, Row, Modal } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
 
 const InventoryItemDetails = ({ inventoryItem, _id }) => {
