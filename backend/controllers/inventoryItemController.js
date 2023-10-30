@@ -106,6 +106,8 @@ const searchInventoryItemByPartname = async (req, res) => {
         const inventoryItems = await InventoryItem.find({
             partName: { $regex: search, $options: "i" }
         });
+
+        
         res.status(200).json(inventoryItems);
     } catch (err) {
         console.log(err);
