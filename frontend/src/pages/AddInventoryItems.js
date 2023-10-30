@@ -1,5 +1,6 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import {useState} from 'react'
+import { DOMAIN } from '../config'
 
 const AddInventoryItems = () => {
 
@@ -22,7 +23,7 @@ const AddInventoryItems = () => {
 
         const inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
 
-        const response = await fetch('/jpd/inventory/add-item', {
+        const response = await fetch(DOMAIN + '/inventory/add-item', {
             method: 'POST',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {

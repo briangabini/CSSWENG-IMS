@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
+import { DOMAIN } from '../config'
 
 const Inventory = () => {
     const [inventoryItems, setInventoryItems] = useState([])
@@ -14,7 +15,7 @@ const Inventory = () => {
 
      
     const fetchInventoryItems = async (query = '') => { 
-        let endpoint = '/jpd/inventory';
+        let endpoint = DOMAIN + '/inventory';
         if (query) {
             // if a query is present, we assume a search is intended
             endpoint += `/search?search=${query}`; // using "query" as the query parameter name

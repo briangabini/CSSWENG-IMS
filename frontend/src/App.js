@@ -9,114 +9,116 @@ import SalesPage from './pages/SalesPage'
 import AddInventoryItems from './pages/AddInventoryItems'
 import ShoppingCart from './pages/ShoppingCart'
 import AuditLog from './pages/AuditLog'
-import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
 import VerifiedUserList from './pages/VerifiedUserList'
 import Calendar from './pages/Calendar'
 import AddVerifiedUser from './pages/AddVerifiedUser'
 import EditVerifiedUser from './pages/EditVerifiedUser'
-import EditItem from './pages/EditItem'
 import AdminControlCenter from './pages/AdminControlCenter';
-import { Row, Col, Container} from 'react-bootstrap';
+import Login from './pages/Login'
+import EditItem from './pages/EditItem'
+
+import { Row, Col, Container } from 'react-bootstrap';
+import Sidebar from './components/Sidebar'
 import NavigationBar from './components/Navbar';
+import Header from './components/Header';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      
-      <ConditionalNavbar />
 
-      <Row fluid className='border'>
+        <ConditionalNavbar />
 
-      <div className="pages">
-          <Routes>
+        <Row fluid className='border'>
 
-            <Route
-              path="/"
-              element={<Login/>}
-            />
-            
-            <Route
-              path="/dashboard"
-              element={<Dashboard/>}
-            />
+          <div className="pages">
+            <Routes>
 
-            <Route
-              path="/inventory"
-              element={<Inventory/>}
-            />
+              <Route
+                path="/"
+                element={<Login />}
+              />
 
-            <Route
-              path="/sales-page"
-              element={<SalesPage/>}
-            />
+              <Route
+                path="/dashboard"
+                element={<Dashboard />}
+              />
 
-            <Route
-              path="/inventory/add-items"
-              element={<AddInventoryItems />}
-            />
+              <Route
+                path="/inventory"
+                element={<Inventory />}
+              />
 
-            <Route
-              path="/shopping-cart"
-              element={<ShoppingCart />}
-            />
+              <Route
+                path="/sales-page"
+                element={<SalesPage />}
+              />
 
-            <Route
-              path="/audit-log"
-              element={<AuditLog/>}
-            />
+              <Route
+                path="/inventory/add-items"
+                element={<AddInventoryItems />}
+              />
 
-            <Route
-              path="/verified-user-list"
-              element={<VerifiedUserList />}
-            />
+              <Route
+                path="/shopping-cart"
+                element={<ShoppingCart />}
+              />
 
-            <Route
-              path="/calendar"
-              element={<Calendar/>}
-            />
+              <Route
+                path="/audit-log"
+                element={<AuditLog />}
+              />
 
-            <Route
-              path="/add-verified-user"
-              element={<AddVerifiedUser/>}
-            />
+              <Route
+                path="/verified-user-list"
+                element={<VerifiedUserList />}
+              />
 
-            <Route
-              path="/edit-verified-user"
-              element={<EditVerifiedUser/>}
-            />
+              <Route
+                path="/calendar"
+                element={<Calendar />}
+              />
 
-            <Route
-              path="/edit-item/:id"
-              element={<EditItem/>}
-            />
+              <Route
+                path="/add-verified-user"
+                element={<AddVerifiedUser />}
+              />
 
-            <Route
-              path='/admin-control-center'
-              element={<AdminControlCenter/>}
-            />
+              <Route
+                path="/edit-verified-user"
+                element={<EditVerifiedUser />}
+              />
 
-          </Routes>
-        </div>
-      </Row>
-        </BrowserRouter>
+              <Route
+                path="/edit-item/:id"
+                element={<EditItem />}
+              />
+
+              <Route
+                path='/admin-control-center'
+                element={<AdminControlCenter />}
+              />
+
+            </Routes>
+          </div>
+        </Row>
+      </BrowserRouter>
 
     </div>
   );
 }
 
 
-function ConditionalNavbar(){
+function ConditionalNavbar() {
   const location = useLocation()
 
-  if (location.pathname === '/'){
+  if (location.pathname === '/') {
     return null
   }
 
-  return <NavigationBar/>
+  return <NavigationBar />
 }
+
 
 export default App;

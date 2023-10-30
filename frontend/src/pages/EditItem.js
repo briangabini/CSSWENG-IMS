@@ -1,6 +1,7 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { DOMAIN } from '../config'
 
 const EditItem = () => {
 
@@ -26,7 +27,7 @@ const EditItem = () => {
 
         const inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice } 
 
-        const response = await fetch(`/jpd/inventory/edit-item/${id}`, {
+        const response = await fetch(DOMAIN + `/inventory/edit-item/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {
