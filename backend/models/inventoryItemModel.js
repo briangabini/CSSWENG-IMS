@@ -29,10 +29,11 @@ const inventoryItemSchema = new Schema({
         default: 'In Stock',
         required: true,
     },
-    dateAdded: {
-        type: Date,
-        default: Date.now,
-    },
+}, {
+    timestamps: {
+        createdAt: 'dateAdded', // Use `created_at` to store the created date
+        updatedAt: 'dateModified' // and `updated_at` to store the last updated date
+    }
 })
 
 const InventoryItem = mongoose.model('InventoryItem', inventoryItemSchema)

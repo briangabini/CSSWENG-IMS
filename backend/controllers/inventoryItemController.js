@@ -102,6 +102,8 @@ const updateInventoryItemById = async(req, res) => {
 
 const searchInventoryItemByPartname = async (req, res) => {
     try {
+        // filters to apply 
+
         const search = req.query.search || "";
         const inventoryItems = await InventoryItem.find({
             partName: { $regex: search, $options: "i" }
