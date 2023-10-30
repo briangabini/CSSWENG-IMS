@@ -1,6 +1,6 @@
-require('dotenv').config({ path: '../.env' }); 
+require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
-const InventoryItem = require('../models/inventoryItemModel'); 
+const InventoryItem = require('../models/inventoryItemModel');
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -25,23 +25,23 @@ db.once('open', async () => {
             brand: 'Brand 1',
             motorModel: 'Model 1',
             stockNumber: 100,
-            retailPrice: 3500,
+            retailPrice: 3500.0,
             stockStatus: 'In Stock',
         },
         {
             partName: 'Item 2',
             brand: 'Brand 2',
             motorModel: 'Model 2',
-            stockNumber: 75,
-            retailPrice: 2500,
+            stockNumber: 0,
+            retailPrice: 2500.0,
             stockStatus: 'Out of Stock',
-        }, 
+        },
         {
             partName: 'Item 3',
             brand: 'Brand 3',
             motorModel: 'Model 3',
             stockNumber: 240,
-            retailPrice: 1000,
+            retailPrice: 1000.0,
             stockStatus: 'In Stock',
         },
         {
@@ -49,15 +49,15 @@ db.once('open', async () => {
             brand: 'Brand 4',
             motorModel: 'Model 4',
             stockNumber: 120,
-            retailPrice: 500,
+            retailPrice: 500.0,
             stockStatus: 'In Stock',
         },
         {
             partName: 'Item 5',
             brand: 'Brand 5',
             motorModel: 'Model 5',
-            stockNumber: 55,
-            retailPrice: 750,
+            stockNumber: 0,
+            retailPrice: 750.0,
             stockStatus: 'Out of Stock',
         },
         {
@@ -72,7 +72,7 @@ db.once('open', async () => {
             partName: 'Item 7',
             brand: 'Brand 7',
             motorModel: 'Model 7',
-            stockNumber: 90,
+            stockNumber: 0,
             retailPrice: 300.0,
             stockStatus: 'Out of Stock',
         },
@@ -89,16 +89,16 @@ db.once('open', async () => {
             brand: 'Brand 9',
             motorModel: 'Model 9',
             stockNumber: 65,
-            retailPrice: 150,
+            retailPrice: 150.0,
             stockStatus: 'In Stock',
         },
         {
             partName: 'Item 10',
             brand: 'Brand 10',
             motorModel: 'Model 10',
-            stockNumber: 150,
-            retailPrice: 5000,
-            stockStatus: 'Out of Stock',
+            stockNumber: 5,
+            retailPrice: 5000.0,
+            stockStatus: 'Danger Zone',
         },
     ];
 

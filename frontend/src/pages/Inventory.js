@@ -1,31 +1,62 @@
 import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+
+// config files
+import { DOMAIN } from '../config'
 
 // components 
 import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
-import { DOMAIN } from '../config'
 
 const Inventory = () => {
+    // variables for getting the url string
+    // const location = useLocation()
+    // const queryString = location.search
+
+    // variables for the inventory items
     const [inventoryItems, setInventoryItems] = useState([])
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [motorModel, setMotorModel] = useState('')
+    const [brand, setBrand] = useState('')
+    const [stockStatus, setStockStatus] = useState('')
+    const [sortBy, setSortBy] = useState('partName,asc')
+
+    // const []
      
-    const fetchInventoryItems = async (query = '') => { 
-        let endpoint = DOMAIN + '/inventory';
-        if (query) {
-            // if a query is present, we assume a search is intended
-            endpoint += `/search?search=${query}`; // using "query" as the query parameter name
+    const fetchInventoryItems = async () => { 
+        let endpoint = DOMAIN + '/inventory' + '/?';
+
+        if (searchTerm) {
+            endpoint += `&search=${searchTerm}`; // using "query" as the query parameter name
         }
+
+        if (motorModel) {
+            endpoint += `&motorModel=${motorModel}`
+        }
+
+        if (stockStatus) {
+            endpoint += `&stockStatus=${stockStatus}`
+        }
+
+        if (sortBy) {
+            endpoint += `&sort=${sortBy}`
+        }
+
+        console.log(sortBy)
+        console.log(endpoint)
+
         const response = await fetch(endpoint) // retrieves response from server as JSON
         const json = await response.json() // converts the json data into an array of objects
 
-        console.log('Is json an array?', Array.isArray(json));
+        console.log(json.items)
+
+        // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
-            setInventoryItems(json);  // set state only if it's an array
+            setInventoryItems(json.items);  // set state only if it's an array
         } else {
             console.error('Unexpected response:', json);
             setInventoryItems([]);  // clear existing data or handle error appropriately
@@ -35,13 +66,14 @@ const Inventory = () => {
     useEffect(() => {
         fetchInventoryItems()
     }, [])
+
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
         setSearchTerm(event.target.value);
     };
 
-    const handleSearchClick = () => {
+    /* const handleSearchClick = () => {
         // Trigger the search operation when the button is clicked
         if (searchTerm.trim()) {
             fetchInventoryItems(searchTerm.trim());
@@ -50,7 +82,20 @@ const Inventory = () => {
             // Here we're just fetching the initial set again
             fetchInventoryItems();
         }
-    };
+    }; */
+    const handleSearchClick = () => {
+        fetchInventoryItems()
+    }
+
+    const handleSortByUpdate = (newSortByValue) => {
+        setSortBy(newSortByValue)
+    }
+
+    const handleFilterUpdate = (newBrand, newMotorModel, newStockStatus) => {
+        setBrand(newBrand)
+        setMotorModel(newMotorModel)
+        setStockStatus(newStockStatus)
+    }
 
     return (
         // <div className="inventory">
@@ -72,8 +117,10 @@ const Inventory = () => {
                         Download as .csv file
                         <img className='ms-2 mb-1' src='icon_datatransferdownload_.png'></img>
                     </Button>
-                    <Filter />
-                    <SortBy />
+
+                    
+                    <Filter brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate}/>
+                    <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate}/>
                 </ButtonToolbar>
             </Row>
             <Row>

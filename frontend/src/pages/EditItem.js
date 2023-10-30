@@ -1,5 +1,5 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import { DOMAIN } from '../config'
 
@@ -14,6 +14,27 @@ const EditItem = () => {
     const [error, setError] = useState('')
 
     const { id } = useParams()
+
+    const fetchInventoryItem = async () => {
+        const response = await fetch(DOMAIN + `/inventory/${id}`)
+
+        const json = await response.json()
+
+        if (response.ok) {
+            setPartName(json.partName)
+            setBrand(json.brand)
+            setMotorModel(json.motorModel)
+            setRetailPrice(json.retailPrice)
+            setStockNumber(json.stockNumber)
+
+        } else {
+            console.error('Unexpected response:', json);
+        }
+    }
+
+    useEffect(() => {
+        fetchInventoryItem()
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -35,18 +56,6 @@ const EditItem = () => {
             }
         })
 
-        /* 
-         const response = await fetch('/api/workouts', {
-         method: 'POST',
-          body: JSON.stringify(workout),
-         headers: {
-           'Content-Type': 'application/json'
-      }
-    })
-    
-      const json = await response.json()
-        */
-
         const json = await response.json()
 
         if (!response.ok) {
@@ -54,14 +63,11 @@ const EditItem = () => {
         }
         if (response.ok) {
             setError(null)
-            setPartName('')
-            setBrand('')
-            setMotorModel('')
-            setStockNumber('')
-            setRetailPrice('')
-            console.log('new inventory added:', json) // print to console
+            console.log('inventory item edited:', json) // print to console
         }
     }
+
+    // do a useEffect to get the 
 
     return (
         <Container className='main'>

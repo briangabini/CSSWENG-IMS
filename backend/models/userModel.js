@@ -25,8 +25,8 @@ const userSchema = new Schema({
     }
 }, {
     timestamps: {
-        createdAt: 'dateAdded', // Use `created_at` to store the created date
-        updatedAt: 'dateModified' // and `updated_at` to store the last updated date
+        createdAt: 'dateAdded', // Use `dateAdded` to store the created date
+        updatedAt: 'dateModified' // and `dateModified` to store the last updated date
     }
 })
 
