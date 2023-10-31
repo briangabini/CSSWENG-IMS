@@ -21,7 +21,8 @@
   --black: #000000;
   --card1-red: #FFD4D4;
   --card2-red: #FF9898;
-  --navbar-cart: #DFFFDE
+  --navbar-cart: #DFFFDE;
+  --hover-background: #cbcbcb;
 }
 
 body {
@@ -160,4 +161,7 @@ a {
   background-size: 8rem;
 }
 
-
+.hover:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}

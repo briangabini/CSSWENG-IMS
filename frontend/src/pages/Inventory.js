@@ -1,4 +1,5 @@
 import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -52,6 +53,7 @@ const Inventory = () => {
         }
     };
 
+
     return (
         // <div className="inventory">
         //     <h1>THIS IS THE INVENTORY</h1>
@@ -97,7 +99,10 @@ const Inventory = () => {
                     {inventoryItems && inventoryItems.map((inventoryItem) => (
                        <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
                     ))} 
+
                 </Card>
+
+
             </Row>
         </Container>
     )

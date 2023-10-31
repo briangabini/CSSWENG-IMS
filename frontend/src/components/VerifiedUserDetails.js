@@ -17,7 +17,7 @@ const VerifiedUserDetails = ({userDetail}) => {
     console.log(userDetail);
     return (
         <>
-            <Row onClick={handleShow} className='w-100 nopadding border-top my-1'>
+            <Row onClick={handleShow} className='w-100 nopadding border-top my-1 hover'>
                 <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
                 <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.emailAddress}</Col>
                 <Col className='txt-gray-text border col-2 fs-6 nopadding'>{userDetail.role}</Col>

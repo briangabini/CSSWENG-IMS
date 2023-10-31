@@ -7,7 +7,6 @@ import { DOMAIN } from '../config'
 
 const VerifiedUserList = () => {
     const [userDetails, setVerifiedUsers] = useState(null)
-    const navigate = useNavigate();
 
     useEffect(() => { 
         const fetchVerifiedUsers = async () => { 
@@ -22,6 +21,7 @@ const VerifiedUserList = () => {
         fetchVerifiedUsers()
     }, [])
 
+    const navigate = useNavigate();
     const navigateAddUser = () => {
         navigate('/add-verified-user');
     };
