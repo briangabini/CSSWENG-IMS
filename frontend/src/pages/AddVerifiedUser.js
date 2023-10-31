@@ -115,6 +115,7 @@ const AddVerifiedUser = () => {
                             <Form.Control type="password" placeholder="Password" />
                         </FloatingLabel>
 
+                        {/* Add to Team Button */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
                             <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
                                 Add to Team
