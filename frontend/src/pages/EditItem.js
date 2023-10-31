@@ -120,10 +120,11 @@ const EditItem = () => {
                                 value={retailPrice}
                             />
                         </FloatingLabel>
-
+                        
+                        {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
                             <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
-                                Add Item
+                                Save Changes
                             </Button>
                         </Container>
                     </Form>

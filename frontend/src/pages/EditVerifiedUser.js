@@ -41,9 +41,10 @@ const EditVerifiedUser = () => {
                             <Form.Control type="password" placeholder="Password" />
                         </FloatingLabel>
 
+                        {/* Button that saves changes of the edited verified user */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
                             <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
-                                Add to Team
+                                Save changes
                             </Button>
                         </Container>
                     </Form>

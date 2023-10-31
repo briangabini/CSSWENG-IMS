@@ -55,30 +55,25 @@ const Inventory = () => {
 
 
     return (
-        // <div className="inventory">
-        //     <h1>THIS IS THE INVENTORY</h1>
-
-        //     <div className="inventory-items">
-        //         {inventoryItems && inventoryItems.map((inventoryItem) => (
-        //             <InventoryItemDetails key={inventoryItem._id}  inventoryItem={inventoryItem} /> 
-        //         ))} 
-        //     </div>
-        // </div>
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
                 Inventory
             </Row>
             <Row>
                 <ButtonToolbar className='nopadding'>
+                    {/* Button to download the csv file of the inventory */}
                     <Button variant="light" size='sm' className='rounded-4 px-3 my-2 ms-auto me-2 shadow'>
                         Download as .csv file
                         <img className='ms-2 mb-1' src='icon_datatransferdownload_.png'></img>
                     </Button>
+                    {/* Component for filtering items */}
                     <Filter />
+                    {/* Component for sorting items */}
                     <SortBy />
                 </ButtonToolbar>
             </Row>
             <Row>
+                {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
                     <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange}/>
                     <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
@@ -88,6 +83,7 @@ const Inventory = () => {
             </Row>
             <Row>
                 <Card className='rounded-4 shadow'>
+                    {/* Headings of the inventory items */}
                     <Row className='w-100 nopadding my-2'>
                         <Col className='txt-gray-text col-3 fs-6 nopadding'>Part Name</Col>
                         <Col className='txt-gray-text col-2 fs-6 nopadding'>Brand</Col>
@@ -96,13 +92,12 @@ const Inventory = () => {
                         <Col className='txt-gray-text col-2 fs-6 nopadding'>Retail Price</Col>
                         <Col className='txt-gray-text col-2 fs-6 nopadding'>Date Added</Col>
                     </Row>
+                    {/* Loop for Individual Inventory Items */}
                     {inventoryItems && inventoryItems.map((inventoryItem) => (
+                        // Component for Inventory Items
                        <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
                     ))} 
-
                 </Card>
-
-
             </Row>
         </Container>
     )
