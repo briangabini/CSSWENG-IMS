@@ -153,6 +153,7 @@ const EditItem = () => {
                                 onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
                                 value={stockNumber}
                                 required
+                                min="0"
                             />
                         </FloatingLabel>
 
@@ -163,6 +164,7 @@ const EditItem = () => {
                                 onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
                                 value={retailPrice}
                                 required
+                                min="0"
                             />
                         </FloatingLabel>
 
