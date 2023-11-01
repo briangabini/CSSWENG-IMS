@@ -4,29 +4,58 @@ import Popover from 'react-bootstrap/Popover';
 import { Container, Form, Row, Col } from 'react-bootstrap';
 import {useState, useEffect} from 'react'
 
-const Filter = ({brand, motorModel, stockStatus, onUpdate}) => {
-    const [localMotorModel, setLocalMotorModel] = useState(motorModel)
-    const [localStockStatus, setLocalStockStatus] = useState(stockStatus)
-    const [localBrand, setLocalBrand] = useState(brand)
+const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
+    const [localMin, setLocalMin] = useState(min)                         // Number
+    const [localMax, setLocalMax] = useState(max)                         // Number
+    const [localBrand, setLocalBrand] = useState(brand)                   // string
+    const [localMotorModel, setLocalMotorModel] = useState(motorModel)    // string
+    const [localStockStatus, setLocalStockStatus] = useState(stockStatus) // string
 
     useEffect(() => {
-        console.log('Updated localMotorModel, localStockStatus: ', localMotorModel, localStockStatus);
-        onUpdate(localMotorModel, localStockStatus);
-    }, [localMotorModel, localStockStatus]);
+        // console.log('Updated localMotorModel, localStockStatus: ', localMotorModel, localStockStatus)
+        onUpdate(localMin, localMax, localBrand, localMotorModel, localStockStatus)
+
+        // returns the index
+        console.log('is Out of Stock: ', localStockStatus.search("Out of Stock"))
+        console.log('is Danger Zone: ', localStockStatus.search("Danger Zone"))
+        console.log('is In Stock: ', localStockStatus.search("In Stock"))
+
+    }, [localMin, localMax, localBrand, localMotorModel, localStockStatus]);
     
-    let stockStatusArray = []
+    // event listeners for the input fields
+    const handleMinUpdate = (event) => {
+        const newMin = event.target.value
+        setLocalMin(newMin)
+    }
 
-    const handleUpdate = (event) => {
-        let checkboxes = document.querySelectorAll('input[name="stockStatus"]:checked');
-        let output = [];
+    const handleMaxUpdate = (event) => {
+        const newMax = event.target.value
+        setLocalMax(newMax)
+    }
+
+    const handleBrandUpdate = (event) => {
+        const newBrand = event.target.value
+        setLocalBrand(newBrand)
+    }
+
+    const handleMotorModelUpdate = (event) => {
+        const newMotorModel = event.target.value
+        setLocalMotorModel(newMotorModel)
+    }
+
+    const handleStockStatusUpdate = (event) => {
+        // get all checked stock status options
+        let checkboxes = document.querySelectorAll('input[name="stockStatus"]:checked') 
+        let output = [] // place 'checked' stock status here as string
+
         checkboxes.forEach((checkbox) => {
-            output.push(checkbox.value);
-        });
+            output.push(checkbox.value)
+        })
 
-        stockStatusArray = output
-        const stockStatusQueryString = stockStatusArray.join(',') 
+        // convert the array to string
+        const queryString = output.join(',')
 
-        setLocalStockStatus(stockStatusQueryString)
+        setLocalStockStatus(queryString)
     }
 
     return (
@@ -38,40 +67,66 @@ const Filter = ({brand, motorModel, stockStatus, onUpdate}) => {
                 <Container className='m-2'>
 
                     <Row className='fw-bold'>Motorcycle Model</Row>
-                    <Form.Control type="text" className='my-2'/>
+                    <Form.Control 
+                        type="text" 
+                        className='my-2'
+                        value={localMotorModel}
+                        onChange={handleMotorModelUpdate}
+                    />
 
                     <Row className='fw-bold'>Brand</Row>
-                    <Form.Control type="text" className='my-2'/>
+                    <Form.Control 
+                        type="text" 
+                        className='my-2'
+                        value={localBrand}
+                        onChange={handleBrandUpdate}
+                    />
 
                     <Row className='fw-bold'>Price Range</Row>
                     <Row>Min. Price</Row>
+                    <Form.Control 
+                        type="text" 
+                        className='my-1' 
+                        value={localMin}
+                        onChange={handleMinUpdate}
+                    />
 
-                    <Form.Control type="text" className='my-1 '/>
                     <Row>Max. Price</Row>
-                    <Form.Control type="text" className='my-1'/>
+                    <Form.Control 
+                        type="text" 
+                        className='my-1'
+                        value={localMax}
+                        onChange={handleMaxUpdate}
+                    />
 
                     <Row className='fw-bold my-2'>Stock Status</Row>
                     <Row>
                         <Form.Check 
+                            id="cb1"
                             name="stockStatus"
                             type="checkbox"
                             label="In Stock" 
                             value="In Stock"
-                            onChange={handleUpdate}
+                            onChange={handleStockStatusUpdate}
+                            checked={localStockStatus.search("In Stock") !== -1}
                         />
                         <Form.Check 
+                            id="cb2"
                             name="stockStatus"
                             type="checkbox"
                             label="Danger Zone"
                             value="Danger Zone"
-                              onChange={handleUpdate}
+                            onChange={handleStockStatusUpdate}
+                            checked={localStockStatus.search("Danger Zone") !== -1}
                         />
                         <Form.Check 
+                            id="cb3"
                             name="stockStatus"
                             type="checkbox"
                             label="Out of Stock"
                             value="Out of Stock"
-                              onChange={handleUpdate}
+                            onChange={handleStockStatusUpdate}
+                            checked={localStockStatus.search("Out of Stock") !== -1}
                         />
                     </Row> 
                 </Container>

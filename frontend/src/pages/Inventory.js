@@ -18,8 +18,12 @@ const Inventory = () => {
 
     // variables for the inventory items
     const [inventoryItems, setInventoryItems] = useState([])
-    const [searchTerm, setSearchTerm] = useState('');
 
+    // search and filter option variables
+    const [searchTerm, setSearchTerm] = useState('')
+    // const [page, setPage] = useState(0)                 // for adjusting the page later
+    const [min, setMin] = useState('')
+    const [max, setMax] = useState('')
     const [motorModel, setMotorModel] = useState('')
     const [brand, setBrand] = useState('')
     const [stockStatus, setStockStatus] = useState('')
@@ -46,6 +50,18 @@ const Inventory = () => {
             endpoint += `&sort=${sortBy}`
         }
 
+        if (min) {
+            endpoint += `&min=${min}`
+        }
+
+        if (max) {
+            endpoint += `&max=${max}`
+        }
+
+        if (brand) {
+            endpoint += `&brand=${brand}`
+        }
+
         console.log(sortBy)
         console.log(endpoint)
 
@@ -58,7 +74,7 @@ const Inventory = () => {
         if (response.ok) {
             setInventoryItems(json.items);  // set state only if it's an array
         } else {
-            console.error('Unexpected response:', json);
+            console.error('Unexpected response: ', json.message);
             setInventoryItems([]);  // clear existing data or handle error appropriately
         }
     }
@@ -91,7 +107,9 @@ const Inventory = () => {
         setSortBy(newSortByValue)
     }
 
-    const handleFilterUpdate = (newBrand, newMotorModel, newStockStatus) => {
+    const handleFilterUpdate = (newMin, newMax, newBrand, newMotorModel, newStockStatus) => {
+        setMin(newMin)
+        setMax(newMax)
         setBrand(newBrand)
         setMotorModel(newMotorModel)
         setStockStatus(newStockStatus)
@@ -119,7 +137,7 @@ const Inventory = () => {
                     </Button>
 
                     
-                    <Filter brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate}/>
+                    <Filter min={min} max={max} brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate}/>
                     <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate}/>
                 </ButtonToolbar>
             </Row>

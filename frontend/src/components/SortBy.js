@@ -2,20 +2,21 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { Container, Form } from 'react-bootstrap';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 const SortBy = ({ sortBy, onUpdate }) => {
     const [localValue, setLocalValue] = useState(sortBy)
 
     useEffect(() => {
-        console.log('Updated local value:', localValue);
-        onUpdate(localValue);
-    }, [localValue]);
+        console.log('Updated local value:', localValue)
+        onUpdate(localValue)
+    }, [localValue])
 
     const handleUpdate = (event) => {
-        const newValue = document.querySelector('input[name="sortGroup"]:checked').value;
-        setLocalValue(newValue);
-    };
+        // const newValue = document.querySelector('input[name="sortGroup"]:checked').value
+        const newValue = event.target.value
+        setLocalValue(newValue)
+    }
 
     return (
         <OverlayTrigger
@@ -30,7 +31,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             label="A-Z"
                             value="partName,asc"
                             onChange={handleUpdate}
-                            checked={localValue === "partName,asc"} 
+                            checked={localValue === "partName,asc"}
                         />
                         <Form.Check
                             name="sortGroup"
@@ -38,7 +39,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             label="Z-A"
                             value="partName,desc"
                             onChange={handleUpdate}
-                            checked={localValue === "partName,desc"} 
+                            checked={localValue === "partName,desc"}
                         />
                         <Form.Check
                             name="sortGroup"
@@ -46,63 +47,63 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             label="Price (Ascending)"
                             value="retailPrice,asc"
                             onChange={handleUpdate}
-                            checked={localValue === "retailPrice,asc"} 
+                            checked={localValue === "retailPrice,asc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Price (Descending)"
-                            value="retailPrice,desc" 
+                            value="retailPrice,desc"
                             onChange={handleUpdate}
-                            checked={localValue === "retailPrice,desc"} 
+                            checked={localValue === "retailPrice,desc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Stock Number (Ascending)"
-                            value="stockNumber,asc" 
+                            value="stockNumber,asc"
                             onChange={handleUpdate}
-                            checked={localValue === "stockNumber,asc"} 
+                            checked={localValue === "stockNumber,asc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Stock Number (Descending)"
-                            value="stockNumber,desc" 
+                            value="stockNumber,desc"
                             onChange={handleUpdate}
-                            checked={localValue === "stockNumber,desc"} 
+                            checked={localValue === "stockNumber,desc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Date Added (Latest)"
-                            value="dateAdded,desc" 
+                            value="dateAdded,desc"
                             onChange={handleUpdate}
-                            checked={localValue === "dateAdded,desc"} 
+                            checked={localValue === "dateAdded,desc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Date Added (Oldest)"
-                            value="dateAdded,asc" 
+                            value="dateAdded,asc"
                             onChange={handleUpdate}
-                            checked={localValue === "dateAdded,asc"} 
+                            checked={localValue === "dateAdded,asc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Date Modified (Latest)"
-                            value="dateModified,desc" 
+                            value="dateModified,desc"
                             onChange={handleUpdate}
-                            checked={localValue === "dateModified,desc"} 
+                            checked={localValue === "dateModified,desc"}
                         />
                         <Form.Check
                             name="sortGroup"
                             type="radio"
                             label="Date Modified (Oldest)"
-                            value="dateModified,asc" 
+                            value="dateModified,asc"
                             onChange={handleUpdate}
-                            checked={localValue === "dateModified,asc"} 
+                            checked={localValue === "dateModified,asc"}
                         />
                     </Container>
                 </Popover>
