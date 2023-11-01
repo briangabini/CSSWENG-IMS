@@ -63,6 +63,8 @@ const EditItem = () => {
         }
     }
 
+    const handleError = () => {}
+
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -80,6 +82,11 @@ const EditItem = () => {
                                 value={partName}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* brand input */}
                         <FloatingLabel className="mb-2" controlId="floatingSelect" label="Item Brand">
@@ -90,6 +97,11 @@ const EditItem = () => {
                                 value={brand}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* motorModel input */}
                         <FloatingLabel className="mb-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
@@ -100,6 +112,11 @@ const EditItem = () => {
                                 value={motorModel}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* stockNumber input */}
                         <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Stock Number">
@@ -110,6 +127,11 @@ const EditItem = () => {
                                 value={stockNumber}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* retail price */}
                         <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
@@ -120,6 +142,11 @@ const EditItem = () => {
                                 value={retailPrice}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
                         
                         {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>

@@ -12,6 +12,8 @@ const UserDeletionConfirmation = () => {
     // function that shows the component
     const handleShow = () => setShow(true);
 
+    const handleError = () => {}
+
     return (
         <>  
             {/* Button to delete users */}
@@ -36,6 +38,12 @@ const UserDeletionConfirmation = () => {
                                 {/* Input for Administrator Password */}
                                 <Form.Control type="password" placeholder="" />
                             </FloatingLabel>
+                            {/* Error */}
+                            <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                                onClick={handleError}>
+                                Error: Invalid input!
+                            </div>
+                            
                         </Stack>
                     </Container>
                 </Modal.Body>

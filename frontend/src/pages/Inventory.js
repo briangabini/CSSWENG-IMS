@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
+import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card, Image } from 'react-bootstrap'
 import { Modal } from 'react-bootstrap'
 import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
@@ -82,6 +82,43 @@ const Inventory = () => {
                 </InputGroup>
             </Row>
             <Row>
+                {/* Number of results */}
+                <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>50 of 100 results</Container>
+            </Row>
+            <Row>
+                {/* Pagination */}
+                {/* 
+                    STYLING OF A PAGE BUTTON/ INACTIVE PAGE: border mx-1 bg-main-dominant-red
+                    STYLING OF ACTIVE PAGE: border mx-1 txt-main-dominant-red bg-white
+                */}
+                <Container className='d-flex justify-content-center mb-3'>
+                    {/* Button that would make it go straight to first page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
+                    {/* Button that would make it go straight to prev page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 1 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 2 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is active. It would have a style of "border mx-1 txt-main-dominant-red bg-white" */}
+                    <Button className='border mx-1 txt-main-dominant-red bg-white'> 3 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 4 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 5 </Button>
+                    {/* Button that would make it go straight to next page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
+                    {/* Button that would make it go straight to last page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
+                </Container>
+            </Row>
+
+            <Row>
                 <Card className='rounded-4 shadow'>
                     {/* Headings of the inventory items */}
                     <Row className='w-100 nopadding my-2'>
@@ -98,6 +135,42 @@ const Inventory = () => {
                        <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
                     ))} 
                 </Card>
+            </Row>
+            <Row>
+                {/* Pagination */}
+                {/* 
+                    STYLING OF A PAGE BUTTON/ INACTIVE PAGE: border mx-1 bg-main-dominant-red
+                    STYLING OF ACTIVE PAGE: border mx-1 txt-main-dominant-red bg-white
+                */}
+                <Container className='d-flex justify-content-center mt-3'>
+                    {/* Button that would make it go straight to first page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
+                    {/* Button that would make it go straight to prev page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 1 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 2 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is active. It would have a style of "border mx-1 txt-main-dominant-red bg-white" */}
+                    <Button className='border mx-1 txt-main-dominant-red bg-white'> 3 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 4 </Button>
+                    {/* Button that would make it go certain page */}
+                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
+                    <Button className='border mx-1 bg-main-dominant-red'> 5 </Button>
+                    {/* Button that would make it go straight to next page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
+                    {/* Button that would make it go straight to last page */}
+                    <Button className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
+                </Container>
+            </Row>
+            <Row>
+                {/* Number of results */}
+                <Container className='txt-gray-text fs-6 mt-2 d-flex justify-content-center'>50 of 100 results</Container>
             </Row>
         </Container>
     )

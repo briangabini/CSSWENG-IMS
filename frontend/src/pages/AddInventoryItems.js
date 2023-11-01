@@ -57,7 +57,9 @@ const AddInventoryItems = () => {
             setRetailPrice('')
             console.log('new inventory added:', json) // print to console
         }
-    } 
+    }
+    
+    const handleError = () =>{}
 
     return (
         <Container className='main'>
@@ -68,7 +70,7 @@ const AddInventoryItems = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
-                        <FloatingLabel className="mb-2" controlId="floatingInput" label="Item Name" >
+                        <FloatingLabel className="mt-2" controlId="floatingInput" label="Item Name" >
                             <Form.Control 
                                 type="text" 
                                 placeholder="" 
@@ -76,9 +78,14 @@ const AddInventoryItems = () => {
                                 value={partName}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* brand input */}
-                        <FloatingLabel className="mb-2" controlId="floatingSelect" label="Item Brand">
+                        <FloatingLabel className="mt-2" controlId="floatingSelect" label="Item Brand">
                             <Form.Control 
                                 type="text" 
                                 placeholder="" 
@@ -86,9 +93,14 @@ const AddInventoryItems = () => {
                                 value={brand}
                             />
                         </FloatingLabel>
-                        
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
+
                         {/* motorModel input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
+                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
                             <Form.Control 
                                 type="text" 
                                 placeholder="" 
@@ -96,9 +108,14 @@ const AddInventoryItems = () => {
                                 value={motorModel}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* stockNumber input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Stock Number">
+                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Stock Number">
                             <Form.Control 
                                 type="number" 
                                 placeholder="" 
@@ -106,9 +123,14 @@ const AddInventoryItems = () => {
                                 value={stockNumber}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* retail price */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
+                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
                             <Form.Control 
                                 type="text" 
                                 placeholder="" 
@@ -116,6 +138,11 @@ const AddInventoryItems = () => {
                                 value={retailPrice}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* button to add item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>

@@ -45,7 +45,7 @@ const SortBy = () => {
             </Popover>
           }
         >
-        <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>\
+        <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
             {/* Current sort option */}
             Sort by: Date, new to old
             <img className='ms-2 mb-1' src='icon_sort_.png'></img>

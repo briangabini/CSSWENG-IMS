@@ -68,6 +68,9 @@ a {
 .txt-profit-dark{
   color: var(--profit-dark)!important;
 }
+.txt-main-dominant-red {
+  color: var(--main-dominant-red)!important;
+}
 
 .bg-main-dominant-red {
   background-color: var(--main-dominant-red)!important;
@@ -81,6 +84,10 @@ a {
 .bg-card3-red{
   background-color: var(--card3-red)!important;
 }
+.bg-white{
+  background-color: var(--white)!important;
+}
+ 
 
 .txt-14{
   font-size: 14px!important; /* fs-6 */
@@ -164,4 +171,30 @@ a {
 .hover:hover{
   text-decoration: underline;
   cursor: pointer;
+}
+
+.button-page{
+  width: auto;
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 1rem;
+}
+
+.first{
+  background-image: url(../public/icon_first.png);
+}
+
+.last{
+  background-image: url(../public/icon_last.png);
+}
+
+.right{
+  background-size: 0.75rem;
+  background-image: url(../public/icon_right.png);
+}
+
+.left{
+  background-image: url(../public/icon_left.png);
+  background-size: 0.75rem;
 }
