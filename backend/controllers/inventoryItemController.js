@@ -59,7 +59,10 @@ const createInventoryItem = async (req, res) => {
         res.status(200).json(inventoryItem)
 
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        console.log(error)
+        // console.log(error.errors['stockNumber'].message) 
+        // console.log(error.errors['retailPrice'].message)
+        res.status(400).json({ error: [error.message] })
     }
 }
 

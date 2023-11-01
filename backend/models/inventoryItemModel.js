@@ -6,6 +6,7 @@ const inventoryItemSchema = new Schema({
     partName: {
         type: String,
         required: true,
+        unique: true
     },
     brand: {
         type: String,
@@ -19,34 +20,24 @@ const inventoryItemSchema = new Schema({
     stockNumber: { 
         type: Number, 
         required: true, 
-        min: 0,
-        max: 9999,
-        validate: {
+        min: [0, 'Stock Number should be greater than or equal to 0'],
+        max: [9999999, 'Stock Number should be less than or equal to 9999999'],
+        /* validate: {
             validator: (value) => value >= 0,
             message: 'Stock number must be greater than or equal to 0',
-        } 
+        }  */
     },
     retailPrice: {
         type: Number, 
         required: true, 
-        set: (value) => parseFloat(value.toFixed(2))  // sets the limit of 2 decimal places 
+        min: [0, 'Retail Price Should be greater than or equal to 0'],
+        max: [9999999, 'Retail Price should be less than or equal to 9999999'],
     },
     stockStatus: {
         type: String,
         enum: ['In Stock', 'Out of Stock', 'Danger Zone'],
         default: 'In Stock',
         required: true,
-        validate: {
-            validator: () => {
-                if (this.stockNumber === 0) {
-                    return this.stockStatus === 'Out of Stock';
-                } else if (this.stockNumber <= 5) {
-                    return this.stockStatus === 'Danger Zone';
-                }
-                return true;
-            },
-            message: 'Invalid stock status based on stock number',
-        }
     },
 }, {
     timestamps: {
