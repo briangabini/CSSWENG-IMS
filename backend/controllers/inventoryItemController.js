@@ -134,30 +134,25 @@ const searchInventoryItemByPartname = async (req, res) => {
 };
 
 const getInventory = async (req, res) => {
-    // filters to implement
-    /*
-        - partName asc, desc
-        - retailPrice asc, desc
-        - stockNumber asc, desc
-        - dateAdded asc, desc
-        - dateModified asc, desc
-        - stockStatus: 'In Stock', 'Out of Stock', 'Danger Zone'
-        - 
-    */
 
     try {
-        const page = parseInt(req.query.page) - 1 || 0       // default: first page 
-        const limit = parseInt(req.query.limit) || 5         // for testing only, we are able to change the limit of items in a page
-        const search = req.query.search || ""                // default: no search query
-        const motorModel = req.query.motorModel || ""
-        let sort = req.query.sort || "partName"              // default: sort by part name ascending
-        let stockStatus = req.query.stockStatus || "All"
+        const page = parseInt(req.query.page) - 1 || 0      // default: first page 
+        const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        const search = req.query.search || ""               // default: no search query
+        const motorModel = req.query.motorModel || ""       // default: all items regardless of motor Model
+        const brand = req.query.brand || ""                 // default: all items regardless of brand
+        let sort = req.query.sort || "partName"             // default: sort by part name ascending
+        let stockStatus = req.query.stockStatus || "All"    // default : select all stockStatus options
+        const min = req.query.min || 0                      // default: 0 is the min retail price
+        const max = req.query.max || 9999999                // default : 99999 is the max retail price
 
         const stockStatusOptions = [
             'In Stock',
             'Out of Stock',
             'Danger Zone'
         ]
+
+        //&stockStatus=In Stock,Out of Stock
 
         stockStatus === "All" 
         ? (stockStatus = [...stockStatusOptions])
@@ -175,9 +170,9 @@ const getInventory = async (req, res) => {
             sortBy[sort[0]] = "asc" // default: asc order e.g. A-Z
         }
 
-        const items = await InventoryItem.find({partName: {$regex: search, $options: "i"}, motorModel: {$regex: motorModel, $options: "i"}})
-            .where('stockStatus')
-            .in([...stockStatus])
+        const items = await InventoryItem.find({partName: {$regex: search, $options: "i"}, motorModel: {$regex: motorModel, $options: "i"}, brand: {$regex: brand, $options: "i"}})
+            .where('stockStatus').in([...stockStatus])
+            .where('retailPrice').gte(min).lte(max)
             .sort(sortBy)
             .skip(page * limit)
             .limit(limit)

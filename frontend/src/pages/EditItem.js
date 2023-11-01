@@ -6,7 +6,7 @@ import { DOMAIN } from '../config'
 const EditItem = () => {
 
 
-    const [partName, setPartName] = useState('')
+    const [partName, setPartName] = useState('') 
     const [brand, setBrand] = useState('')
     const [motorModel, setMotorModel] = useState('')
     const [stockNumber, setStockNumber] = useState('')

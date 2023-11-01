@@ -16,19 +16,19 @@ const inventoryItemSchema = new Schema({
         required: true,
         default: 'Any'
     },
-    stockNumber: {
-        type: Number,
-        required: true,
+    stockNumber: { 
+        type: Number, 
+        required: true, 
         min: 0,
         max: 9999,
         validate: {
             validator: (value) => value >= 0,
             message: 'Stock number must be greater than or equal to 0',
-        }
+        } 
     },
     retailPrice: {
-        type: Number,
-        required: true,
+        type: Number, 
+        required: true, 
         set: (value) => parseFloat(value.toFixed(2))  // sets the limit of 2 decimal places 
     },
     stockStatus: {
