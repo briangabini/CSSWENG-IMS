@@ -38,7 +38,7 @@ router.delete('/delete-item/:id', deleteInventoryItemById)
 router.patch('/edit-item/:id', updateInventoryItemById) 
 
 // SEARCH and display 50 inventory items based on partName
-router.get('/search', searchInventoryItemByPartname)
+// router.get('/search', searchInventoryItemByPartname)
 
 
 // place all the routes here for now
