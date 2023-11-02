@@ -3,9 +3,15 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { DOMAIN } from '../config'
 import validator from 'validator'
+import { useNavigate } from 'react-router-dom'
 
 const EditItem = () => {
 
+    const navigate = useNavigate();
+
+    const navigateInventory = () => {
+        navigate(`/inventory`);
+    };
     /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
     const [brand, setBrand] = useState('')
@@ -38,8 +44,8 @@ const EditItem = () => {
         const changed = partName !== initialValues.partName ||
             brand !== initialValues.brand ||
             motorModel !== initialValues.motorModel ||
-            stockNumber !== initialValues.stockNumber ||
-            retailPrice !== initialValues.retailPrice;
+            Number(stockNumber) !== initialValues.stockNumber ||
+            Number(retailPrice) !== initialValues.retailPrice;
 
         setHasChangedState(changed); // Update the state based on the current values
 
@@ -80,7 +86,7 @@ const EditItem = () => {
 
     useEffect(() => {
         fetchInventoryItem()
-    })
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -210,8 +216,6 @@ const EditItem = () => {
         setRetailPrice(value)
     }
 
-    const handleError = () => { }
-
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -225,7 +229,6 @@ const EditItem = () => {
                             <Form.Control
                                 type="text"
                                 onChange={handlePartNameInput}
-                                onClick={handlePartNameInput}
                                 value={partName}
                                 required
                             />
@@ -244,7 +247,6 @@ const EditItem = () => {
                             <Form.Control
                                 type="text"
                                 onChange={handleBrandInput}
-                                onClick={handleBrandInput}
                                 value={brand}
                                 required
                             />
@@ -264,7 +266,6 @@ const EditItem = () => {
                                 type="text"
                                 onChange={(e) => setMotorModel(e.target.value)}
                                 value={motorModel}
-                                required
                             />
                         </FloatingLabel>
                         {/* Error */}
@@ -279,7 +280,6 @@ const EditItem = () => {
                                 //Semicolon is required here, it serves as a separator between statements
                                 // onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
                                 onChange={handleStockNumberInput}
-                                onClick={handleStockNumberInput}
                                 value={stockNumber}
                                 required
                                 min="0"
@@ -298,10 +298,8 @@ const EditItem = () => {
                                 type="number"
                                 // onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
                                 onChange={handleRetailPriceInput}
-                                onClick={handleRetailPriceInput}
                                 value={retailPrice}
                                 required
-                                min="0"
                             />
                         </FloatingLabel>
                         {/* Error */}
