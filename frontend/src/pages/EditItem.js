@@ -1,19 +1,77 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useState , useEffect} from 'react'
+import { useParams } from 'react-router-dom'
 import { DOMAIN } from '../config'
 
 const EditItem = () => {
 
 
-    const [partName, setPartName] = useState('')
+    const [partName, setPartName] = useState('') 
     const [brand, setBrand] = useState('')
     const [motorModel, setMotorModel] = useState('')
     const [stockNumber, setStockNumber] = useState('')
     const [retailPrice, setRetailPrice] = useState('')
     const [error, setError] = useState('')
+    const [hasChanged, setHasChangedState] = useState(false)
+
 
     const { id } = useParams()
+
+    const [initialValues, setInitialValues] = useState({
+        partName: '',
+        brand: '',
+        motorModel: '',
+        stockNumber: '',
+        retailPrice: ''
+    })
+    
+    useEffect(() => {
+        const changed = partName !== initialValues.partName ||
+                        brand !== initialValues.brand ||
+                        motorModel !== initialValues.motorModel ||
+                        stockNumber !== initialValues.stockNumber ||
+                        retailPrice !== initialValues.retailPrice;
+
+        setHasChangedState(changed); // Update the state based on the current values
+
+        // Just for debugging:
+        console.log("Current Values:", { partName, brand, motorModel, stockNumber, retailPrice });
+        console.log("Initial Values:", initialValues);
+        console.log("Changed:", changed);
+        console.log("Has changed:", hasChanged);
+        
+    }, [partName, brand, motorModel, stockNumber, retailPrice, initialValues]);
+
+    
+
+    const fetchInventoryItem = async () => {
+        const response = await fetch(DOMAIN + `/inventory/${id}`)
+
+        const json = await response.json()
+
+        if (response.ok) {
+            setPartName(json.partName)
+            setBrand(json.brand)
+            setMotorModel(json.motorModel)
+            setRetailPrice(json.retailPrice)
+            setStockNumber(json.stockNumber)
+            
+            setInitialValues({
+                partName: json.partName,
+                brand: json.brand,
+                motorModel: json.motorModel,
+                stockNumber: json.stockNumber,
+                retailPrice: json.retailPrice
+            })
+
+        } else {
+            console.error('Unexpected response:', json)
+        }
+    }
+
+    useEffect(() => {
+        fetchInventoryItem()
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -35,18 +93,6 @@ const EditItem = () => {
             }
         })
 
-        /* 
-         const response = await fetch('/api/workouts', {
-         method: 'POST',
-          body: JSON.stringify(workout),
-         headers: {
-           'Content-Type': 'application/json'
-      }
-    })
-    
-      const json = await response.json()
-        */
-
         const json = await response.json()
 
         if (!response.ok) {
@@ -54,14 +100,12 @@ const EditItem = () => {
         }
         if (response.ok) {
             setError(null)
-            setPartName('')
-            setBrand('')
-            setMotorModel('')
-            setStockNumber('')
-            setRetailPrice('')
-            console.log('new inventory added:', json) // print to console
+            console.log('inventory item edited:', json) // print to console
+            alert('Item successfully edited!')
         }
     }
+
+    const handleError = () => {}
 
     return (
         <Container className='main'>
@@ -72,58 +116,87 @@ const EditItem = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
-                        <FloatingLabel className="mb-2" controlId="floatingInput" label="Item Name" >
+                        <FloatingLabel className="mb-2" controlId="partNameInput" label="Item Name" >
                             <Form.Control
                                 type="text"
-                                placeholder=""
                                 onChange={(e) => setPartName(e.target.value)}
                                 value={partName}
+                                required
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* brand input */}
-                        <FloatingLabel className="mb-2" controlId="floatingSelect" label="Item Brand">
+                        <FloatingLabel className="mb-2" controlId="partBrandInput" label="Item Brand">
                             <Form.Control
                                 type="text"
-                                placeholder=""
                                 onChange={(e) => setBrand(e.target.value)}
                                 value={brand}
+                                required
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* motorModel input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
+                        <FloatingLabel className="mb-2" controlId="partModelInput" label="Compatible Motorcycle Model/s">
                             <Form.Control
                                 type="text"
-                                placeholder=""
                                 onChange={(e) => setMotorModel(e.target.value)}
                                 value={motorModel}
+                                required
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* stockNumber input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Stock Number">
+                        <FloatingLabel className="mb-2" controlId="stockNumberInput" label="Item Stock Number">
                             <Form.Control
                                 type="number"
-                                placeholder=""
-                                onChange={(e) => setStockNumber(e.target.value)}
+                                //Semicolon is required here, it serves as a separator between statements
+                                onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
                                 value={stockNumber}
+                                required
+                                min="0"
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* retail price */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
+                        <FloatingLabel className="mb-2" controlId="retailPriceInput" label="Item Retail Price (PHP)">
                             <Form.Control
                                 type="text"
-                                placeholder=""
-                                onChange={(e) => setRetailPrice(e.target.value)}
+                                onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
                                 value={retailPrice}
+                                required
+                                min="0"
                             />
                         </FloatingLabel>
-
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
+                        
+                        {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
-                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
-                                Add Item
+                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit" disabled={!hasChanged}>
+                                Save Changes
                             </Button>
                         </Container>
                     </Form>

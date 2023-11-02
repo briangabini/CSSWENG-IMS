@@ -3,10 +3,14 @@ import { useState } from "react";
 import { DOMAIN } from '../config'
 
 const ItemDeletionConfirmation = ({_id}) => {
+    // show     boolean variable that determines if a component is visisble or not
+    // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
     const [error, setError] = useState('')
     
+    // function that hides the component
     const handleClose = () => setShow(false);
+    // function that shows the component
     const handleShow = () => setShow(true);
 
     const handleDelete = async (e) => {
@@ -46,12 +50,14 @@ const ItemDeletionConfirmation = ({_id}) => {
 
     return (
         <>  
+            {/* Button to delete an item */}
             <Button onClick={handleShow} 
                     size='sm' variant='danger' 
                     className='shadow rounded-2 px-4' >
                 Delete
             </Button>
 
+            {/* Modal that would ask for confirmation of item deletion */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
@@ -65,12 +71,14 @@ const ItemDeletionConfirmation = ({_id}) => {
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleDelete} className='ms-auto px-4'>
-                    Proceed
-                </Button>
-                <Button variant="danger" onClick={handleClose} className='me-auto px-4'>
-                    Cancel
-                </Button>
+                    {/* Deletes the item when clicked */}
+                    <Button variant="secondary" onClick={handleDelete} className='ms-auto px-4'>
+                        Proceed
+                    </Button>
+                    {/* Does NOT delete the item when clicked */}
+                    <Button variant="danger" onClick={handleClose} className='me-auto px-4'>
+                        Cancel
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </>

@@ -57,6 +57,7 @@ const AddVerifiedUser = () => {
         }
     }
 
+    const handleError = () => {}
 
     return (
         <Container className='main'>
@@ -75,6 +76,11 @@ const AddVerifiedUser = () => {
                                 value={email}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* full name input */}
                         <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
@@ -85,6 +91,11 @@ const AddVerifiedUser = () => {
                                 value={employeeName}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* password input */}
                         <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
@@ -95,6 +106,11 @@ const AddVerifiedUser = () => {
                                 value={password}
                             />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* role input */}
                         <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
@@ -108,13 +124,24 @@ const AddVerifiedUser = () => {
                                 <option value="Admin">Admin</option>
                             </Form.Select>
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* admin password */}
                         {/* for added authentication */}
                         <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
                             <Form.Control type="password" placeholder="Password" />
                         </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
+                        {/* Add to Team Button */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
                             <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
                                 Add to Team
