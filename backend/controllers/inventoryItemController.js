@@ -119,22 +119,26 @@ const updateInventoryItemById = async(req, res) => {
     }
 };
 
-const searchInventoryItemByPartname = async (req, res) => {
-    try {
-        // filters to apply 
+// const searchInventoryItemByPartname = async (req, res) => {
+//     try {
+//         // filters to apply 
 
-        const search = req.query.search || "";
-        const inventoryItems = await InventoryItem.find({
-            partName: { $regex: search, $options: "i" }
-        });
+//         const search = req.query.search || "";
+//         const inventoryItems = await InventoryItem.find({
+//             $or: [
+//                 { partName: { $regex: search, $options: "i" } },
+//                 { motorModel: { $regex: search, $options: "i" } },
+//                 { brand: { $regex: search, $options: "i" } }
+//             ]
+//         })
 
         
-        res.status(200).json(inventoryItems);
-    } catch (err) {
-        console.log(err);
-        // res.status(500).json({ error: true, message: "Internal Server Error" });
-    }
-};
+//         res.status(200).json(inventoryItems);
+//     } catch (err) {
+//         console.log(err);
+//         // res.status(500).json({ error: true, message: "Internal Server Error" });
+//     }
+// };
 
 const getInventory = async (req, res) => {
 
@@ -173,7 +177,11 @@ const getInventory = async (req, res) => {
             sortBy[sort[0]] = "asc" // default: asc order e.g. A-Z
         }
 
-        const items = await InventoryItem.find({partName: {$regex: search, $options: "i"}, motorModel: {$regex: motorModel, $options: "i"}, brand: {$regex: brand, $options: "i"}})
+        const items = await InventoryItem.find({$or: [
+            { partName: { $regex: search, $options: "i" } },
+            { motorModel: { $regex: search || motorModel, $options: "i" } },
+            { brand: { $regex: search || brand, $options: "i" } }
+        ]})
             .where('stockStatus').in([...stockStatus])
             .where('retailPrice').gte(min).lte(max)
             .sort(sortBy)
@@ -182,7 +190,9 @@ const getInventory = async (req, res) => {
 
         const total = await InventoryItem.countDocuments({
             stockStatus: {$in: [...stockStatus]},
-            partName: {$regex: search, $options: "i"}
+            partName: {$regex: search, $options: "i"},
+            motorModel: {$regex: search, $options: "i"},
+            brand: {$regex: search, $options: "i"}
         })
 
         const response = {
@@ -209,7 +219,7 @@ module.exports = {
     createInventoryItem,
     deleteInventoryItemById,
     updateInventoryItemById,
-    searchInventoryItemByPartname,
+    // searchInventoryItemByPartname,
     getInventory,
     getInventoryItemById
 }
