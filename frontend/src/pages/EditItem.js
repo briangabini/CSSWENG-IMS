@@ -1,19 +1,26 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
-import { useState , useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { DOMAIN } from '../config'
+import validator from 'validator'
 
 const EditItem = () => {
 
-
-    const [partName, setPartName] = useState('') 
+    /* STATE VARIABLES FOR INVENTORY ITEM DATA */
+    const [partName, setPartName] = useState('')
     const [brand, setBrand] = useState('')
     const [motorModel, setMotorModel] = useState('')
     const [stockNumber, setStockNumber] = useState('')
     const [retailPrice, setRetailPrice] = useState('')
     const [error, setError] = useState('')
-    const [hasChanged, setHasChangedState] = useState(false)
 
+
+    /* STATE VARIABLES FOR ERROR HANDLING */
+    const [partNameError, setPartNameError] = useState('')
+    const [brandError, setBrandError] = useState('')
+    const [stockNumberError, setStockNumberError] = useState('')
+    const [retailPriceError, setRetailPriceError] = useState('')
+    const [hasChanged, setHasChangedState] = useState(false)
 
     const { id } = useParams()
 
@@ -24,13 +31,15 @@ const EditItem = () => {
         stockNumber: '',
         retailPrice: ''
     })
-    
+
+
+    // Check if any of the input fields have changed in value from their original
     useEffect(() => {
         const changed = partName !== initialValues.partName ||
-                        brand !== initialValues.brand ||
-                        motorModel !== initialValues.motorModel ||
-                        stockNumber !== initialValues.stockNumber ||
-                        retailPrice !== initialValues.retailPrice;
+            brand !== initialValues.brand ||
+            motorModel !== initialValues.motorModel ||
+            stockNumber !== initialValues.stockNumber ||
+            retailPrice !== initialValues.retailPrice;
 
         setHasChangedState(changed); // Update the state based on the current values
 
@@ -39,10 +48,10 @@ const EditItem = () => {
         console.log("Initial Values:", initialValues);
         console.log("Changed:", changed);
         console.log("Has changed:", hasChanged);
-        
-    }, [partName, brand, motorModel, stockNumber, retailPrice, initialValues]);
 
-    
+    }, [partName, brand, motorModel, stockNumber, retailPrice, initialValues, hasChanged]);
+
+
 
     const fetchInventoryItem = async () => {
         const response = await fetch(DOMAIN + `/inventory/${id}`)
@@ -55,7 +64,7 @@ const EditItem = () => {
             setMotorModel(json.motorModel)
             setRetailPrice(json.retailPrice)
             setStockNumber(json.stockNumber)
-            
+
             setInitialValues({
                 partName: json.partName,
                 brand: json.brand,
@@ -71,7 +80,7 @@ const EditItem = () => {
 
     useEffect(() => {
         fetchInventoryItem()
-    }, [])
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -83,7 +92,14 @@ const EditItem = () => {
         console.log(retailPrice)
 
 
-        const inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice } 
+        let inventoryItem = {}
+
+        if (validator.isEmpty(motorModel)) {
+            inventoryItem = { partName, brand, stockNumber, retailPrice }
+        } else {
+
+            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
+        }
 
         const response = await fetch(DOMAIN + `/inventory/edit-item/${id}`, {
             method: 'PATCH',
@@ -105,7 +121,96 @@ const EditItem = () => {
         }
     }
 
-    const handleError = () => {}
+    const handlePartNameInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        } else {
+            errorString = ""
+        }
+
+        setPartNameError(errorString)
+        setPartName(value)
+
+    }
+
+    const handleBrandInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        } else {
+            errorString = ""
+        }
+
+        setBrandError(errorString)
+        setBrand(value)
+
+    }
+
+    const handleStockNumberInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        }
+
+        if (!validator.isInt(value)) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a whole number."
+        }
+
+        if (value < 0) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a positive number."
+        }
+
+        if (value > 9999999) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must not exceed 9999999."
+        }
+
+        setStockNumberError(errorString)
+        setStockNumber(value)
+    }
+
+    const handleRetailPriceInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        }
+
+        if (!validator.isCurrency(value, { allow_negatives: false })) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a positive whole number or 2 decimal places."
+        }
+
+        if (value > 9999999) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must not exceed 9999999."
+        }
+
+        setRetailPriceError(errorString)
+        setRetailPrice(value)
+    }
+
+    const handleError = () => { }
 
     return (
         <Container className='main'>
@@ -119,30 +224,38 @@ const EditItem = () => {
                         <FloatingLabel className="mb-2" controlId="partNameInput" label="Item Name" >
                             <Form.Control
                                 type="text"
-                                onChange={(e) => setPartName(e.target.value)}
+                                onChange={handlePartNameInput}
+                                onClick={handlePartNameInput}
                                 value={partName}
                                 required
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
+                            <div className="error-partName">
+                                {/* insert error for part name */}
+                                {partNameError}
+                            </div>
                         </div>
 
                         {/* brand input */}
                         <FloatingLabel className="mb-2" controlId="partBrandInput" label="Item Brand">
                             <Form.Control
                                 type="text"
-                                onChange={(e) => setBrand(e.target.value)}
+                                onChange={handleBrandInput}
+                                onClick={handleBrandInput}
                                 value={brand}
                                 required
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
+                            <div className="error-brand">
+                                {brandError}
+                            </div>
+
                         </div>
 
                         {/* motorModel input */}
@@ -155,9 +268,8 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
                         </div>
 
                         {/* stockNumber input */}
@@ -165,34 +277,40 @@ const EditItem = () => {
                             <Form.Control
                                 type="number"
                                 //Semicolon is required here, it serves as a separator between statements
-                                onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
+                                // onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
+                                onChange={handleStockNumberInput}
+                                onClick={handleStockNumberInput}
                                 value={stockNumber}
                                 required
                                 min="0"
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                            <div className="error-stockNumber">
+                                {stockNumberError}
+                            </div>
                         </div>
 
                         {/* retail price */}
                         <FloatingLabel className="mb-2" controlId="retailPriceInput" label="Item Retail Price (PHP)">
                             <Form.Control
-                                type="text"
-                                onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
+                                type="number"
+                                // onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
+                                onChange={handleRetailPriceInput}
+                                onClick={handleRetailPriceInput}
                                 value={retailPrice}
                                 required
                                 min="0"
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                            <div className="error-motorModel">
+                                {retailPriceError}
+                            </div>
                         </div>
-                        
+
                         {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
                             <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit" disabled={!hasChanged}>

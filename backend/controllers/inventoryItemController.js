@@ -144,7 +144,8 @@ const getInventory = async (req, res) => {
 
     try {
         const page = parseInt(req.query.page) - 1 || 0      // default: first page 
-        const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        // const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        const limit = 50
         const search = req.query.search || ""               // default: no search query
         const motorModel = req.query.motorModel || ""       // default: all items regardless of motor Model
         const brand = req.query.brand || ""                 // default: all items regardless of brand
@@ -182,11 +183,11 @@ const getInventory = async (req, res) => {
             { motorModel: { $regex: search || motorModel, $options: "i" } },
             { brand: { $regex: search || brand, $options: "i" } }
         ]})
-            .where('stockStatus').in([...stockStatus])
-            .where('retailPrice').gte(min).lte(max)
-            .sort(sortBy)
-            .skip(page * limit)
-            .limit(limit)
+        .where('stockStatus').in([...stockStatus])
+        .where('retailPrice').gte(min).lte(max)
+        .sort(sortBy)
+        .skip(page * limit)
+        .limit(limit)
 
         const total = await InventoryItem.countDocuments({
             stockStatus: {$in: [...stockStatus]},
@@ -195,9 +196,20 @@ const getInventory = async (req, res) => {
             brand: {$regex: search, $options: "i"}
         })
 
+        const count = await InventoryItem.countDocuments({
+            $or: [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search || motorModel, $options: "i" } },
+                { brand: { $regex: search || brand, $options: "i" } }
+            ]
+        })
+            .where('stockStatus').in([...stockStatus])
+            .where('retailPrice').gte(min).lte(max);
+
         const response = {
             error: false,
             total,
+            count, 
             page: page + 1,
             limit, 
             stockStatus: stockStatusOptions,

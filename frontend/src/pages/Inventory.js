@@ -30,6 +30,10 @@ const Inventory = () => {
     const [stockStatus, setStockStatus] = useState('')
     const [sortBy, setSortBy] = useState('partName,asc')
 
+    // for displaying info
+    const [total, setTotal] = useState('')
+    const [page, setPage] = useState('')
+
     // const []
      
     const fetchInventoryItems = async () => { 
@@ -74,6 +78,7 @@ const Inventory = () => {
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
             setInventoryItems(json.items);  // set state only if it's an array
+            setTotal(json.count)
         } else {
             console.error('Unexpected response: ', json.message);
             setInventoryItems([]);  // clear existing data or handle error appropriately
@@ -82,7 +87,7 @@ const Inventory = () => {
 
     useEffect(() => {
         fetchInventoryItems()
-    }, [])
+    }, [page])
 
     // Handle search term changes
     const handleSearchChange = (event) => {
@@ -147,9 +152,10 @@ const Inventory = () => {
             </Row>
             <Row>
                 {/* Number of results */}
-                <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>50 of 100 results</Container>
+                <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>{inventoryItems.length} of {total} results</Container>
             </Row>
             <Row>
+
                 {/* Pagination */}
                 {/* 
                     STYLING OF A PAGE BUTTON/ INACTIVE PAGE: border mx-1 bg-main-dominant-red
@@ -157,9 +163,15 @@ const Inventory = () => {
                 */}
                 <Container className='d-flex justify-content-center mb-3'>
                     {/* Button that would make it go straight to first page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
+                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'>
+
+                    </Button>
+
                     {/* Button that would make it go straight to prev page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
+                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'>
+
+                    </Button>
+
                     {/* Button that would make it go certain page */}
                     {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
                     <Button className='border mx-1 bg-main-dominant-red'> 1 </Button>
@@ -234,7 +246,7 @@ const Inventory = () => {
             </Row>
             <Row>
                 {/* Number of results */}
-                <Container className='txt-gray-text fs-6 mt-2 d-flex justify-content-center'>50 of 100 results</Container>
+                <Container className='txt-gray-text fs-6 mt-2 d-flex justify-content-center'>{inventoryItems.length} of {total} results</Container>
             </Row>
         </Container>
     )
