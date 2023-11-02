@@ -25,6 +25,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
             overlay={
                 <Popover className='p-2 w-auto'>
                     <Container className='m-2'>
+                    {/* Sorts the items alphabetically */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -33,6 +34,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "partName,asc"}
                         />
+                    {/* Sorts the items reverse alphabetically */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -41,6 +43,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "partName,desc"}
                         />
+                    {/* Sorts the items by price in ascending order */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -49,6 +52,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "retailPrice,asc"}
                         />
+                    {/* Sorts the items by price in descending order */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -57,6 +61,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "retailPrice,desc"}
                         />
+                    {/* Sorts the items by stock number in ascending order */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -65,6 +70,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "stockNumber,asc"}
                         />
+                    {/* Sorts the items by stock number in descending order */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -73,6 +79,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "stockNumber,desc"}
                         />
+                    {/* Sorts the items by latest added items */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -81,6 +88,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "dateAdded,desc"}
                         />
+                    {/* Sorts the items by oldest added items */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -89,6 +97,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "dateAdded,asc"}
                         />
+                    {/* Sorts the items by latest modified items */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -97,6 +106,7 @@ const SortBy = ({ sortBy, onUpdate }) => {
                             onChange={handleUpdate}
                             checked={localValue === "dateModified,desc"}
                         />
+                    {/* Sorts the items by oldest modifed items */}
                         <Form.Check
                             name="sortGroup"
                             type="radio"
@@ -109,10 +119,11 @@ const SortBy = ({ sortBy, onUpdate }) => {
                 </Popover>
             }
         >
-            <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
-                Sort by: Date, new to old
-                <img className='ms-2 mb-1' src='icon_sort_.png'></img>
-            </Button>
+        <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
+            {/* Current sort option */}
+            Sort by: Date, new to old
+            <img className='ms-2 mb-1' src='icon_sort_.png'></img>
+        </Button>
         </OverlayTrigger>
     )
 }

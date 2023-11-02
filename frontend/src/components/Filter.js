@@ -65,7 +65,7 @@ const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
           overlay={
             <Popover className='p-2 w-auto'>
                 <Container className='m-2'>
-
+                    {/* Filters by motorcycle model */}
                     <Row className='fw-bold'>Motorcycle Model</Row>
                     <Form.Control 
                         type="text" 
@@ -82,7 +82,9 @@ const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
                         onChange={handleBrandUpdate}
                     />
 
+                    {/* Filters by price range */}
                     <Row className='fw-bold'>Price Range</Row>
+                    {/* The minimum price of the price range */}
                     <Row>Min. Price</Row>
                     <Form.Control 
                         type="text" 
@@ -134,6 +136,7 @@ const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
           }
         >
         <Button variant="light" size='sm' className='rounded-4 px-3 m-2 shadow'>
+            {/* The current filter in place */}
             Filter: In Stock
             <img className='ms-2 mb-1' src='icon_sort_.png'></img>
         </Button>
