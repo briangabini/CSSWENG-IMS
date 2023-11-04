@@ -32,12 +32,14 @@ const Inventory = () => {
 
     // for displaying info
     const [total, setTotal] = useState('')
-    const [page, setPage] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
+    
+    const totalPages = Math.ceil(total / 50);
 
     // const []
      
-    const fetchInventoryItems = async () => { 
-        let endpoint = DOMAIN + '/inventory' + '/?';
+    const fetchInventoryItems = async (newPage) => { 
+        let endpoint =  DOMAIN + '/inventory' + '/?' + `page=${newPage}`;
 
         if (searchTerm) {
             endpoint += `&search=${searchTerm}`; // using "query" as the query parameter name
@@ -77,34 +79,46 @@ const Inventory = () => {
 
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
-            setInventoryItems(json.items);  // set state only if it's an array
+            setInventoryItems(json.items)  // set state only if it's an array
             setTotal(json.count)
+            setCurrentPage(newPage)
         } else {
-            console.error('Unexpected response: ', json.message);
-            setInventoryItems([]);  // clear existing data or handle error appropriately
+            console.error('Unexpected response: ', json.message)
+            setInventoryItems([])  // clear existing data or handle error appropriately
         }
     }
 
     useEffect(() => {
-        fetchInventoryItems()
-    }, [page])
+        fetchInventoryItems(currentPage)
+    }, [currentPage])
 
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
         setSearchTerm(event.target.value);
-    };
+    }
 
-    /* const handleSearchClick = () => {
-        // Trigger the search operation when the button is clicked
-        if (searchTerm.trim()) {
-            fetchInventoryItems(searchTerm.trim());
-        } else {
-            // If search term is empty, you might want to fetch the initial data again or handle it differently
-            // Here we're just fetching the initial set again
-            fetchInventoryItems();
+    // Pagination button handlers
+    const goToFirstPage = () => {
+        fetchInventoryItems(1);
+    }
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) {
+            fetchInventoryItems(currentPage - 1);
         }
-    }; */
+    }
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages) {
+            fetchInventoryItems(currentPage + 1);
+        }
+    }
+
+    const goToLastPage = () => {
+        fetchInventoryItems(totalPages);
+    }
+
     const handleSearchClick = () => {
         fetchInventoryItems()
     }
@@ -119,6 +133,23 @@ const Inventory = () => {
         setBrand(newBrand)
         setMotorModel(newMotorModel)
         setStockStatus(newStockStatus)
+    }
+
+    // Function to render page buttons
+    const renderPageButtons = () => {
+        let pageButtons = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageButtons.push(
+                <Button
+                    key={i}
+                    className={`border mx-1 ${currentPage === i ? 'txt-main-dominant-red bg-white' : 'bg-main-dominant-red'}`}
+                    onClick={() => fetchInventoryItems(i)}
+                >
+                    {i}
+                </Button>
+            );
+        }
+        return pageButtons;
     }
 
     return (
@@ -163,34 +194,16 @@ const Inventory = () => {
                 */}
                 <Container className='d-flex justify-content-center mb-3'>
                     {/* Button that would make it go straight to first page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'>
-
-                    </Button>
-
+                    <Button onClick={goToFirstPage} className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
                     {/* Button that would make it go straight to prev page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'>
+                    <Button onClick={goToPreviousPage} className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
 
-                    </Button>
+                    {renderPageButtons()}
 
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 1 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 2 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is active. It would have a style of "border mx-1 txt-main-dominant-red bg-white" */}
-                    <Button className='border mx-1 txt-main-dominant-red bg-white'> 3 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 4 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 5 </Button>
                     {/* Button that would make it go straight to next page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
+                    <Button onClick={goToNextPage} className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
                     {/* Button that would make it go straight to last page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
+                    <Button onClick={goToLastPage} className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
                 </Container>
             </Row>
 
