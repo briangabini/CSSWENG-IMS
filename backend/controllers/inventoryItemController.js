@@ -178,11 +178,26 @@ const getInventory = async (req, res) => {
             sortBy[sort[0]] = "asc" // default: asc order e.g. A-Z
         }
 
-        const items = await InventoryItem.find({$or: [
-            { partName: { $regex: search, $options: "i" } },
-            { motorModel: { $regex: search || motorModel, $options: "i" } },
-            { brand: { $regex: search || brand, $options: "i" } }
-        ]})
+        //SEARCH AND FILTER
+        let query = {};
+        if (search) {
+            // If search term is present
+            query.$or = [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search, $options: "i" } },
+                { brand: { $regex: search, $options: "i" } }
+            ];
+        } else {
+            // If search is empty, then utilize filter; if conflicting between each other, then no result
+            if (motorModel) {
+                query.motorModel = { $regex: motorModel, $options: "i" };
+            }
+            if (brand) {
+                query.brand = { $regex: brand, $options: "i" };
+            }
+        }
+        const items = await InventoryItem.find(query)
+
         .where('stockStatus').in([...stockStatus])
         .where('retailPrice').gte(min).lte(max)
         .sort(sortBy)
