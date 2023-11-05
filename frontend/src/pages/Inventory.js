@@ -1,28 +1,29 @@
-import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card, Image } from 'react-bootstrap'
-import { Modal } from 'react-bootstrap'
-import VerifiedUserDetails from '../components/VerifiedUserDetails'
+import { Container, Row, Button, ButtonToolbar, InputGroup, Form } from 'react-bootstrap'
+// import { Modal } from 'react-bootstrap'
+// import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+// import { useNavigate, useLocation } from 'react-router-dom'
+import { CSVLink } from "react-csv";
 
 // config files
 import { DOMAIN } from '../config'
 
 // components 
-import InventoryItemDetails from '../components/InventoryItemDetails'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
+import PaginationButtons from '../components/PaginationButtons'
+import InventoryItemList from '../components/InventoryItemList'
 
 const Inventory = () => {
-    // variables for getting the url string
-    // const location = useLocation()
-    // const queryString = location.search
-
+    /* VARIABLES */
     // variables for the inventory items
     const [inventoryItems, setInventoryItems] = useState([])
+    const [allInventoryItems, setAllInventoryItems] = useState([])
+    const [dataFetched, setDataFetched] = useState(false)
 
     // search and filter option variables
     const [searchTerm, setSearchTerm] = useState('')
-    // const [page, setPage] = useState(0)                 // for adjusting the page later
+    // const [page, setPage] = useState(0)                  // for adjusting the page later
     const [min, setMin] = useState('')
     const [max, setMax] = useState('')
     const [motorModel, setMotorModel] = useState('')
@@ -30,16 +31,66 @@ const Inventory = () => {
     const [stockStatus, setStockStatus] = useState('')
     const [sortBy, setSortBy] = useState('partName,asc')
 
-    // for displaying info
-    const [total, setTotal] = useState('')
+    // for pagination 
+    const [total, setTotal] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
-    
-    const totalPages = Math.ceil(total / 50);
+    const totalPages = Math.ceil(total / 50);               // get the total pages
 
-    // const []
-     
-    const fetchInventoryItems = async (newPage) => { 
-        let endpoint =  DOMAIN + '/inventory' + '/?' + `page=${newPage}`;
+    /* FOR CSV PRINTING */
+    const headers = [
+        { label: 'Part Name', key: 'partName' },
+        { label: 'Brand', key: 'brand' },
+        { label: 'Motorcycle Model', key: 'motorModel' },
+        { label: 'Stock Number/Quantity', key: 'stockNumber' },
+        { label: 'Retail Price', key: 'retailPrice' },
+    ]
+
+    /* FUNCTIONS */
+    /* const fetchAllInventoryItems = async () => {
+        const response = await fetch(DOMAIN + '/inventory/print-csv')
+        const json = response.json()
+
+        if (response.ok) {
+            setAllInventoryItems(json)
+            console.log(json)
+        } 
+        
+
+    } */
+
+    const fetchAllInventoryItems = async () => {
+
+        var start = Date.now();
+
+    
+        try {
+            const response = await fetch(DOMAIN + '/inventory/print-csv');
+            if (response.ok) {
+                const data = await response.json();
+                setAllInventoryItems(data);
+
+                // console.log(data)
+                setDataFetched(true)
+                // for checking the time 
+                // setInterval(function () {
+                //     console.log(Date.now() - start);
+
+                //     // the difference will be in ms
+                // }, 1000);
+            } else {
+                console.error('Failed to fetch data from the server.');
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+        }
+    };
+
+    const fetchInventoryItems = async (page=1) => {
+        let endpoint = DOMAIN + '/inventory' + '/?'
+
+        if (page) {
+            endpoint += `page=${page}`
+        }
 
         if (searchTerm) {
             endpoint += `&search=${searchTerm}`; // using "query" as the query parameter name
@@ -69,19 +120,19 @@ const Inventory = () => {
             endpoint += `&brand=${brand}`
         }
 
-        console.log(sortBy)
-        console.log(endpoint)
+        // console.log(sortBy)
+        // console.log(endpoint)
 
         const response = await fetch(endpoint) // retrieves response from server as JSON
         const json = await response.json() // converts the json data into an array of objects
 
-        console.log(json.items)
+        // console.log(json.items)
 
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
             setInventoryItems(json.items)  // set state only if it's an array
             setTotal(json.count)
-            setCurrentPage(newPage)
+            setCurrentPage(page)
         } else {
             console.error('Unexpected response: ', json.message)
             setInventoryItems([])  // clear existing data or handle error appropriately
@@ -89,34 +140,14 @@ const Inventory = () => {
     }
 
     useEffect(() => {
-        fetchInventoryItems(currentPage)
-    }, [currentPage])
+        fetchAllInventoryItems()
+        fetchInventoryItems()
+    }, [])
 
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
         setSearchTerm(event.target.value);
-    }
-
-    // Pagination button handlers
-    const goToFirstPage = () => {
-        fetchInventoryItems(1);
-    }
-
-    const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            fetchInventoryItems(currentPage - 1);
-        }
-    }
-
-    const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            fetchInventoryItems(currentPage + 1);
-        }
-    }
-
-    const goToLastPage = () => {
-        fetchInventoryItems(totalPages);
     }
 
     const handleSearchClick = () => {
@@ -135,23 +166,6 @@ const Inventory = () => {
         setStockStatus(newStockStatus)
     }
 
-    // Function to render page buttons
-    const renderPageButtons = () => {
-        let pageButtons = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pageButtons.push(
-                <Button
-                    key={i}
-                    className={`border mx-1 ${currentPage === i ? 'txt-main-dominant-red bg-white' : 'bg-main-dominant-red'}`}
-                    onClick={() => fetchInventoryItems(i)}
-                >
-                    {i}
-                </Button>
-            );
-        }
-        return pageButtons;
-    }
-
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -160,22 +174,30 @@ const Inventory = () => {
             <Row>
                 <ButtonToolbar className='nopadding'>
                     {/* Button to download the csv file of the inventory */}
-                    <Button variant="light" size='sm' className='rounded-4 px-3 my-2 ms-auto me-2 shadow'>
-                        Download as .csv file
-                        <img className='ms-2 mb-1' src='icon_datatransferdownload_.png'></img>
+                    {/* Disable the download button while data is not fetched */}
+                    <Button
+                        variant="light"
+                        size='sm'
+                        className='rounded-4 px-3 my-2 ms-auto me-2 shadow'
+                        disabled={!dataFetched}
+                    >
+                        <CSVLink data={allInventoryItems} headers={headers} filename="inventory.csv">
+                            Download as .csv file
+                            <img className='ms-2 mb-1' src='icon_datatransferdownload_.png' alt="Download" />
+                        </CSVLink>
                     </Button>
 
-                    
+
                     {/* Component for filtering items */}
-                    <Filter min={min} max={max} brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate}/>
+                    <Filter min={min} max={max} brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate} />
                     {/* Component for sorting items */}
-                    <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate}/>
+                    <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate} />
                 </ButtonToolbar>
             </Row>
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange}/>
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange} />
                     <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
@@ -183,7 +205,12 @@ const Inventory = () => {
             </Row>
             <Row>
                 {/* Number of results */}
-                <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>{inventoryItems.length} of {total} results</Container>
+                {/* <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>{((currentPage - 1) * 50) + 1}-{} of {total} results</Container> */}
+                <Container className='txt-gray-text fs-6 mb-2 d-flex justify-content-center'>
+                    {total === 0
+                        ? '0 results'
+                        : `${((currentPage - 1) * 50) + 1} - ${Math.min(currentPage * 50, total)} of ${total} results`}
+                </Container>
             </Row>
             <Row>
 
@@ -193,73 +220,31 @@ const Inventory = () => {
                     STYLING OF ACTIVE PAGE: border mx-1 txt-main-dominant-red bg-white
                 */}
                 <Container className='d-flex justify-content-center mb-3'>
-                    {/* Button that would make it go straight to first page */}
-                    <Button onClick={goToFirstPage} className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
-                    {/* Button that would make it go straight to prev page */}
-                    <Button onClick={goToPreviousPage} className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
-
-                    {renderPageButtons()}
-
-                    {/* Button that would make it go straight to next page */}
-                    <Button onClick={goToNextPage} className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
-                    {/* Button that would make it go straight to last page */}
-                    <Button onClick={goToLastPage} className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
+                    <PaginationButtons totalPages={totalPages} currentPage={currentPage} fetchInventoryItems={fetchInventoryItems}></PaginationButtons>
                 </Container>
             </Row>
 
             <Row>
-                <Card className='rounded-4 shadow'>
-                    {/* Headings of the inventory items */}
-                    <Row className='w-100 nopadding my-2'>
-                        <Col className='txt-gray-text col-3 fs-6 nopadding'>Part Name</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Brand</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Motor model</Col>
-                        <Col className='txt-gray-text col-1 fs-6 nopadding'>Stock No.</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Retail Price</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Date Added</Col>
-                    </Row>
-                    {/* Loop for Individual Inventory Items */}
-                    {inventoryItems && inventoryItems.map((inventoryItem) => (
-                        // Component for Inventory Items
-                       <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
-                    ))} 
-                </Card>
+                {/* INVENTORY ITEM LIST */}
+                <InventoryItemList inventoryItems={inventoryItems} />
             </Row>
-            <Row>
-                {/* Pagination */}
-                {/* 
-                    STYLING OF A PAGE BUTTON/ INACTIVE PAGE: border mx-1 bg-main-dominant-red
-                    STYLING OF ACTIVE PAGE: border mx-1 txt-main-dominant-red bg-white
-                */}
-                <Container className='d-flex justify-content-center mt-3'>
-                    {/* Button that would make it go straight to first page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page first bg-main-dominant-red'></Button>
-                    {/* Button that would make it go straight to prev page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page left bg-main-dominant-red'></Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 1 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 2 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is active. It would have a style of "border mx-1 txt-main-dominant-red bg-white" */}
-                    <Button className='border mx-1 txt-main-dominant-red bg-white'> 3 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 4 </Button>
-                    {/* Button that would make it go certain page */}
-                    {/* This page is inactive. It would have a style of "border mx-1 bg-main-dominant-red" */}
-                    <Button className='border mx-1 bg-main-dominant-red'> 5 </Button>
-                    {/* Button that would make it go straight to next page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page right bg-main-dominant-red'></Button>
-                    {/* Button that would make it go straight to last page */}
-                    <Button className='border rounded-2 p-3 mx-1 button-page last bg-main-dominant-red'></Button>
-                </Container>
-            </Row>
+
+            {/* Pagination */}
+            {/* 
+                STYLING OF A PAGE BUTTON/ INACTIVE PAGE: border mx-1 bg-main-dominant-red
+                STYLING OF ACTIVE PAGE: border mx-1 txt-main-dominant-red bg-white
+            */}
+            <Container className='d-flex justify-content-center mt-3'>
+                <PaginationButtons totalPages={totalPages} currentPage={currentPage} fetchInventoryItems={fetchInventoryItems}></PaginationButtons>
+            </Container>
+
             <Row>
                 {/* Number of results */}
-                <Container className='txt-gray-text fs-6 mt-2 d-flex justify-content-center'>{inventoryItems.length} of {total} results</Container>
+                <Container className='txt-gray-text fs-6 mt-2 d-flex justify-content-center'>
+                    {total === 0
+                        ? ''
+                        : `${((currentPage - 1) * 50) + 1} - ${Math.min(currentPage * 50, total)} of ${total} results`}
+                </Container>
             </Row>
         </Container>
     )

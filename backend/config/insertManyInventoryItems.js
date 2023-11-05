@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const db = mongoose.connection;
 
 // Define the number of inventory items you want to create
-const iterations = 200; // Change this value as needed
+const iterations = 1000000; // Change this value as needed
 
 // Define the max limit of stock number per inventory item
 const maxStockNumber = 500 // Change this value as needed
@@ -43,7 +43,7 @@ db.once('open', async () => {
         if (newItem.stockNumber == 0) {
             newItem['stockStatus'] = 'Out of Stock'
         } else if (newItem.stockNumber <= 5) {
-            newItem['stockStatus'] = 'Danger Zone' 
+            newItem['stockStatus'] = 'Danger Zone'
         } else {
             newItem['stockStatus'] = 'In Stock'
         }

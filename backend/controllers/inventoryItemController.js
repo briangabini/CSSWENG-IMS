@@ -15,6 +15,13 @@ const getInventoryItems = async (req, res) => {
     res.status(200).json(inventoryItems) // sends JSON response to the client
 }
 
+const getInventoryItemsForPrint = async (req, res) => {
+    const inventoryItems = await InventoryItem.find({}).select('partName brand motorModel stockNumber retailPrice'); // returns javascript object
+    // if we want to sort const inventoryItems = await InventoryItem.find({}).sort({createdAt: })
+
+    res.status(200).json(inventoryItems) // sends JSON response to the client
+}
+
 // get a single inventory item using part name
 const getInventoryItem = async (req, res) => {
     const { partName } = req.params
@@ -248,5 +255,6 @@ module.exports = {
     updateInventoryItemById,
     // searchInventoryItemByPartname,
     getInventory,
-    getInventoryItemById
+    getInventoryItemById,
+    getInventoryItemsForPrint
 }
