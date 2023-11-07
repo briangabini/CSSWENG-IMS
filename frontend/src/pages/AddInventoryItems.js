@@ -64,15 +64,42 @@ const AddInventoryItems = () => {
         }
     }
 
-    const handlePartNameInput = (e) => {
+    const handlePartNameInput = async (e) => {
         const value = e.target.value
         let errorString = ""
 
+        // check if the partName value already exist in the database
+        try {
+            const response = await fetch (DOMAIN + '/inventory/checkPartName', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({partName: value}) // when sending values with POST use stringify
+            })
+
+            if (response.ok) {
+                // Parse the response data
+                const data = await response.json() // revert json to object
+
+                if (data.isDuplicate) {
+                    errorString += "The part name already exists."
+                }
+            }
+
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+        }
+        
+        // check if the input field is empty
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
         } else {
             errorString = ""
         }
+
+
+        /* NEXT TIME A POP UP SHOULD DISPLAY WHETHER TO OVERWRITE THE INVENTORY ITEM IN THE DATABASE WITH THE INPUT OR DISCARD THE NEW ITEM */
 
         setPartNameError(errorString)
         setPartName(value)
