@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { DOMAIN } from '../config'
 import validator from 'validator'
 import { useNavigate } from 'react-router-dom'
+import _ from 'lodash'
 
 const EditItem = () => {
 
@@ -126,20 +127,53 @@ const EditItem = () => {
             alert('Item successfully edited!')
         }
     }
+    const debouncedHandlePartNameQuery = _.debounce(async (value, callback) => {
+        try {
+            const response = await fetch(DOMAIN + '/inventory/checkPartName', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ partName: value }) // when sending values with POST use stringify
+            });
 
-    const handlePartNameInput = (e) => {
-        const value = e.target.value
-        let errorString = ""
+            if (response.ok) {
+                // Parse the response data
+                const data = await response.json(); // revert json to object
 
+                if (data.isDuplicate) {
+                    console.log('ITS DUPE');
+                    callback("The part name already exists.");
+                } else {
+                    callback(null);
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+            callback("An error occurred while checking the part name.");
+        }
+    }, 200);
+
+    const handlePartNameInput = async (e) => {
+        const value = e.target.value;
+        let errorString = "";
+
+        // check if the input field is empty
         if (validator.isEmpty(value)) {
-            errorString += "Must be filled."
+            errorString += "Must be filled.";
+            setPartNameError(errorString);
         } else {
-            errorString = ""
+            // Call the debounced function and wait for it to finish before setting the state
+            debouncedHandlePartNameQuery(value, (duplicateError) => {
+                if (duplicateError) {
+                    setPartNameError(duplicateError);
+                } else {
+                    setPartNameError("");
+                }
+            });
         }
 
-        setPartNameError(errorString)
-        setPartName(value)
-
+        setPartName(value);
     }
 
     const handleBrandInput = (e) => {
@@ -229,6 +263,7 @@ const EditItem = () => {
                             <Form.Control
                                 type="text"
                                 onChange={handlePartNameInput}
+                                onClick={handlePartNameInput}
                                 value={partName}
                                 required
                             />
