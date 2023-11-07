@@ -7,7 +7,8 @@ const {
     updateInventoryItemById,
     searchInventoryItemByPartname,
     getInventory,
-    getInventoryItemById
+    getInventoryItemById,
+    getInventoryItemsForPrint
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
@@ -21,6 +22,9 @@ router.get('/', getInventory)
 
 // GET all inventory items
 router.get('/all-items', getInventoryItems)
+
+// GET all inventory items based on the csv format
+router.get('/print-csv', getInventoryItemsForPrint)
 
 // // GET a single item
 // router.get('/:partName', getInventoryItem)   

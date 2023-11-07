@@ -1,9 +1,13 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
-import {useState} from 'react'
+import { useState } from 'react'
+import validator from 'validator'
+// const validator = require('validator')
+
 import { DOMAIN } from '../config'
 
 const AddInventoryItems = () => {
 
+    /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
     const [brand, setBrand] = useState('')
     const [motorModel, setMotorModel] = useState('')
@@ -11,6 +15,13 @@ const AddInventoryItems = () => {
     const [retailPrice, setRetailPrice] = useState('')
     const [error, setError] = useState('')
 
+    /* STATE VARIABLES FOR ERROR HANDLING */
+    const [partNameError, setPartNameError] = useState('')
+    const [brandError, setBrandError] = useState('')
+    const [stockNumberError, setStockNumberError] = useState('')
+    const [retailPriceError, setRetailPriceError] = useState('')
+
+    /* EVENT LISTENER FUNCTIONS */
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -20,8 +31,14 @@ const AddInventoryItems = () => {
         console.log(stockNumber)
         console.log(retailPrice)
 
+        let inventoryItem = {}
 
-        const inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
+        if (validator.isEmpty(motorModel)) {
+            inventoryItem = { partName, brand, stockNumber, retailPrice }
+        } else {
+
+            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
+        }
 
         const response = await fetch(DOMAIN + '/inventory/add-item', {
             method: 'POST',
@@ -30,18 +47,6 @@ const AddInventoryItems = () => {
                 'Content-Type': 'application/json'
             }
         })
-
-        /* 
-         const response = await fetch('/api/workouts', {
-         method: 'POST',
-          body: JSON.stringify(workout),
-         headers: {
-           'Content-Type': 'application/json'
-      }
-    })
-    
-      const json = await response.json()
-        */
 
         const json = await response.json()
 
@@ -58,8 +63,95 @@ const AddInventoryItems = () => {
             console.log('new inventory added:', json) // print to console
         }
     }
-    
-    const handleError = () =>{}
+
+    const handlePartNameInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        } else {
+            errorString = ""
+        }
+
+        setPartNameError(errorString)
+        setPartName(value)
+
+    }
+
+    const handleBrandInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        } else {
+            errorString = ""
+        }
+
+        setBrandError(errorString)
+        setBrand(value)
+
+    }
+
+    const handleStockNumberInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        }
+
+        if (!validator.isInt(value)) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a whole number."
+        }
+
+        if (value < 0) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a positive number."
+        }
+
+        if (value > 9999999) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must not exceed 9999999."
+        }
+
+        setStockNumberError(errorString)
+        setStockNumber(value)
+    }
+
+    const handleRetailPriceInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+        }
+
+        if (!validator.isCurrency(value, { allow_negatives: false })) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must be a positive whole number or 2 decimal places."
+        }
+
+        if (value > 9999999) {
+            if (!validator.isEmpty(errorString))
+                errorString += " "
+
+            errorString += "Must not exceed 9999999."
+        }
+
+        setRetailPriceError(errorString)
+        setRetailPrice(value)
+    }
 
     return (
         <Container className='main'>
@@ -71,77 +163,89 @@ const AddInventoryItems = () => {
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
                         <FloatingLabel className="mt-2" controlId="floatingInput" label="Item Name" >
-                            <Form.Control 
-                                type="text" 
-                                placeholder="" 
-                                onChange={(e) => setPartName(e.target.value)}
+                            <Form.Control
+                                type="text"
+                                placeholder=""
+                                // onChange={(e) => setPartName(e.target.value)}
+                                onChange={handlePartNameInput}
+                                onClick={handlePartNameInput}
                                 value={partName}
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
+                            <div className="error-partName">
+                                {/* insert error for part name */}
+                                {partNameError}
+                            </div>
                         </div>
 
                         {/* brand input */}
                         <FloatingLabel className="mt-2" controlId="floatingSelect" label="Item Brand">
-                            <Form.Control 
-                                type="text" 
-                                placeholder="" 
-                                onChange={(e) => setBrand(e.target.value)}
+                            <Form.Control
+                                type="text"
+                                placeholder=""
+                                onChange={handleBrandInput}
+                                onClick={handleBrandInput}
                                 value={brand}
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
+                            <div className="error-brand">
+                                {brandError}
+                            </div>
+
                         </div>
 
                         {/* motorModel input */}
                         <FloatingLabel className="mt-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
-                            <Form.Control 
-                                type="text" 
-                                placeholder="" 
+                            <Form.Control
+                                type="text"
+                                placeholder=""
                                 onChange={(e) => setMotorModel(e.target.value)}
                                 value={motorModel}
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+
                         </div>
 
                         {/* stockNumber input */}
                         <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Stock Number">
-                            <Form.Control 
-                                type="number" 
-                                placeholder="" 
-                                onChange={(e) => setStockNumber(e.target.value)}
+                            <Form.Control
+                                type="number"
+                                placeholder=""
+                                onChange={handleStockNumberInput}
+                                onClick={handleStockNumberInput}
                                 value={stockNumber}
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                            <div className="error-stockNumber">
+                                {stockNumberError}
+                            </div>
                         </div>
 
                         {/* retail price */}
                         <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
-                            <Form.Control 
-                                type="text" 
-                                placeholder="" 
-                                onChange={(e) => setRetailPrice(e.target.value)}
+                            <Form.Control
+                                type="number"
+                                placeholder=""
+                                onChange={handleRetailPriceInput}
+                                onClick={handleRetailPriceInput}
                                 value={retailPrice}
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
-                            Error: Invalid input!
+                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                            <div className="error-motorModel">
+                                {retailPriceError}
+                            </div>
                         </div>
 
                         {/* button to add item */}
@@ -151,7 +255,7 @@ const AddInventoryItems = () => {
                             </Button>
                         </Container>
                     </Form>
-                    
+
                 </Card>
             </Row>
         </Container>

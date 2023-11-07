@@ -15,6 +15,13 @@ const getInventoryItems = async (req, res) => {
     res.status(200).json(inventoryItems) // sends JSON response to the client
 }
 
+const getInventoryItemsForPrint = async (req, res) => {
+    const inventoryItems = await InventoryItem.find({}).select('partName brand motorModel stockNumber retailPrice'); // returns javascript object
+    // if we want to sort const inventoryItems = await InventoryItem.find({}).sort({createdAt: })
+
+    res.status(200).json(inventoryItems) // sends JSON response to the client
+}
+
 // get a single inventory item using part name
 const getInventoryItem = async (req, res) => {
     const { partName } = req.params
@@ -144,7 +151,8 @@ const getInventory = async (req, res) => {
 
     try {
         const page = parseInt(req.query.page) - 1 || 0      // default: first page 
-        const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        // const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        const limit = 50
         const search = req.query.search || ""               // default: no search query
         const motorModel = req.query.motorModel || ""       // default: all items regardless of motor Model
         const brand = req.query.brand || ""                 // default: all items regardless of brand
@@ -177,16 +185,31 @@ const getInventory = async (req, res) => {
             sortBy[sort[0]] = "asc" // default: asc order e.g. A-Z
         }
 
-        const items = await InventoryItem.find({$or: [
-            { partName: { $regex: search, $options: "i" } },
-            { motorModel: { $regex: search || motorModel, $options: "i" } },
-            { brand: { $regex: search || brand, $options: "i" } }
-        ]})
-            .where('stockStatus').in([...stockStatus])
-            .where('retailPrice').gte(min).lte(max)
-            .sort(sortBy)
-            .skip(page * limit)
-            .limit(limit)
+        //SEARCH AND FILTER
+        let query = {};
+        if (search) {
+            // If search term is present
+            query.$or = [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search, $options: "i" } },
+                { brand: { $regex: search, $options: "i" } }
+            ];
+        } else {
+            // If search is empty, then utilize filter; if conflicting between each other, then no result
+            if (motorModel) {
+                query.motorModel = { $regex: motorModel, $options: "i" };
+            }
+            if (brand) {
+                query.brand = { $regex: brand, $options: "i" };
+            }
+        }
+        const items = await InventoryItem.find(query)
+
+        .where('stockStatus').in([...stockStatus])
+        .where('retailPrice').gte(min).lte(max)
+        .sort(sortBy)
+        .skip(page * limit)
+        .limit(limit)
 
         const total = await InventoryItem.countDocuments({
             stockStatus: {$in: [...stockStatus]},
@@ -195,9 +218,20 @@ const getInventory = async (req, res) => {
             brand: {$regex: search, $options: "i"}
         })
 
+        const count = await InventoryItem.countDocuments({
+            $or: [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search || motorModel, $options: "i" } },
+                { brand: { $regex: search || brand, $options: "i" } }
+            ]
+        })
+            .where('stockStatus').in([...stockStatus])
+            .where('retailPrice').gte(min).lte(max);
+
         const response = {
             error: false,
             total,
+            count, 
             page: page + 1,
             limit, 
             stockStatus: stockStatusOptions,
@@ -221,5 +255,6 @@ module.exports = {
     updateInventoryItemById,
     // searchInventoryItemByPartname,
     getInventory,
-    getInventoryItemById
+    getInventoryItemById,
+    getInventoryItemsForPrint
 }
