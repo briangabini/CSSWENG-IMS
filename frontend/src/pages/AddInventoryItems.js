@@ -1,7 +1,9 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
 import { useState } from 'react'
 import validator from 'validator'
+import _ from 'lodash'
 // const validator = require('validator')
+
 
 import { DOMAIN } from '../config'
 
@@ -20,6 +22,7 @@ const AddInventoryItems = () => {
     const [brandError, setBrandError] = useState('')
     const [stockNumberError, setStockNumberError] = useState('')
     const [retailPriceError, setRetailPriceError] = useState('')
+    let isThrottled = false
 
     /* EVENT LISTENER FUNCTIONS */
     const handleSubmit = async (e) => {
@@ -64,18 +67,15 @@ const AddInventoryItems = () => {
         }
     }
 
-    const handlePartNameInput = async (e) => {
-        const value = e.target.value
-        let errorString = ""
-
+    /* const handlePartNameQuery = async (value, errorString) => {
         // check if the partName value already exist in the database
         try {
-            const response = await fetch (DOMAIN + '/inventory/checkPartName', {
+            const response = await fetch(DOMAIN + '/inventory/checkPartName', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({partName: value}) // when sending values with POST use stringify
+                body: JSON.stringify({ partName: value }) // when sending values with POST use stringify
             })
 
             if (response.ok) {
@@ -84,27 +84,42 @@ const AddInventoryItems = () => {
 
                 if (data.isDuplicate) {
                     errorString += "The part name already exists."
+                    console.log('ITS DUPE')
+                    console.log(errorString)
                 }
             }
 
         } catch (error) {
             console.error('An error occurred while fetching data:', error);
         }
-        
-        // check if the input field is empty
-        if (validator.isEmpty(value)) {
-            errorString += "Must be filled."
-        } else {
-            errorString = ""
+    } */
+
+    const debouncedHandlePartNameQuery = _.debounce(async (value, callback) => {
+        try {
+            const response = await fetch(DOMAIN + '/inventory/checkPartName', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ partName: value }) // when sending values with POST use stringify
+            });
+
+            if (response.ok) {
+                // Parse the response data
+                const data = await response.json(); // revert json to object
+
+                if (data.isDuplicate) {
+                    console.log('ITS DUPE');
+                    callback("The part name already exists.");
+                } else {
+                    callback(null);
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+            callback("An error occurred while checking the part name.");
         }
-
-
-        /* NEXT TIME A POP UP SHOULD DISPLAY WHETHER TO OVERWRITE THE INVENTORY ITEM IN THE DATABASE WITH THE INPUT OR DISCARD THE NEW ITEM */
-
-        setPartNameError(errorString)
-        setPartName(value)
-
-    }
+    }, 200);
 
     const handleBrandInput = (e) => {
         const value = e.target.value
@@ -118,7 +133,28 @@ const AddInventoryItems = () => {
 
         setBrandError(errorString)
         setBrand(value)
+    }
 
+    const handlePartNameInput = async (e) => {
+        const value = e.target.value;
+        let errorString = "";
+
+        // check if the input field is empty
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled.";
+            setPartNameError(errorString);
+        } else {
+            // Call the debounced function and wait for it to finish before setting the state
+            debouncedHandlePartNameQuery(value, (duplicateError) => {
+                if (duplicateError) {
+                    setPartNameError(duplicateError);
+                } else {
+                    setPartNameError("");
+                }
+            });
+        }
+
+        setPartName(value);
     }
 
     const handleStockNumberInput = (e) => {
@@ -191,12 +227,11 @@ const AddInventoryItems = () => {
                         {/* part name input */}
                         <FloatingLabel className="mt-2" controlId="floatingInput" label="Item Name" >
                             <Form.Control
-                                type="text"
-                                placeholder=""
-                                // onChange={(e) => setPartName(e.target.value)}
-                                onChange={handlePartNameInput}
-                                onClick={handlePartNameInput}
-                                value={partName}
+                                    type="text"
+                                    placeholder=""
+                                    onChange={handlePartNameInput}
+                                    onClick={handlePartNameInput}
+                                    value={partName}
                             />
                         </FloatingLabel>
                         {/* Error */}
