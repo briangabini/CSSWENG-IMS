@@ -71,7 +71,7 @@ const Inventory = () => {
 
                 // console.log(data)
                 setDataFetched(true)
-                // for checking the time 
+                // for checking the time 5 
                 // setInterval(function () {
                 //     console.log(Date.now() - start);
 

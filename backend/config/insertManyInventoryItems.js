@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const db = mongoose.connection;
 
 // Define the number of inventory items you want to create
-const iterations = 1000000; // Change this value as needed
+const iterations = 20000; // Change this value as needed
 
 // Define the max limit of stock number per inventory item
 const maxStockNumber = 500 // Change this value as needed
