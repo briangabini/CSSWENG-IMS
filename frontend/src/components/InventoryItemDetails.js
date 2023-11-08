@@ -1,4 +1,4 @@
-import { Col, Row, Modal, Button } from "react-bootstrap"
+import { Container, Col, Row, Modal, Button } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
@@ -22,6 +22,18 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
     // function that shows the component
     const handleShow = () => setShow(true);
 
+    const StockMessage = ({inventoryItem, _id}) => {
+        if(inventoryItem.stockNumber > 5){
+            return 
+        }
+        else if(inventoryItem.stockNumber <= 5){
+            return 
+        }
+        else if(inventoryItem.stockNumber === 0){
+            return 
+        }
+    }
+
     return (
         <>
             {/* The details of an inventory item */}
@@ -40,11 +52,49 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
             {/* Shows more details of the inventory item */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Item Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Button onClick={navigateEditItem}>Edit Item</Button>
-                    <ItemDeletionConfirmation _id={_id} />
+                
+                    <h3>{inventoryItem.partName}</h3>
+                    <Row className='py-1'>
+                        <Button onClick={navigateEditItem}>Edit</Button>
+                        <ItemDeletionConfirmation _id={_id}/>
+                    </Row>
+
+                    <Container className="bg-success rounded py-3 my-3">
+                        <h4 className="text-center">Current Stocks</h4>
+                        <h1 className="text-center">{inventoryItem.stockNumber}</h1>
+                        <p className="text-center">Sufficient amount of stocks remaining</p>
+                    </Container>
+                    
+                    <Row className="pt-2">
+                        <h5>Basic Information</h5>
+                        <Col className="col-sm">
+                            <p>BRAND</p>
+                        </Col>
+                        <Col className="col-sm">
+                            <p>{inventoryItem.brand}</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="col-sm">
+                            <p>MOTORCYCLE MODEL</p>
+                        </Col>
+                        <Col className="col-sm">
+                            <p>{inventoryItem.motorModel}</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="col-sm">
+                            <p>RETAIL PRICE</p>
+                        </Col>
+                        <Col className="col-sm">
+                            <p>{inventoryItem.retailPrice}</p>
+                        </Col>
+                    </Row>
+
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
