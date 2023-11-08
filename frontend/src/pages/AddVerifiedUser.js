@@ -1,7 +1,9 @@
 import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DOMAIN } from '../config'
 import validator from 'validator'
+
+import _ from 'lodash'
 
 const AddVerifiedUser = () => {
     // email, password, employeename, role
@@ -19,6 +21,12 @@ const AddVerifiedUser = () => {
     const [employeeNameError, setEmployeeNameError] = useState('')
     const [roleError, setRoleError] = useState('')
 
+    // for enabling the submit button when there's no error
+    const [isValidEmail, setValidEmail] = useState(false)
+    const [isValidPassword, setValidPassword] = useState(false)
+    const [isValidEmployeeName, setValidEmployeeName] = useState(false)
+    const [isValidRole, setValidRole] = useState(false)
+    const [isButtonEnabled, setButtonEnabled] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -30,7 +38,7 @@ const AddVerifiedUser = () => {
 
 
         const user = { email, password, employeeName, role }
-        
+
         const response = await fetch(DOMAIN + '/users/add-user', {
             method: 'POST',
             body: JSON.stringify(user), // convert to json
@@ -38,18 +46,6 @@ const AddVerifiedUser = () => {
                 'Content-Type': 'application/json'
             }
         })
-
-        /* 
-         const response = await fetch('/api/workouts', {
-         method: 'POST',
-          body: JSON.stringify(workout),
-         headers: {
-           'Content-Type': 'application/json'
-      }
-    })
-    
-      const json = await response.json()
-        */
 
         const json = await response.json()
 
@@ -66,16 +62,68 @@ const AddVerifiedUser = () => {
         }
     }
 
+    // enable button when there are no more errors or vice versa
+    useEffect(() => {
+        if (isValidEmail && isValidPassword && isValidEmployeeName && isValidRole) {
+            setButtonEnabled(true)
+        } else {
+            setButtonEnabled(false)
+        }
+    }, [isValidEmail, isValidPassword, isValidEmployeeName, isValidRole])
+
+    const debouncedHandleEmailQuery = _.debounce(async (value, callback) => {
+        try {
+            const response = await fetch(DOMAIN + '/users/checkEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: value }) // when sending values with POST use stringify
+            });
+
+            if (response.ok) {
+                // Parse the response data
+                const data = await response.json(); // revert json to object
+
+                if (data.isDuplicate) {
+                    callback("The email already exists.");
+                } else {
+                    callback(null);
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching data:', error);
+            callback("An error occurred while checking the email.");
+        }
+    }, 200);
+
     const handleEmailInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = false
 
         if (validator.isEmpty(value)) {
-            errorString += "Must be filled."
+            errorString += "Must be filled.\n"
+        } else if (validator.isEmail(value)) {
+            errorString += ""
+            isValid = true
+
+            // Call the debounced function and wait for it to finish before setting the state
+            debouncedHandleEmailQuery(value, (duplicateError) => {
+                if (duplicateError) {
+                    setEmailError(duplicateError)
+                    setValidEmail(isValid)
+                } else {
+                    isValid = true
+                    setValidEmail(isValid)
+                    setEmailError("")
+                }
+            });
         } else {
-            errorString = ""
+            errorString += "Must be a valid email.\n"
         }
 
+        // setValidEmail(isValid)
         setEmailError(errorString)
         setEmail(value)
     }
@@ -83,13 +131,16 @@ const AddVerifiedUser = () => {
     const handlePasswordInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = false
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
         } else {
             errorString = ""
+            isValid = true
         }
 
+        setValidPassword(isValid)
         setPasswordError(errorString)
         setPassword(value)
     }
@@ -97,13 +148,16 @@ const AddVerifiedUser = () => {
     const handleEmployeeNameInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = false
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
         } else {
             errorString = ""
+            isValid = true
         }
 
+        setValidEmployeeName(isValid)
         setEmployeeNameError(errorString)
         setEmployeeName(value)
     }
@@ -111,13 +165,16 @@ const AddVerifiedUser = () => {
     const handleRoleInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = false
 
         if (validator.isEmpty(value)) {
-            errorString += "Must be filled."
+            errorString += "No role selected."
         } else {
             errorString = ""
+            isValid = true
         }
 
+        setValidRole(isValid)
         setRoleError(errorString)
         setRole(value)
     }
@@ -136,6 +193,7 @@ const AddVerifiedUser = () => {
                                 type="email"
                                 placeholder="name@example.com"
                                 onChange={handleEmailInput}
+                                onClick={handleEmailInput}
                                 value={email}
                             />
                         </FloatingLabel>
@@ -150,6 +208,7 @@ const AddVerifiedUser = () => {
                                 type="text"
                                 placeholder="User Full Name"
                                 onChange={handleEmployeeNameInput}
+                                onClick={handleEmployeeNameInput}
                                 value={employeeName}
                             />
                         </FloatingLabel>
@@ -164,6 +223,7 @@ const AddVerifiedUser = () => {
                                 type="text"
                                 placeholder="User Given Password"
                                 onChange={handlePasswordInput}
+                                onClick={handlePasswordInput}
                                 value={password}
                             />
                         </FloatingLabel>
@@ -179,7 +239,7 @@ const AddVerifiedUser = () => {
                                 onClick={handleRoleInput}
                                 value={role}
                             >
-                                <option></option>
+                                <option disabled selected value=""> -- select an option -- </option>
                                 <option value="Partsman">Partsman</option>
                                 <option value="Secretary">Secretary</option>
                                 <option value="Admin">Admin</option>
@@ -196,12 +256,16 @@ const AddVerifiedUser = () => {
                             <Form.Control type="password" placeholder="Password" />
                         </FloatingLabel>
                         {/* Error */}
+                        {/* TODO: implement next time */}
                         <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
                         </div>
 
                         {/* Add to Team Button */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
-                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit">
+                            <Button
+                                className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit"
+                                disabled={!isButtonEnabled}
+                            >
                                 Add to Team
                             </Button>
                         </Container>
