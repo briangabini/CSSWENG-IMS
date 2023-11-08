@@ -44,11 +44,11 @@ const EditItem = () => {
         console.log('Stock Number: ', isValidStockNumber)
         console.log('Retail Price: ', isValidRetailPrice)
 
-        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
-            setButtonEnabled(true)
-        } else {
-            setButtonEnabled(false)
-        }
+        // if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
+        //     setButtonEnabled(true)
+        // } else {
+        //     setButtonEnabled(false)
+        // }
     }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice])
 
     const fetchInventoryItem = async () => {
@@ -140,18 +140,22 @@ const EditItem = () => {
     const handlePartNameInput = async (e) => {
         const value = e.target.value;
         let errorString = "";
+        let isValid = false
 
         // check if the input field is empty
         if (validator.isEmpty(value)) {
             errorString += "Must be filled.";
-            setPartNameError(errorString);
         } else {
             // Call the debounced function and wait for it to finish before setting the state
             debouncedHandlePartNameQuery(value, (duplicateError) => {
                 if (duplicateError) {
                     setPartNameError(duplicateError);
+                    setValidPartName(isValid)
                 } else {
+                    isValid = true
                     setPartNameError("");
+                    setButtonEnabled(true)
+                    setValidPartName(isValid)
                 }
             });
         }
@@ -160,32 +164,37 @@ const EditItem = () => {
         setPartName(value);
     }
 
-    const handleBrandInput = (e) => {
+    const handleBrandInput = async (e) => {
         const value = e.target.value
         let errorString = ""
-        let isValid = false
+        let isValid = true
+        setButtonEnabled(true)
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
+            isValid = false
+            setButtonEnabled(false)
         } else {
             errorString = ""
             isValid = true
+            setButtonEnabled(true)
         }
 
         setValidBrand(isValid)
         setBrandError(errorString)
         setBrand(value)
-
     }
 
-    const handleStockNumberInput = (e) => {
+    const handleStockNumberInput = async (e) => {
         const value = e.target.value
         let errorString = ""
         let isValid = true
+        setButtonEnabled(true)
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
             isValid = false
+            setButtonEnabled(false)
         }
 
         if (!validator.isInt(value)) {
@@ -193,6 +202,7 @@ const EditItem = () => {
                 errorString += " "
                 errorString += "Must be a whole number."
                 isValid = false
+                setButtonEnabled(false)
         }
 
         if (value < 0) {
@@ -201,6 +211,7 @@ const EditItem = () => {
 
                 errorString += "Must be a positive number."
                 isValid = false
+                setButtonEnabled(false)
         }
 
         if (value > 9999999) {
@@ -209,6 +220,7 @@ const EditItem = () => {
 
             errorString += "Must not exceed 9999999."
             isValid = false
+            setButtonEnabled(false)
         }
 
         setValidStockNumber(isValid)
@@ -216,14 +228,16 @@ const EditItem = () => {
         setStockNumber(value)
     }
 
-    const handleRetailPriceInput = (e) => {
+    const handleRetailPriceInput = async (e) => {
         const value = e.target.value
         let errorString = ""
         let isValid = true
+        setButtonEnabled(true)
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
             isValid = false
+            setButtonEnabled(false)
         }
 
         if (!validator.isCurrency(value, { allow_negatives: false })) {
@@ -232,6 +246,7 @@ const EditItem = () => {
 
                 errorString += "Must be a positive whole number or 2 decimal places."
                 isValid = false
+                setButtonEnabled(false)
         }
 
         if (value > 9999999) {
@@ -240,6 +255,7 @@ const EditItem = () => {
 
                 errorString += "Must not exceed 9999999."
                 isValid = false
+                setButtonEnabled(false)
         }
 
         setValidRetailPrice(isValid)
