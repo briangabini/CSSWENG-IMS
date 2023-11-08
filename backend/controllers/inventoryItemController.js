@@ -247,15 +247,16 @@ const getInventory = async (req, res) => {
 
 }
 
-const checkPartName = async (req, res) => {
+const checkPartNameBrand = async (req, res) => {
     try {
-        const { partName } = req.body // the client sends the part name through POST request
+        const { partName, brand } = req.body; // the client sends the part name through POST request
 
         // Use mongoose to check if the partName value already exists in the database
-        const existingPartName = await InventoryItem.findOne({ partName })
+        const existingItem = await InventoryItem.findOne({ partName, brand });
 
-        if (existingPartName) {
+        if (existingItem) {
             // If partName is found then there's a duplicate in the database
+            console.log("ERROR OCCURRED YES YES")
             return res.status(200).json({isDuplicate: true})
         } else {
             // If no matching partName is found then there's no duplicate in the database
@@ -278,5 +279,5 @@ module.exports = {
     getInventory,
     getInventoryItemById,
     getInventoryItemsForPrint,
-    checkPartName
+    checkPartNameBrand
 }
