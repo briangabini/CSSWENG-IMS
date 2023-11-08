@@ -27,38 +27,29 @@ const EditItem = () => {
     const [brandError, setBrandError] = useState('')
     const [stockNumberError, setStockNumberError] = useState('')
     const [retailPriceError, setRetailPriceError] = useState('')
-    const [hasChanged, setHasChangedState] = useState(false)
+    
+    // for enabling the submit button when there's no error
+    const [isValidPartName, setValidPartName] = useState(false)
+    const [isValidBrand, setValidBrand] = useState(false)
+    const [isValidStockNumber, setValidStockNumber] = useState(false)
+    const [isValidRetailPrice, setValidRetailPrice] = useState(false)
+    const [isButtonEnabled, setButtonEnabled] = useState(false)
 
     const { id } = useParams()
 
-    const [initialValues, setInitialValues] = useState({
-        partName: '',
-        brand: '',
-        motorModel: '',
-        stockNumber: '',
-        retailPrice: ''
-    })
-
-
-    // Check if any of the input fields have changed in value from their original
+    // enable button when there are no more errors or vice versa
     useEffect(() => {
-        const changed = partName !== initialValues.partName ||
-            brand !== initialValues.brand ||
-            motorModel !== initialValues.motorModel ||
-            Number(stockNumber) !== initialValues.stockNumber ||
-            Number(retailPrice) !== initialValues.retailPrice;
+        console.log('PartName: ', isValidPartName)
+        console.log('Brand: ', isValidBrand)
+        console.log('Stock Number: ', isValidStockNumber)
+        console.log('Retail Price: ', isValidRetailPrice)
 
-        setHasChangedState(changed); // Update the state based on the current values
-
-        // Just for debugging:
-        console.log("Current Values:", { partName, brand, motorModel, stockNumber, retailPrice });
-        console.log("Initial Values:", initialValues);
-        console.log("Changed:", changed);
-        console.log("Has changed:", hasChanged);
-
-    }, [partName, brand, motorModel, stockNumber, retailPrice, initialValues, hasChanged]);
-
-
+        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
+            setButtonEnabled(true)
+        } else {
+            setButtonEnabled(false)
+        }
+    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice])
 
     const fetchInventoryItem = async () => {
         const response = await fetch(DOMAIN + `/inventory/${id}`)
@@ -71,14 +62,6 @@ const EditItem = () => {
             setMotorModel(json.motorModel)
             setRetailPrice(json.retailPrice)
             setStockNumber(json.stockNumber)
-
-            setInitialValues({
-                partName: json.partName,
-                brand: json.brand,
-                motorModel: json.motorModel,
-                stockNumber: json.stockNumber,
-                retailPrice: json.retailPrice
-            })
 
         } else {
             console.error('Unexpected response:', json)
@@ -173,19 +156,23 @@ const EditItem = () => {
             });
         }
 
+        setPartNameError(errorString);
         setPartName(value);
     }
 
     const handleBrandInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = false
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
         } else {
             errorString = ""
+            isValid = true
         }
 
+        setValidBrand(isValid)
         setBrandError(errorString)
         setBrand(value)
 
@@ -194,23 +181,26 @@ const EditItem = () => {
     const handleStockNumberInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = true
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
+            isValid = false
         }
 
         if (!validator.isInt(value)) {
             if (!validator.isEmpty(errorString))
                 errorString += " "
-
-            errorString += "Must be a whole number."
+                errorString += "Must be a whole number."
+                isValid = false
         }
 
         if (value < 0) {
             if (!validator.isEmpty(errorString))
                 errorString += " "
 
-            errorString += "Must be a positive number."
+                errorString += "Must be a positive number."
+                isValid = false
         }
 
         if (value > 9999999) {
@@ -218,8 +208,10 @@ const EditItem = () => {
                 errorString += " "
 
             errorString += "Must not exceed 9999999."
+            isValid = false
         }
 
+        setValidStockNumber(isValid)
         setStockNumberError(errorString)
         setStockNumber(value)
     }
@@ -227,25 +219,30 @@ const EditItem = () => {
     const handleRetailPriceInput = (e) => {
         const value = e.target.value
         let errorString = ""
+        let isValid = true
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
+            isValid = false
         }
 
         if (!validator.isCurrency(value, { allow_negatives: false })) {
             if (!validator.isEmpty(errorString))
                 errorString += " "
 
-            errorString += "Must be a positive whole number or 2 decimal places."
+                errorString += "Must be a positive whole number or 2 decimal places."
+                isValid = false
         }
 
         if (value > 9999999) {
             if (!validator.isEmpty(errorString))
                 errorString += " "
 
-            errorString += "Must not exceed 9999999."
+                errorString += "Must not exceed 9999999."
+                isValid = false
         }
 
+        setValidRetailPrice(isValid)
         setRetailPriceError(errorString)
         setRetailPrice(value)
     }
@@ -282,6 +279,7 @@ const EditItem = () => {
                             <Form.Control
                                 type="text"
                                 onChange={handleBrandInput}
+                                onClick={handleBrandInput}
                                 value={brand}
                                 required
                             />
@@ -315,6 +313,7 @@ const EditItem = () => {
                                 //Semicolon is required here, it serves as a separator between statements
                                 // onChange={(e) => setStockNumber(e.target.value ? Number(e.target.value) : "")}
                                 onChange={handleStockNumberInput}
+                                onClick={handleStockNumberInput}
                                 value={stockNumber}
                                 required
                                 min="0"
@@ -333,6 +332,7 @@ const EditItem = () => {
                                 type="number"
                                 // onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
                                 onChange={handleRetailPriceInput}
+                                onClick={handleRetailPriceInput}
                                 value={retailPrice}
                                 required
                             />
@@ -346,7 +346,7 @@ const EditItem = () => {
 
                         {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
-                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit" disabled={!hasChanged}>
+                            <Button className='bg-main-dominant-red border border-0 px-4 rounded-4' type="submit" disabled={!isButtonEnabled}>
                                 Save Changes
                             </Button>
                         </Container>
