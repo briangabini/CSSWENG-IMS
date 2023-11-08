@@ -187,21 +187,21 @@ const getInventory = async (req, res) => {
 
         //SEARCH AND FILTER
         let query = {};
-        if (search) {
-            // If search term is present
+        // If a specific filter is provided for motorModel or brand, use that instead of the search term
+        if (motorModel) {
+            query.motorModel = { $regex: motorModel, $options: "i" };
+        }
+        if (brand) {
+            query.brand = { $regex: brand, $options: "i" };
+        }
+
+        // If a search term is provided, and there's no specific motorModel or brand filter, search across all fields
+        if (search || !motorModel || !brand) {
             query.$or = [
                 { partName: { $regex: search, $options: "i" } },
                 { motorModel: { $regex: search, $options: "i" } },
                 { brand: { $regex: search, $options: "i" } }
             ];
-        } else {
-            // If search is empty, then utilize filter; if conflicting between each other, then no result
-            if (motorModel) {
-                query.motorModel = { $regex: motorModel, $options: "i" };
-            }
-            if (brand) {
-                query.brand = { $regex: brand, $options: "i" };
-            }
         }
         const items = await InventoryItem.find(query)
 
