@@ -32,7 +32,7 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
                 <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-                <Col className='txt-gray-text col-1 fs-6 nopadding'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
                 {/* for testing purposes */}
             </Row>
             

@@ -23,10 +23,10 @@ const VerifiedUserDetails = ({userDetail}) => {
         <>
             {/* Verified Users' Information */}
             <Row onClick={handleShow} className='w-100 nopadding border-top my-1 hover'>
-                <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
-                <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.emailAddress}</Col>
-                <Col className='txt-gray-text border col-2 fs-6 nopadding'>{userDetail.role}</Col>
-                <Col className='txt-gray-text border col-2 fs-6 nopadding'>{userDetail.dateAdded}</Col>
+                <Col className='txt-gray-text col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
+                <Col className='txt-gray-text col-4 fs-6 nopadding'>{userDetail.emailAddress}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{userDetail.role}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{userDetail.dateAdded}</Col>
             </Row>
             
             {/* Modal to show individual verified user description and to 
