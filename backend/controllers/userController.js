@@ -45,6 +45,20 @@ const getVerifiedUser = async (req, res) => {
 
 }
 
+// get a single user using their employee name
+const getVerifiedUserByEmail = async (req, res) => {
+    const { email } = req.params
+
+    const userDetail = await User.findOne({ email })
+
+    if (!userDetail) {
+        return res.status(404).json({ error: 'No such employee is found!' })
+    }
+
+    res.status(200).json(userDetail)
+
+}
+
 // get a single user using id
 const getVerifiedUserById = async (req, res) => {
     const { id } = req.params
@@ -81,9 +95,35 @@ const createVerifiedUser = async (req, res) => {
     }
 }
 
+const checkEmail = async (req, res) => {
+    try {
+        const { email } = req.body // the client sends the email through POST request
+
+        // Use mongoose to check if the partName value already exists in the database
+        const existingEmail = await User.findOne({ email })
+
+        console.log('Email retrieved: ', existingEmail)
+
+        if (existingEmail) {
+            // If email is found then there's a duplicate in the database
+            return res.status(200).json({ isDuplicate: true })
+        } else {
+            // If no matching email is found then there's no duplicate in the database
+            return res.status(200).json({ isDuplicate: false })
+        }
+    } catch (error) {
+        console.error('An error occurred while checking for duplicates: ', error)
+        return res.status(500).json({
+            error: 'An error occurred while checking for duplicates.'
+        })
+    }
+}
+
 module.exports = {
     getVerifiedUsers,
     getVerifiedUser,
     createVerifiedUser,
-    loginUser
+    loginUser,
+    checkEmail,
+    getVerifiedUserByEmail
 }

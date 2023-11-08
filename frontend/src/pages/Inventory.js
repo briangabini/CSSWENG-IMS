@@ -8,6 +8,9 @@ import { CSVLink } from "react-csv";
 // config files
 import { DOMAIN } from '../config'
 
+// delay function call until a specific time set by developer
+import _ from 'lodash'
+
 // components 
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
@@ -144,6 +147,8 @@ const Inventory = () => {
         fetchInventoryItems()
     }, [])
 
+
+    
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
@@ -153,6 +158,15 @@ const Inventory = () => {
     const handleSearchClick = () => {
         fetchInventoryItems()
     }
+
+    const handleSearch = (event) => {
+        // Check if the function was called via a key down and if that key was Enter
+        if (event.type === 'keydown' && event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default action
+            fetchInventoryItems(); // Call the function that fetches the inventory items
+        }
+    }
+    const debouncedHandleSearchChange = _.debounce(handleSearchChange, 200);
 
     const handleSortByUpdate = (newSortByValue) => {
         setSortBy(newSortByValue)
@@ -197,7 +211,7 @@ const Inventory = () => {
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange} />
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} />
                     <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
