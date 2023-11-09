@@ -139,8 +139,12 @@ const Inventory = () => {
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange}/>
-                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
+                    <Form.Control placeholder="Search" 
+                                    className='rounded-start-pill ps-4 shadow' value={searchTerm} onChange={handleSearchChange}/>
+                    <Button id="button-addon2" 
+                            variant='light'
+                            className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'
+                            onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
                 </InputGroup>
