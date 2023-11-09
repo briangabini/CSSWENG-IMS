@@ -220,6 +220,10 @@ a {
   background-size: 0.75rem;
 }
 
+.login{
+  height: 90vh;
+}
+
 .modalCenter{
   transform:translateY(10%)!important;
 }
