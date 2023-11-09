@@ -71,6 +71,9 @@ a {
 .txt-main-dominant-red {
   color: var(--main-dominant-red)!important;
 }
+.txt-JPD-logo-red {
+  color: var(--JPD-logo-red)!important;
+}
 
 .bg-main-dominant-red {
   background-color: var(--main-dominant-red)!important;

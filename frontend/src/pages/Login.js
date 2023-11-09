@@ -10,8 +10,8 @@ const Login = () => {
 
     return (
         <Container fluid className='d-flex align-items-end flex-column login'>
-            <div className='fs-2 fw-bold border w-50 align-self-end mt-auto'>
-                Log-in to JPDGarage
+            <div className='fs-2 fw-bold w-50 align-self-end mt-auto'>
+                Log-in to <span className='txt-JPD-logo-red'>JPD</span>Garage
             </div>
             {/* email input */}
             <FloatingLabel className="mt-2 w-50" 
