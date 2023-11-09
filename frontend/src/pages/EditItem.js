@@ -116,7 +116,7 @@ const EditItem = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
-                        <FloatingLabel className="mb-2" controlId="partNameInput" label="Item Name" >
+                        <FloatingLabel className="mb-1" controlId="partNameInput" label="Item Name" >
                             <Form.Control
                                 type="text"
                                 onChange={(e) => setPartName(e.target.value)}
@@ -125,13 +125,13 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
                             Error: Invalid input!
                         </div>
 
                         {/* brand input */}
-                        <FloatingLabel className="mb-2" controlId="partBrandInput" label="Item Brand">
+                        <FloatingLabel className="mb-1" controlId="partBrandInput" label="Item Brand">
                             <Form.Control
                                 type="text"
                                 onChange={(e) => setBrand(e.target.value)}
@@ -140,13 +140,13 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
                             Error: Invalid input!
                         </div>
 
                         {/* motorModel input */}
-                        <FloatingLabel className="mb-2" controlId="partModelInput" label="Compatible Motorcycle Model/s">
+                        <FloatingLabel className="mb-1" controlId="partModelInput" label="Compatible Motorcycle Model/s">
                             <Form.Control
                                 type="text"
                                 onChange={(e) => setMotorModel(e.target.value)}
@@ -155,13 +155,13 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
                             Error: Invalid input!
                         </div>
 
                         {/* stockNumber input */}
-                        <FloatingLabel className="mb-2" controlId="stockNumberInput" label="Item Stock Number">
+                        <FloatingLabel className="mb-1" controlId="stockNumberInput" label="Item Stock Number">
                             <Form.Control
                                 type="number"
                                 //Semicolon is required here, it serves as a separator between statements
@@ -172,13 +172,13 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
                             Error: Invalid input!
                         </div>
 
                         {/* retail price */}
-                        <FloatingLabel className="mb-2" controlId="retailPriceInput" label="Item Retail Price (PHP)">
+                        <FloatingLabel className="mb-1" controlId="retailPriceInput" label="Item Retail Price (PHP)">
                             <Form.Control
                                 type="text"
                                 onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
@@ -188,7 +188,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
                             Error: Invalid input!
                         </div>
