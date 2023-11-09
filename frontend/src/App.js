@@ -22,15 +22,27 @@ import { Row, Col, Container } from 'react-bootstrap';
 import Sidebar from './components/Sidebar'
 import NavigationBar from './components/Navbar';
 import Header from './components/Header';
+import { useState, useEffect  } from 'react';
 
 function App() {
+  
+  // states to track if on login page
+  const [isLoginPage, setIsLoginPage] = useState(false);
+
+  // Conditional styling (background) for login page
+  const loginbg = {
+    backgroundImage: isLoginPage ? "url(/BackgroundRedBlur.png)" : "none",
+    backgroundRepeat: isLoginPage ? 'no-repeat' : "none",
+    height: isLoginPage ? '100vh' : "auto",
+    width: isLoginPage ? '100wh' : "auto",
+    backgroundSize: isLoginPage ? '40% 100vh' : "auto",
+  };
+
   return (
-    <div className="App">
+    <div className="App" style={loginbg}>
       <BrowserRouter>
 
-        <ConditionalNavbar />
-
-        <Row fluid className='border'>
+        <ConditionalNavbar setIsLoginPage={setIsLoginPage}/>
 
           <div className="pages">
             <Routes>
@@ -102,7 +114,6 @@ function App() {
 
             </Routes>
           </div>
-        </Row>
       </BrowserRouter>
 
     </div>
@@ -110,8 +121,15 @@ function App() {
 }
 
 
-function ConditionalNavbar() {
+function ConditionalNavbar({ setIsLoginPage }) {
   const location = useLocation()
+
+  // Added this to implement conditional styling of background for the login page
+  if (location.pathname === '/') {
+    setIsLoginPage(true);
+  } else {
+    setIsLoginPage(false);
+  }
 
   if (location.pathname === '/') {
     return null

@@ -87,7 +87,9 @@ a {
 .bg-white{
   background-color: var(--white)!important;
 }
- 
+.bg-background-red{
+  background-color: var(--background-red)!important;
+}
 
 .txt-14{
   font-size: 14px!important; /* fs-6 */
@@ -197,4 +199,8 @@ a {
 .left{
   background-image: url(../public/icon_left.png);
   background-size: 0.75rem;
+}
+
+.login{
+  height: 90vh;
 }
