@@ -11,9 +11,9 @@ const app = express()
 app.use(cors(
     {
         // origin: [], // only until the duration of deployment, since it may bring security risks, allows access from any origin
-        origin: "https://jpdgarage.vercel.app",
+        // origin: "https://jpdgarage.vercel.app",
         // origin: "https://jpdgarage-dev.vercel.app",
-        // origin: "http://localhost:3000",
+        origin: "http://localhost:3000",
         methods: ["POST", "GET", "PATCH", "DELETE"],
         credentials: true
     }
@@ -32,8 +32,8 @@ app.use('/users', verifiedUserRoutes)
 app.use('/inventory', inventoryRoutes)
 
 // connect to the db
-mongoose.connect(process.env.MONGO_URI)
-// mongoose.connect(process.env.MONGO_URI_DEV)
+// mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI_DEV)
     .then(() => {
         console.log('connected to database')
         // listen to port
