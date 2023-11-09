@@ -23,15 +23,6 @@ const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
     }, [localMin, localMax, localBrand, localMotorModel, localStockStatus]);
     
     // event listeners for the input fields
-    const handleMinUpdate = (event) => {
-        const newMin = event.target.value
-        setLocalMin(newMin)
-    }
-
-    const handleMaxUpdate = (event) => {
-        const newMax = event.target.value
-        setLocalMax(newMax)
-    }
 
     const handleBrandUpdate = (event) => {
         const newBrand = event.target.value
@@ -80,25 +71,6 @@ const Filter = ({min, max, brand, motorModel, stockStatus, onUpdate}) => {
                         className='my-2'
                         value={localBrand}
                         onChange={handleBrandUpdate}
-                    />
-
-                    {/* Filters by price range */}
-                    <Row className='fw-bold'>Price Range</Row>
-                    {/* The minimum price of the price range */}
-                    <Row>Min. Price</Row>
-                    <Form.Control 
-                        type="text" 
-                        className='my-1' 
-                        value={localMin}
-                        onChange={handleMinUpdate}
-                    />
-
-                    <Row>Max. Price</Row>
-                    <Form.Control 
-                        type="text" 
-                        className='my-1'
-                        value={localMax}
-                        onChange={handleMaxUpdate}
                     />
 
                     <Row className='fw-bold my-2'>Stock Status</Row>
