@@ -17,11 +17,17 @@ const loginUser = async (req, res) => {
         // create a token
         const token = createToken(user._id)
 
-        res.status(200).json({ email, token })
+        // other user data
+        const employeeName = user.employeeName
+        const role = user.role
+
+        res.status(200).json({ email, role, employeeName, token })
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
+
+/* TODO: Create a logout function for the user */
 
 
 // get all verified users
@@ -84,10 +90,10 @@ const createVerifiedUser = async (req, res) => {
     // add doc to db
     try {
 
-        const userDetail = await User.signup(email, password, employeeName, role)
+        const user = await User.signup(email, password, employeeName, role)
         
         // create token
-        const token = createToken(userDetail._id)
+        const token = createToken(user._id)
         
         res.status(200).json({email, token})
     } catch (error) {

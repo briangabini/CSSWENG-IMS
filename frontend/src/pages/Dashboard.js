@@ -2,8 +2,19 @@
 import {Container, Row, Col, Card, Dropdown, DropdownButton, Button, Form} from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import ReminderAndStatistics from '../components/ReminderAndStatistics'
+import {useState, useEffect} from 'react'
 
 const Dashboard = () => {
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            setUser(user);
+        }
+
+    }, []);
+
     const navigate = useNavigate();
 
     const navigateSales = () => {
@@ -17,7 +28,7 @@ const Dashboard = () => {
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold col-12'>
-                Good day, Justin Depano.
+                Good day, {user.employeeName}.
             </Row>
 
             <Row className='pe-2'>
