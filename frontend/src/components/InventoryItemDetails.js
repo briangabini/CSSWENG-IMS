@@ -110,7 +110,7 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
                             </Row>
 
                             <Row className="py-3 mx-auto">
-                                <Container className="bg-stocks-out rounded py-4">
+                                <Container className="bg-stocks-good rounded py-4">
                                     {/**THE BG-COLOR WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE COLOR DEPENDING ON STOCK */}
                                     <h4 className="text-center">Current Stocks</h4>
                                     <h1 className="text-center py-2">{inventoryItem.stockNumber}</h1>
