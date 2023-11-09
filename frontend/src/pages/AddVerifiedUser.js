@@ -198,7 +198,7 @@ const AddVerifiedUser = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                             {emailError}
                         </div>
 
@@ -213,7 +213,7 @@ const AddVerifiedUser = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                             {employeeNameError}
                         </div>
 
@@ -240,7 +240,7 @@ const AddVerifiedUser = () => {
                             </Button>
                         </InputGroup>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                             {passwordError}
                         </div>
 
@@ -258,7 +258,7 @@ const AddVerifiedUser = () => {
                             </Form.Select>
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                             {roleError}
                         </div>
 
@@ -284,7 +284,7 @@ const AddVerifiedUser = () => {
                         </InputGroup>
                         {/* Error */}
                         {/* TODO: implement next time */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                         </div>
 
                         {/* Add to Team Button */}

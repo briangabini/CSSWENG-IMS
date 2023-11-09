@@ -3,16 +3,10 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { DOMAIN } from '../config'
 import validator from 'validator'
-import { useNavigate } from 'react-router-dom'
 import _ from 'lodash'
 
 const EditItem = () => {
 
-    const navigate = useNavigate();
-
-    const navigateInventory = () => {
-        navigate(`/inventory`);
-    };
     /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
     const [brand, setBrand] = useState('')
@@ -319,7 +313,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {partNameError}
                         </div>
 
@@ -334,7 +328,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {brandError}
                         </div>
 
@@ -347,7 +341,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                         </div>
 
                         {/* stockNumber input */}
@@ -364,7 +358,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {stockNumberError}
                         </div>
 
@@ -380,7 +374,7 @@ const EditItem = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {retailPriceError}
                         </div>
 

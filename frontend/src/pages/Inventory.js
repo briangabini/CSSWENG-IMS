@@ -1,4 +1,4 @@
-import { Container, Row, Button, ButtonToolbar, InputGroup, Form } from 'react-bootstrap'
+import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
 // import { Modal } from 'react-bootstrap'
 // import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
@@ -16,13 +16,14 @@ import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
 import PaginationButtons from '../components/PaginationButtons'
 import InventoryItemList from '../components/InventoryItemList'
+import InventoryItemDetails from '../components/InventoryItemDetails';
 
 const Inventory = () => {
     /* VARIABLES */
     // variables for the inventory items
-    const [inventoryItems, setInventoryItems] = useState([])
-    const [allInventoryItems, setAllInventoryItems] = useState([])
-    const [dataFetched, setDataFetched] = useState(false)
+    const [inventoryItems, setInventoryItems] = useState([]) 
+    const [allInventoryItems, setAllInventoryItems] = useState([]) 
+    const [dataFetched, setDataFetched] = useState(false) 
 
     // search and filter option variables
     const [searchTerm, setSearchTerm] = useState('')

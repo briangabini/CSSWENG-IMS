@@ -246,12 +246,10 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
 
-                            <div className="error-partName">
                                 {/* insert error for part name */}
                                 {partNameError}
-                            </div>
                         </div>
 
                         {/* brand input */}
@@ -265,12 +263,8 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
-
-                            <div className="error-brand">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {brandError}
-                            </div>
-
                         </div>
 
                         {/* motorModel input */}
@@ -283,7 +277,7 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                         </div>
 
                         {/* stockNumber input */}
@@ -297,10 +291,8 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
-                            <div className="error-stockNumber">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {stockNumberError}
-                            </div>
                         </div>
 
                         {/* retail price */}
@@ -314,10 +306,8 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
-                            <div className="error-motorModel">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {retailPriceError}
-                            </div>
                         </div>
 
                         {/* button to add item */}
