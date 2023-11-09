@@ -8,7 +8,7 @@ const NavigationBar = () => {
         <>
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <Sidebar />
+                <Sidebar/>
                 <Navbar.Brand href="/dashboard" className='ms-3'>JPDGarage</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
