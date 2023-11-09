@@ -219,3 +219,7 @@ a {
   background-image: url(../public/icon_left.png);
   background-size: 0.75rem;
 }
+
+.modalCenter{
+  transform:translateY(10%)!important;
+}
