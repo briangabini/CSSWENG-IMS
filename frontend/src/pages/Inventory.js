@@ -211,8 +211,11 @@ const Inventory = () => {
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} />
-                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} value={searchTerm}/>
+                    <Button id="button-addon2" 
+                            variant='light'
+                            className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'
+                            onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
                 </InputGroup>
@@ -240,7 +243,25 @@ const Inventory = () => {
 
             <Row>
                 {/* INVENTORY ITEM LIST */}
-                <InventoryItemList inventoryItems={inventoryItems} />
+                {/*<InventoryItemList inventoryItems={inventoryItems} />*/}
+                <Card className='rounded-4 shadow'>
+                    {/* Headings of the inventory items */}
+                    <Row className='w-100 nopadding my-2'>
+                        <Col className='txt-black col-3 fs-6 nopadding font-weight-bold'>Part Name</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Brand</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Motor model</Col>
+                        <Col className='txt-black col-1 fs-6 nopadding'>Stock No.</Col>
+                        {/* ^^^ Would it be better to make this stock nalang to avoid space issues?
+                                or do we adjust the spacing of the retail price nalang instead? */}
+                        <Col className='txt-black col-2 fs-6 nopadding'>Retail Price</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Date Added</Col>
+                    </Row>
+                    {/* Loop for Individual Inventory Items */}
+                    {inventoryItems && inventoryItems.map((inventoryItem) => (
+                        // Component for Inventory Items
+                       <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
+                    ))} 
+                </Card>
             </Row>
 
             {/* Pagination */}

@@ -1,4 +1,4 @@
-import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
+import { Container, Row, Button, Form, Card, FloatingLabel, InputGroup } from 'react-bootstrap'
 
 const EditVerifiedUser = () => {
 
@@ -13,7 +13,7 @@ const EditVerifiedUser = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form>
                         {/* email input */}
-                        <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
+                        <FloatingLabel className="mb-1" controlId="floatingInput" label="User Email Address" >
                             <Form.Control type="email" placeholder="name@example.com" />
                         </FloatingLabel>
                         {/* Error */}
@@ -23,7 +23,7 @@ const EditVerifiedUser = () => {
                         </div>
 
                         {/* full name input */}
-                        <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="User Full Name">
                             <Form.Control type="text" placeholder="User Full Name" />
                         </FloatingLabel>
                         {/* Error */}
@@ -33,9 +33,24 @@ const EditVerifiedUser = () => {
                         </div>
                         
                         {/* password input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
-                            <Form.Control type="text" placeholder="User Given Password" />
-                        </FloatingLabel>
+                        <InputGroup className="mb-1 nopadding">
+                            <FloatingLabel className="" 
+                                            controlId="floatingSelect"
+                                            label="Password">
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder=""
+                                />
+                            </FloatingLabel>
+                            <Button id="button-addon2" 
+                                    variant='light'
+                                    className='py-2 px-3 border border-start-0 bg-white'>
+                                {/* eye open */}
+                                <img className='mb-1 me-2' src='eye.svg' alt="Search" />
+                                {/* eye close */}
+                                {/* <img className='mb-1 me-2' src='eye-slash.svg' alt="Search" /> */}
+                            </Button>
+                        </InputGroup>
                         {/* Error */}
                         <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>
@@ -43,7 +58,7 @@ const EditVerifiedUser = () => {
                         </div>
 
                         {/* role input */}
-                        <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="User Role/Position">
                             <Form.Select>
                                 <option></option>
                                 <option value="1">Partsman</option>
@@ -59,9 +74,24 @@ const EditVerifiedUser = () => {
 
                         {/* admin password */}
                         {/* for added authentication */}
-                        <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
-                            <Form.Control type="password" placeholder="Password" />
-                        </FloatingLabel>
+                        <InputGroup className="mb-1 nopadding">
+                            <FloatingLabel className="" 
+                                            controlId="floatingSelect"
+                                            label="Password">
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder=""
+                                />
+                            </FloatingLabel>
+                            <Button id="button-addon2" 
+                                    variant='light'
+                                    className='py-2 px-3 border border-start-0 bg-white'>
+                                {/* eye open */}
+                                <img className='mb-1 me-2' src='eye.svg' alt="Password" />
+                                {/* eye close */}
+                                {/* <img className='mb-1 me-2' src='eye-slash.svg' alt="Password" /> */}
+                            </Button>
+                        </InputGroup>
                         {/* Error */}
                         <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
                             onClick={handleError}>

@@ -236,7 +236,7 @@ const AddInventoryItems = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
-                        <FloatingLabel className="mt-2" controlId="floatingInput" label="Item Name" >
+                        <FloatingLabel className="mb-1" controlId="floatingInput" label="Item Name" >
                             <Form.Control
                                     type="text"
                                     placeholder=""
@@ -246,7 +246,7 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
 
                             <div className="error-partName">
                                 {/* insert error for part name */}
@@ -255,7 +255,7 @@ const AddInventoryItems = () => {
                         </div>
 
                         {/* brand input */}
-                        <FloatingLabel className="mt-2" controlId="floatingSelect" label="Item Brand">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="Item Brand">
                             <Form.Control
                                 type="text"
                                 placeholder=""
@@ -265,7 +265,7 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
 
                             <div className="error-brand">
                                 {brandError}
@@ -274,7 +274,7 @@ const AddInventoryItems = () => {
                         </div>
 
                         {/* motorModel input */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
                             <Form.Control
                                 type="text"
                                 placeholder=""
@@ -283,12 +283,11 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
-
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                         </div>
 
                         {/* stockNumber input */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Stock Number">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Stock Number">
                             <Form.Control
                                 type="number"
                                 placeholder=""
@@ -298,14 +297,14 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             <div className="error-stockNumber">
                                 {stockNumberError}
                             </div>
                         </div>
 
                         {/* retail price */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Retail Price (PHP)">
                             <Form.Control
                                 type="number"
                                 placeholder=""
@@ -315,7 +314,7 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             <div className="error-motorModel">
                                 {retailPriceError}
                             </div>

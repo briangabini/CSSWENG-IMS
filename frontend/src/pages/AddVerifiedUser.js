@@ -1,4 +1,4 @@
-import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstrap'
+import { Container, Row, Button, Form, Card, FloatingLabel, InputGroup } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { DOMAIN } from '../config'
 import validator from 'validator'
@@ -188,7 +188,7 @@ const AddVerifiedUser = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* email input */}
-                        <FloatingLabel className="mb-2" controlId="floatingInput" label="User Email Address" >
+                        <FloatingLabel className="mb-1" controlId="floatingInput" label="User Email Address" >
                             <Form.Control
                                 type="email"
                                 placeholder="name@example.com"
@@ -198,12 +198,12 @@ const AddVerifiedUser = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             {emailError}
                         </div>
 
                         {/* full name input */}
-                        <FloatingLabel className="mb-2" controlId="floatingSelect" label="User Full Name">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="User Full Name">
                             <Form.Control
                                 type="text"
                                 placeholder="User Full Name"
@@ -213,27 +213,39 @@ const AddVerifiedUser = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             {employeeNameError}
                         </div>
 
                         {/* password input */}
-                        <FloatingLabel className="mb-2" controlId="floatingPassword" label="User Given Password">
-                            <Form.Control
-                                type="text"
-                                placeholder="User Given Password"
+                        <InputGroup className="mb-1 nopadding">
+                            <FloatingLabel className="" 
+                                            controlId="floatingSelect"
+                                            label="Password">
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder=""
                                 onChange={handlePasswordInput}
                                 onClick={handlePasswordInput}
                                 value={password}
-                            />
-                        </FloatingLabel>
+                                />
+                            </FloatingLabel>
+                            <Button id="button-addon2" 
+                                    variant='light'
+                                    className='py-2 px-3 border border-start-0 bg-white'>
+                                {/* eye open */}
+                                <img className='mb-1 me-2' src='eye.svg' alt="Search" />
+                                {/* eye close */}
+                                {/* <img className='mb-1 me-2' src='eye-slash.svg' alt="Search" /> */}
+                            </Button>
+                        </InputGroup>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             {passwordError}
                         </div>
 
                         {/* role input */}
-                        <FloatingLabel className="mb-5" controlId="floatingSelect" label="User Role/Position">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="User Role/Position">
                             <Form.Select
                                 onChange={handleRoleInput}
                                 onClick={handleRoleInput}
@@ -246,18 +258,33 @@ const AddVerifiedUser = () => {
                             </Form.Select>
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                             {roleError}
                         </div>
 
                         {/* admin password */}
                         {/* for added authentication */}
-                        <FloatingLabel className="mb-5" controlId="floatingInput" label="Administrator Password">
-                            <Form.Control type="password" placeholder="Password" />
-                        </FloatingLabel>
+                        <InputGroup className="mb-1 nopadding">
+                            <FloatingLabel className="" 
+                                            controlId="floatingSelect"
+                                            label="Password">
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder=""
+                                />
+                            </FloatingLabel>
+                            <Button id="button-addon2" 
+                                    variant='light'
+                                    className='py-2 px-3 border border-start-0 bg-white'>
+                                {/* eye open */}
+                                <img className='mb-1 me-2' src='eye.svg' alt="Password" />
+                                {/* eye close */}
+                                {/* <img className='mb-1 me-2' src='eye-slash.svg' alt="Password" /> */}
+                            </Button>
+                        </InputGroup>
                         {/* Error */}
                         {/* TODO: implement next time */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
                         </div>
 
                         {/* Add to Team Button */}

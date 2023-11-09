@@ -53,7 +53,7 @@ const ItemDeletionConfirmation = ({_id}) => {
             {/* Button to delete an item */}
             <Button onClick={handleShow} 
                     size='sm' variant='danger' 
-                    className='shadow rounded-2 px-4' >
+                    className='shadow rounded-2 col-4 txt-16' >
                 Delete
             </Button>
 
