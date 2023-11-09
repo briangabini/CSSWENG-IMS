@@ -35,21 +35,45 @@ const EditItem = () => {
     const [isValidRetailPrice, setValidRetailPrice] = useState(false)
     const [isButtonEnabled, setButtonEnabled] = useState(false)
 
+    // for allowing the button to be enabled when a param is changed
+    const [initialValues, setInitialValues] = useState({
+        partName: '',
+        brand: '',
+        motorModel: '',
+        stockNumber: '',
+        retailPrice: ''
+    })
+    const [hasChanged, setHasChangedState] = useState(false)
+
+    useEffect(() => {
+        const changed = partName !== initialValues.partName ||
+                        brand !== initialValues.brand ||
+                        motorModel !== initialValues.motorModel ||
+                        Number(stockNumber) !== initialValues.stockNumber ||
+                        Number(retailPrice) !== initialValues.retailPrice;
+        setHasChangedState(changed); // Update the state based on the current values
+
+        console.log(partName)
+        console.log(brand)
+        console.log(stockNumber)
+        console.log(retailPrice)
+        console.log(hasChanged)
+        
+    }, [partName, brand, motorModel, stockNumber, retailPrice, initialValues, hasChanged])
+
+
     const { id } = useParams()
 
     // enable button when there are no more errors or vice versa
     useEffect(() => {
-        console.log('PartName: ', isValidPartName)
-        console.log('Brand: ', isValidBrand)
-        console.log('Stock Number: ', isValidStockNumber)
-        console.log('Retail Price: ', isValidRetailPrice)
-
-        // if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
-        //     setButtonEnabled(true)
-        // } else {
-        //     setButtonEnabled(false)
-        // }
-    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice])
+        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice && hasChanged) {
+            setButtonEnabled(true)
+            console.log("Is valid: YES")
+        } else {
+            setButtonEnabled(false)
+            console.log("Is valid: NO")
+        }
+    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice, hasChanged])
 
     const fetchInventoryItem = async () => {
         const response = await fetch(DOMAIN + `/inventory/${id}`)
@@ -62,6 +86,19 @@ const EditItem = () => {
             setMotorModel(json.motorModel)
             setRetailPrice(json.retailPrice)
             setStockNumber(json.stockNumber)
+
+            setValidPartName(true)
+            setValidBrand(true)
+            setValidRetailPrice(true)
+            setValidStockNumber(true)
+
+            setInitialValues({
+                partName: json.partName,
+                brand: json.brand,
+                motorModel: json.motorModel,
+                stockNumber: json.stockNumber,
+                retailPrice: json.retailPrice
+            })
 
         } else {
             console.error('Unexpected response:', json)
@@ -110,14 +147,14 @@ const EditItem = () => {
             alert('Item successfully edited!')
         }
     }
-    const debouncedHandlePartNameQuery = _.debounce(async (value, callback) => {
+    const debouncedHandlePartNameQuery = _.debounce(async (partNameValue, brandValue, callback) => {
         try {
-            const response = await fetch(DOMAIN + '/inventory/checkPartName', {
+            const response = await fetch(DOMAIN + '/inventory/checkPartNameBrand', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ partName: value }) // when sending values with POST use stringify
+                body: JSON.stringify({ partName: partNameValue, brand: brandValue }) // when sending values with POST use stringify
             });
 
             if (response.ok) {
@@ -125,8 +162,7 @@ const EditItem = () => {
                 const data = await response.json(); // revert json to object
 
                 if (data.isDuplicate) {
-                    console.log('ITS DUPE');
-                    callback("The part name already exists.");
+                    callback("The part name with this brand exists.");
                 } else {
                     callback(null);
                 }
@@ -135,19 +171,19 @@ const EditItem = () => {
             console.error('An error occurred while fetching data:', error);
             callback("An error occurred while checking the part name.");
         }
-    }, 200);
+    }, 100);
 
     const handlePartNameInput = async (e) => {
         const value = e.target.value;
         let errorString = "";
         let isValid = false
-
+        
         // check if the input field is empty
         if (validator.isEmpty(value)) {
             errorString += "Must be filled.";
         } else {
             // Call the debounced function and wait for it to finish before setting the state
-            debouncedHandlePartNameQuery(value, (duplicateError) => {
+            debouncedHandlePartNameQuery(value, brand, (duplicateError) => {
                 if (duplicateError) {
                     setPartNameError(duplicateError);
                     setValidPartName(isValid)
@@ -167,20 +203,32 @@ const EditItem = () => {
     const handleBrandInput = async (e) => {
         const value = e.target.value
         let errorString = ""
-        let isValid = true
-        setButtonEnabled(true)
-
+        let isValid = false
+        
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
-            isValid = false
             setButtonEnabled(false)
         } else {
-            errorString = ""
-            isValid = true
-            setButtonEnabled(true)
+            debouncedHandlePartNameQuery(partName, value, (duplicateError) => {
+                if(!duplicateError){
+                    isValid = true
+                    console.log(isValid)
+                    console.log(e.target.value)
+                    console.log(initialValues.brand)
+                    if(isValid && (e.target.value !== initialValues.brand)){
+                        setButtonEnabled(true)
+                    }   
+                    setBrandError("");
+                    setValidBrand(isValid)
+                }
+                if (duplicateError) {
+                    setBrandError(duplicateError);
+                    setValidBrand(isValid)
+                }
+            });
         }
 
-        setValidBrand(isValid)
+        // setValidBrand(isValid)
         setBrandError(errorString)
         setBrand(value)
     }
@@ -189,7 +237,6 @@ const EditItem = () => {
         const value = e.target.value
         let errorString = ""
         let isValid = true
-        setButtonEnabled(true)
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
@@ -206,18 +253,12 @@ const EditItem = () => {
         }
 
         if (value < 0) {
-            if (!validator.isEmpty(errorString))
-                errorString += " "
-
-                errorString += "Must be a positive number."
-                isValid = false
-                setButtonEnabled(false)
+            errorString += "Must be a positive number."
+            isValid = false
+            setButtonEnabled(false)
         }
 
         if (value > 9999999) {
-            if (!validator.isEmpty(errorString))
-                errorString += " "
-
             errorString += "Must not exceed 9999999."
             isValid = false
             setButtonEnabled(false)
@@ -232,30 +273,26 @@ const EditItem = () => {
         const value = e.target.value
         let errorString = ""
         let isValid = true
-        setButtonEnabled(true)
+        
 
         if (validator.isEmpty(value)) {
             errorString += "Must be filled."
             isValid = false
             setButtonEnabled(false)
-        }
+        } else {
 
-        if (!validator.isCurrency(value, { allow_negatives: false })) {
-            if (!validator.isEmpty(errorString))
-                errorString += " "
-
+            if (!validator.isCurrency(value, { allow_negatives: false })) {
                 errorString += "Must be a positive whole number or 2 decimal places."
                 isValid = false
                 setButtonEnabled(false)
-        }
+            }
 
-        if (value > 9999999) {
-            if (!validator.isEmpty(errorString))
-                errorString += " "
-
+            if (value > 9999999) {
                 errorString += "Must not exceed 9999999."
                 isValid = false
                 setButtonEnabled(false)
+            }
+    
         }
 
         setValidRetailPrice(isValid)

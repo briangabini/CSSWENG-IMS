@@ -87,14 +87,14 @@ const AddInventoryItems = () => {
         }
     }
 
-    const debouncedHandlePartNameQuery = _.debounce(async (value, callback) => {
+    const debouncedHandlePartNameQuery = _.debounce(async (partNameValue, brandValue, callback) => {
         try {
-            const response = await fetch(DOMAIN + '/inventory/checkPartName', {
+            const response = await fetch(DOMAIN + '/inventory/checkPartNameBrand', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ partName: value }) // when sending values with POST use stringify
+                body: JSON.stringify({ partName: partNameValue, brand: brandValue }) // when sending values with POST use stringify
             });
 
             if (response.ok) {
@@ -102,7 +102,7 @@ const AddInventoryItems = () => {
                 const data = await response.json(); // revert json to object
 
                 if (data.isDuplicate) {
-                    callback("The part name already exists.");
+                    callback("The part name with this brand exists.");
                 } else {
                     callback(null);
                 }
@@ -123,13 +123,12 @@ const AddInventoryItems = () => {
             errorString += "Must be filled.";
         } else {
             // Call the debounced function and wait for it to finish before setting the state
-            debouncedHandlePartNameQuery(value, (duplicateError) => {
+            debouncedHandlePartNameQuery(value, brand, (duplicateError) => {
                 if (duplicateError) {
                     setPartNameError(duplicateError);
                     setValidPartName(isValid)
                 } else {
                     isValid = true
-                    
                     setPartNameError("");
                     setValidPartName(isValid)
                 }
@@ -141,19 +140,27 @@ const AddInventoryItems = () => {
         setPartName(value);
     }
 
-    const handleBrandInput = (e) => {
+    const handleBrandInput = async (e) => {
         const value = e.target.value
         let errorString = ""
         let isValid = false
 
         if (validator.isEmpty(value)) {
-            errorString += "Must be filled."
+            errorString += "Must be filled." 
         } else {
-            errorString = ""
-            isValid = true
+            debouncedHandlePartNameQuery(partName, value, (duplicateError) => {
+                if (duplicateError) {
+                    setBrandError(duplicateError);
+                    setValidBrand(isValid)
+                } else {
+                    isValid = true
+                    setBrandError("");
+                    setValidBrand(isValid)
+                }
+            });
         }
 
-        setValidBrand(isValid)
+        // setValidBrand(isValid)
         setBrandError(errorString)
         setBrand(value)
     }
