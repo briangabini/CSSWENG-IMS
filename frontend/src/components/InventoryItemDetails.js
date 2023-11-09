@@ -50,60 +50,77 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
             
             {/* The modal for an inventory item */}
             {/* Shows more details of the inventory item */}
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
+            <Modal className="modal-lg nopadding nomargin modalCenter" show={show} onHide={handleClose}>
+                <Modal.Header closeButton className="bg-background-red">
                     <Modal.Title>Item Details</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                
-                    <h3>{inventoryItem.partName}</h3>
-                    <Row className='py-1'>
-                        <Button onClick={navigateEditItem}>Edit</Button>
-                        <ItemDeletionConfirmation _id={_id}/>
-                    </Row>
+                <Modal.Body className="bg-background-red rounded">
 
-                    <Container className="bg-success rounded py-3 my-3">
-                        <h4 className="text-center">Current Stocks</h4>
-                        <h1 className="text-center">{inventoryItem.stockNumber}</h1>
-                        <p className="text-center">Sufficient amount of stocks remaining</p>
-                    </Container>
-                    
-                    <Row className="pt-2">
-                        <h5>Basic Information</h5>
-                        <Col className="col-sm">
-                            <p>BRAND</p>
+                    <Row className="my-2">
+                        <h3>{inventoryItem.partName}</h3>
+                        <Col className="col-8">
+                            <Row className="pt-3">
+                                <h5>Basic Information</h5>
+                                <Col>
+                                    <p>BRAND</p>
+                                </Col>
+                                <Col>
+                                    <p>{inventoryItem.brand}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p>MOTORCYCLE MODEL</p>
+                                </Col>
+                                <Col>
+                                    <p>{inventoryItem.motorModel}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p>DATE ADDED</p>
+                                </Col>
+                                <Col>
+                                    <p>{inventoryItem.dateAdded}</p>
+                                </Col>
+                            </Row>
+                            <Row className="pt-3">
+                                <h5>Sales Information</h5>
+                                <Col>
+                                    <p>RETAIL PRICE</p>
+                                </Col>
+                                <Col>
+                                    <p>{inventoryItem.retailPrice}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p>WHOLESALE PRICE</p>
+                                </Col>
+                                <Col>
+                                    {/** WHOLESALE PRICE WILL BE INSERTED HERE */}
+                                </Col>
+                            </Row>
                         </Col>
-                        <Col className="col-sm">
-                            <p>{inventoryItem.brand}</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="col-sm">
-                            <p>MOTORCYCLE MODEL</p>
-                        </Col>
-                        <Col className="col-sm">
-                            <p>{inventoryItem.motorModel}</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="col-sm">
-                            <p>RETAIL PRICE</p>
-                        </Col>
-                        <Col className="col-sm">
-                            <p>{inventoryItem.retailPrice}</p>
-                        </Col>
-                    </Row>
 
+                        <Col className="col-4">
+                            <Row className='mx-auto py-1 justify-content-end'>
+                                <Button className="shadow rounded-2 col-4 mx-2 bg-white txt-black txt-16 border-0" onClick={navigateEditItem}>Edit</Button>
+                                <ItemDeletionConfirmation _id={_id}/>
+                            </Row>
 
+                            <Row className="py-3 mx-auto">
+                                <Container className="bg-stocks-good rounded py-4">
+                                    {/**THE BG-COLOR WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE COLOR DEPENDING ON STOCK */}
+                                    <h4 className="text-center">Current Stocks</h4>
+                                    <h1 className="text-center py-2">{inventoryItem.stockNumber}</h1>
+                                    <p className="text-center">Sufficient amount of stocks remaining</p>
+                                        {/**THE TEXT ITSELF WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE TEXT DEPENDING ON STOCK */}
+                                </Container>
+                            </Row>
+                        </Col>
+                    </Row>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
 
         </>

@@ -23,6 +23,9 @@
   --card2-red: #FF9898;
   --navbar-cart: #DFFFDE;
   --hover-background: #cbcbcb;
+  --stocks-good: #60db58;
+  --stocks-danger:#f0d735;
+  --stocks-out: #eb5954;
 }
 
 body {
@@ -65,6 +68,9 @@ a {
 .txt-gray-text{
   color: var(--gray-text)!important;
 }
+.txt-black{
+  color: var(--black)!important;
+}
 .txt-profit-dark{
   color: var(--profit-dark)!important;
 }
@@ -93,6 +99,16 @@ a {
 .bg-background-red{
   background-color: var(--background-red)!important;
 }
+.bg-stocks-good{
+  background-color: var(--stocks-good);
+}
+.bg-stocks-danger{
+  background-color: var(--stocks-danger);
+}
+.bg-stocks-out{
+  background-color: var(--stocks-out);
+}
+ 
 
 .txt-14{
   font-size: 14px!important; /* fs-6 */
@@ -204,6 +220,6 @@ a {
   background-size: 0.75rem;
 }
 
-.login{
-  height: 90vh;
+.modalCenter{
+  transform:translateY(10%)!important;
 }

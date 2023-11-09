@@ -190,12 +190,14 @@ const Inventory = () => {
                 <Card className='rounded-4 shadow'>
                     {/* Headings of the inventory items */}
                     <Row className='w-100 nopadding my-2'>
-                        <Col className='txt-gray-text col-3 fs-6 nopadding'>Part Name</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Brand</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Motor model</Col>
-                        <Col className='txt-gray-text col-1 fs-6 nopadding'>Stock No.</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Retail Price</Col>
-                        <Col className='txt-gray-text col-2 fs-6 nopadding'>Date Added</Col>
+                        <Col className='txt-black col-3 fs-6 nopadding font-weight-bold'>Part Name</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Brand</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Motor model</Col>
+                        <Col className='txt-black col-1 fs-6 nopadding'>Stock No.</Col>
+                        {/* ^^^ Would it be better to make this stock nalang to avoid space issues?
+                                or do we adjust the spacing of the retail price nalang instead? */}
+                        <Col className='txt-black col-2 fs-6 nopadding'>Retail Price</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Date Added</Col>
                     </Row>
                     {/* Loop for Individual Inventory Items */}
                     {inventoryItems && inventoryItems.map((inventoryItem) => (
