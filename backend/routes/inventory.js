@@ -7,7 +7,9 @@ const {
     updateInventoryItemById,
     searchInventoryItemByPartname,
     getInventory,
-    getInventoryItemById
+    getInventoryItemById,
+    getInventoryItemsForPrint,
+    checkPartNameBrand
 } = require('../controllers/inventoryItemController')
 
 const router = express.Router()
@@ -21,6 +23,9 @@ router.get('/', getInventory)
 
 // GET all inventory items
 router.get('/all-items', getInventoryItems)
+
+// GET all inventory items based on the csv format
+router.get('/print-csv', getInventoryItemsForPrint)
 
 // // GET a single item
 // router.get('/:partName', getInventoryItem)   
@@ -36,6 +41,8 @@ router.delete('/delete-item/:id', deleteInventoryItemById)
 
 // UPDATE an inventory item 
 router.patch('/edit-item/:id', updateInventoryItemById) 
+
+router.post('/checkPartNameBrand', checkPartNameBrand)
 
 // SEARCH and display 50 inventory items based on partName
 // router.get('/search', searchInventoryItemByPartname)

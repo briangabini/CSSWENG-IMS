@@ -3,7 +3,9 @@ const {
     createVerifiedUser,
     getVerifiedUser,
     getVerifiedUsers,
-    loginUser
+    loginUser,
+    checkEmail,
+    getVerifiedUserByEmail
 } = require('../controllers/userController')
 
 const router = express.Router()
@@ -23,5 +25,11 @@ router.post('/add-user', createVerifiedUser)
 
 // send a POST request to authenticate user in login page
 router.post('/login', loginUser)
+
+// send a POST request to check for email duplicates
+router.post('/checkEmail', checkEmail)
+
+// send a GET request to get a user using email
+router.get('/getUserByEmail/:email', getVerifiedUserByEmail)
 
 module.exports = router

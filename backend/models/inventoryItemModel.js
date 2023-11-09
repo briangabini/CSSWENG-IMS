@@ -5,8 +5,7 @@ const Schema = mongoose.Schema
 const inventoryItemSchema = new Schema({
     partName: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     brand: {
         type: String,
