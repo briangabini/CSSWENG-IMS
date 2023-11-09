@@ -26,6 +26,7 @@
   --stocks-good: #60db58;
   --stocks-danger:#f0d735;
   --stocks-out: #eb5954;
+  --search-gray: #D9D9D9;
 }
 
 body {
@@ -107,6 +108,9 @@ a {
 }
 .bg-stocks-out{
   background-color: var(--stocks-out);
+}
+.bg-search-gray{
+  background-color: var(--search-gray)!important;
 }
  
 
@@ -226,4 +230,10 @@ a {
 
 .modalCenter{
   transform:translateY(10%)!important;
+}
+
+.items-in-cart{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 40vh;
 }
