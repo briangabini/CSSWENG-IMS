@@ -243,3 +243,7 @@ a {
   box-sizing: border-box;
   width: 100%;
 }
+
+.link-no-underline{
+  text-decoration: none!important;
+}
