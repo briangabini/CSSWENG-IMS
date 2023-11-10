@@ -320,8 +320,7 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
-                            onClick={handleError}>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                             Error: Invalid input!
                         </div>
 
