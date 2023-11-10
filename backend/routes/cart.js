@@ -1,12 +1,13 @@
 const express = require('express')
+const requireAuth = require('../middleware/requireAuth')
+const {deleteCartItemById} = require('../controllers/cartController')
+
 const router = express.Router()
 
-const {
-    deleteCartItemById
-} = require('../controllers/cartController')
+router.use(requireAuth)
 
 // DELETE item from cart
-router.delete('/delete-item/:id', deleteCartItemById) 
+router.delete('/delete-item/:id', deleteCartItemById)
 
 
 module.exports = router

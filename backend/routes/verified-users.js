@@ -8,8 +8,15 @@ const {
     getVerifiedUserByEmail
 } = require('../controllers/userController')
 
+const requireAuth = require('../middleware/requireAuth')
+
+
 const router = express.Router()
 
+// send a POST request to authenticate user in login page
+router.post('/login', loginUser)
+
+router.use(requireAuth)
 
 // Mainly for testing, but basically calls the function that gets all users
 router.get('/', getVerifiedUsers)
@@ -22,9 +29,6 @@ router.get('/:employeeName', getVerifiedUser)
 
 // send a POST request to add user to database
 router.post('/add-user', createVerifiedUser)
-
-// send a POST request to authenticate user in login page
-router.post('/login', loginUser)
 
 // send a POST request to check for email duplicates
 router.post('/checkEmail', checkEmail)

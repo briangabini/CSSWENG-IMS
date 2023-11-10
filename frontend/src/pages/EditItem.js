@@ -5,7 +5,10 @@ import { DOMAIN } from '../config'
 import validator from 'validator'
 import _ from 'lodash'
 
+import { useAuthContext } from "../hooks/useAuthContext"
+
 const EditItem = () => {
+    const { user } = useAuthContext()
 
     /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
@@ -70,7 +73,14 @@ const EditItem = () => {
     }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice, hasChanged])
 
     const fetchInventoryItem = async () => {
-        const response = await fetch(DOMAIN + `/inventory/${id}`)
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
+        const response = await fetch(DOMAIN + `/inventory/${id}`, {
+            headers: { 'Authorization': `Bearer ${user.token}` }
+        })
 
         const json = await response.json()
 
@@ -100,11 +110,19 @@ const EditItem = () => {
     }
 
     useEffect(() => {
-        fetchInventoryItem()
-    }, [])
+        if (user) {
+            fetchInventoryItem()
+        }
+
+    }, [user])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
 
         console.log(partName)
         console.log(brand)
@@ -126,7 +144,8 @@ const EditItem = () => {
             method: 'PATCH',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -142,11 +161,17 @@ const EditItem = () => {
         }
     }
     const debouncedHandlePartNameQuery = _.debounce(async (partNameValue, brandValue, callback) => {
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
         try {
             const response = await fetch(DOMAIN + '/inventory/checkPartNameBrand', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({ partName: partNameValue, brand: brandValue }) // when sending values with POST use stringify
             });

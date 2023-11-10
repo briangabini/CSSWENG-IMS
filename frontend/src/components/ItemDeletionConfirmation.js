@@ -3,12 +3,14 @@ import { useState } from "react";
 import { DOMAIN } from '../config'
 
 import { useInventoryContext } from '../hooks/useInventoryContext'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const ItemDeletionConfirmation = ({_id}) => {
     // show     boolean variable that determines if a component is visisble or not
     // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
     const [error, setError] = useState('')
+    const { user } = useAuthContext()
 
     const { dispatch } = useInventoryContext()
     
@@ -19,22 +21,27 @@ const ItemDeletionConfirmation = ({_id}) => {
 
     const handleDelete = async (e) => {
 
+        if (!user) {
+            return 
+        }
         
-            const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
-                method: 'DELETE',
-            })
+        const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${user.token}` },
+        })
 
-            const json = await response.json()
+        const json = await response.json()
 
-            if (!response.ok) {
-                setError(json.error)
-            }
-            if (response.ok) {
-                dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
+        if (!response.ok) {
+            setError(json.error)
+        }
+        if (response.ok) {
+            dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
 
-                // 
-                console.log('deleted inventory item:', json) // print to console
-            }
+            // 
+            console.log('deleted inventory item:', json) // print to console
+        }
+
         handleClose()
     }
 

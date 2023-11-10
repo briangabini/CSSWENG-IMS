@@ -106,7 +106,7 @@ const createVerifiedUser = async (req, res) => {
 const checkEmail = async (req, res) => {
     try {
         const { email } = req.body // the client sends the email through POST request
-
+    
         // Use mongoose to check if the partName value already exists in the database
         const existingEmail = await User.findOne({ email })
 
