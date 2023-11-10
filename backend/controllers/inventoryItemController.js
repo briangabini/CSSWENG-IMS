@@ -15,6 +15,13 @@ const getInventoryItems = async (req, res) => {
     res.status(200).json(inventoryItems) // sends JSON response to the client
 }
 
+const getInventoryItemsForPrint = async (req, res) => {
+    const inventoryItems = await InventoryItem.find({}).select('partName brand motorModel stockNumber retailPrice'); // returns javascript object
+    // if we want to sort const inventoryItems = await InventoryItem.find({}).sort({createdAt: })
+
+    res.status(200).json(inventoryItems) // sends JSON response to the client
+}
+
 // get a single inventory item using part name
 const getInventoryItem = async (req, res) => {
     const { partName } = req.params
@@ -144,7 +151,8 @@ const getInventory = async (req, res) => {
 
     try {
         const page = parseInt(req.query.page) - 1 || 0      // default: first page 
-        const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        // const limit = parseInt(req.query.limit) || 5        // for testing only, we are able to change the limit of items in a page
+        const limit = 50
         const search = req.query.search || ""               // default: no search query
         const motorModel = req.query.motorModel || ""       // default: all items regardless of motor Model
         const brand = req.query.brand || ""                 // default: all items regardless of brand
@@ -177,16 +185,31 @@ const getInventory = async (req, res) => {
             sortBy[sort[0]] = "asc" // default: asc order e.g. A-Z
         }
 
-        const items = await InventoryItem.find({$or: [
-            { partName: { $regex: search, $options: "i" } },
-            { motorModel: { $regex: search || motorModel, $options: "i" } },
-            { brand: { $regex: search || brand, $options: "i" } }
-        ]})
-            .where('stockStatus').in([...stockStatus])
-            .where('retailPrice').gte(min).lte(max)
-            .sort(sortBy)
-            .skip(page * limit)
-            .limit(limit)
+        //SEARCH AND FILTER
+        let query = {};
+        // If a specific filter is provided for motorModel or brand, use that instead of the search term
+        if (motorModel) {
+            query.motorModel = { $regex: motorModel, $options: "i" };
+        }
+        if (brand) {
+            query.brand = { $regex: brand, $options: "i" };
+        }
+
+        // If a search term is provided, and there's no specific motorModel or brand filter, search across all fields
+        if (search || !motorModel || !brand) {
+            query.$or = [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search, $options: "i" } },
+                { brand: { $regex: search, $options: "i" } }
+            ];
+        }
+        const items = await InventoryItem.find(query)
+
+        .where('stockStatus').in([...stockStatus])
+        .where('retailPrice').gte(min).lte(max)
+        .sort(sortBy)
+        .skip(page * limit)
+        .limit(limit)
 
         const total = await InventoryItem.countDocuments({
             stockStatus: {$in: [...stockStatus]},
@@ -195,9 +218,20 @@ const getInventory = async (req, res) => {
             brand: {$regex: search, $options: "i"}
         })
 
+        const count = await InventoryItem.countDocuments({
+            $or: [
+                { partName: { $regex: search, $options: "i" } },
+                { motorModel: { $regex: search || motorModel, $options: "i" } },
+                { brand: { $regex: search || brand, $options: "i" } }
+            ]
+        })
+            .where('stockStatus').in([...stockStatus])
+            .where('retailPrice').gte(min).lte(max);
+
         const response = {
             error: false,
             total,
+            count, 
             page: page + 1,
             limit, 
             stockStatus: stockStatusOptions,
@@ -213,6 +247,28 @@ const getInventory = async (req, res) => {
 
 }
 
+const checkPartNameBrand = async (req, res) => {
+    try {
+        const { partName, brand } = req.body; // the client sends the part name through POST request
+
+        // Use mongoose to check if the partName value already exists in the database
+        const existingItem = await InventoryItem.findOne({ partName, brand });
+
+        if (existingItem) {
+            // If partName is found then there's a duplicate in the database
+            console.log("ERROR OCCURRED YES YES")
+            return res.status(200).json({isDuplicate: true})
+        } else {
+            // If no matching partName is found then there's no duplicate in the database
+            return res.status(200).json({isDuplicate: false})
+        }
+    } catch (error) {
+        console.error('An error occurred while checking for duplicates: ', error)
+        return res.status(500).json({
+            error: 'An error occurred while checking for duplicates.'})
+    }
+}
+
 module.exports = {
     getInventoryItem,
     getInventoryItems,
@@ -221,5 +277,7 @@ module.exports = {
     updateInventoryItemById,
     // searchInventoryItemByPartname,
     getInventory,
-    getInventoryItemById
+    getInventoryItemById,
+    getInventoryItemsForPrint,
+    checkPartNameBrand
 }

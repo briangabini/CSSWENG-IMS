@@ -2,6 +2,7 @@ import { Row, Col, Modal, Button, Container } from "react-bootstrap";
 import { useState } from "react";
 import UserDeletionConfirmation from '../components/UserDeletionConfirmation'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'                                         // for date formatting
 
 const VerifiedUserDetails = ({userDetail}) => {
     // show     boolean variable that determines if a component is visisble or not
@@ -23,10 +24,10 @@ const VerifiedUserDetails = ({userDetail}) => {
         <>
             {/* Verified Users' Information */}
             <Row onClick={handleShow} className='w-100 nopadding border-top my-1 hover'>
-                <Col className='txt-gray-text col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
-                <Col className='txt-gray-text col-4 fs-6 nopadding'>{userDetail.emailAddress}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{userDetail.role}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{userDetail.dateAdded}</Col>
+                <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.employeeName}</Col>
+                <Col className='txt-gray-text border col-4 fs-6 nopadding'>{userDetail.email}</Col>
+                <Col className='txt-gray-text border col-2 fs-6 nopadding'>{userDetail.role}</Col>
+                <Col className='txt-gray-text border col-2 fs-6 nopadding'>{moment(userDetail.dateAdded).format('MM/DD/YYYY')}</Col>
             </Row>
             
             {/* Modal to show individual verified user description and to 
