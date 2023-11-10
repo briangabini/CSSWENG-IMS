@@ -16,7 +16,7 @@ function Sidebar() {
                 {/** The "=" MUST BE REPLACED with the actual 3-line icon */}
             </Button>
 
-            <Offcanvas show={show} onHide={handleClose}>
+            <Offcanvas show={show} onHide={handleClose} className="">
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title></Offcanvas.Title>
                 </Offcanvas.Header>
@@ -25,41 +25,42 @@ function Sidebar() {
                         <Row>
                             <Row className='my-3'>
                                 {/* Links to the inventory page */}
-                                <Link to="/inventory">
+                                <Link to="/inventory" className='link-no-underline'>
+                                    {/**CURRENT PROBLEM: Text not underlining when being hovered */}
                                     <img src="icon_book_.png"></img>
-                                    < h5 className='txt-black'>Inventory</ h5>
+                                    < h5 className='txt-black py-1'>Inventory</ h5>
                                 </Link>
                             </Row>
                             
                             <Row className='my-3'>
                                 {/* Links to the finance page */}
-                                <Link to="/sales-page">
+                                <Link to="/sales-page" className='link-no-underline'>
                                     <img src="icon_book_.png"></img>
-                                    < h5 className='txt-black'>Finance</ h5>
+                                    < h5 className='txt-black py-1'>Finance</ h5>
                                 </Link>
                             </Row>
 
                             <Row className='my-3'>
                                 {/* Links to the add item page */}
-                                <Link to="/inventory/add-items">
+                                <Link to="/inventory/add-items" className='link-no-underline'>
                                     <img src="icon_book_.png"></img>
-                                    < h5 className='txt-black'>Add Item</ h5>
+                                    < h5 className='txt-black py-1'>Add Item</ h5>
                                 </Link>
                             </Row>
 
                             <Row className='my-3'>
                                 {/* Links to the check out page */}
-                                <Link to="/shopping-cart">
+                                <Link to="/shopping-cart" className='link-no-underline'>
                                     <img src="icon_book_.png"></img>
-                                    < h5 className='txt-black'>Check Out</ h5>
+                                    < h5 className='txt-black py-1'>Check Out</ h5>
                                 </Link>
                             </Row>
 
                             <Row className='my-3'>
                                 {/* Links to the shopping cart */}
-                                <Link to="/audit-log">
+                                <Link to="/audit-log" className='link-no-underline'>
                                     <img src="icon_book_.png"></img>
-                                    < h5 className='txt-black'>Audit Log</ h5>
+                                    < h5 className='txt-black py-1'>Audit Log</ h5>
                                 </Link>
                             </Row>
                         </Row>
@@ -67,10 +68,10 @@ function Sidebar() {
                         {/** ADD IF STATEMENT TO CHECK IF USER IS ADMIN OR NOT */}
                         {/* Links to the login page*/}
 
-                        <Row className='me-2 py-5 px-2'>
+                        <Row className='me-auto my-4 px-2'>
                             <Container className='border rounded text-center me-auto py-3'>
-                                <Link to="/admin-control-center">
-                                    <h5 className='txt-black'>Admin Control Center</ h5>
+                                <Link to="/admin-control-center" className='link-no-underline'>
+                                    <h5 className='txt-black py-1'>Admin Control Center</ h5>
                                 </Link>
                             </Container>
                         </Row>

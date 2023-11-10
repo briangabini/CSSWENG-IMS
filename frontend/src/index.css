@@ -237,3 +237,7 @@ a {
   overflow-x: hidden;
   height: 40vh;
 }
+
+.link-no-underline{
+  text-decoration: none!important;
+}
