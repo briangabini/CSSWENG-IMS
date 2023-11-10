@@ -309,6 +309,21 @@ const AddInventoryItems = () => {
                         <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {retailPriceError}
                         </div>
+                        
+                        {/* wholesale price */}
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Wholesale Price (PHP)">
+                            <Form.Control 
+                                type="text" 
+                                placeholder="" 
+                                // onChange={}
+                                // value={}
+                            />
+                        </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'
+                            onClick={handleError}>
+                            Error: Invalid input!
+                        </div>
 
                         {/* button to add item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
