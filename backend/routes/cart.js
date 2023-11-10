@@ -1,4 +1,6 @@
 const express = require('express')
+const router = express.Router()
+
 const {
     deleteCartItemById
 } = require('../controllers/cartController')
@@ -6,6 +8,5 @@ const {
 // DELETE item from cart
 router.delete('/delete-item/:id', deleteCartItemById) 
 
-const router = express.Router()
 
 module.exports = router
