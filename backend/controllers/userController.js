@@ -22,6 +22,8 @@ const loginUser = async (req, res) => {
         const role = user.role
 
         res.status(200).json({ email, role, employeeName, token })
+
+        console.log(user)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

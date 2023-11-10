@@ -1,5 +1,4 @@
 import { Container, Form, Button, FloatingLabel, InputGroup } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { DOMAIN } from '../config'
 import {useLogin} from '../hooks/useLogin'
@@ -12,23 +11,17 @@ const Login = () => {
     const {login, error, isLoading} = useLogin()
 
     // const [error, setError] = useState('')
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // console.log(email)
-        // console.log(password)
-
         await login(email, password)
-
-        navigateDashboard()
     }   
 
-    const navigate = useNavigate();
-
-    const navigateDashboard = () => {
-        navigate(`/dashboard`);
-    };
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible) // toggle the boolean value
+    }
 
     return (
         <Container fluid className='d-flex align-items-end flex-column login'>
@@ -54,19 +47,26 @@ const Login = () => {
                         controlId="floatingSelect"
                         label="Password">
                         <Form.Control
-                            type="password"
+                            type={isPasswordVisible ? "text" : "password"}
+                            id="password"
                             placeholder=""
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
+                            display="none"
+                            
                         />
                     </FloatingLabel>
                     <Button id="button-addon2"
                         variant='light'
-                        className='py-2 px-3 border border-start-0 bg-white'>
-                        {/* eye open */}
-                        <img className='mb-1 me-2' src='eye.svg' alt="Search" />
-                        {/* eye close */}
-                        {/* <img className='mb-1 me-2' src='eye-slash.svg' alt="Search" /> */}
+                        className='py-2 px-3 border border-start-0 bg-white'
+                        onClick={togglePasswordVisibility}
+                    >
+                        {isPasswordVisible ? 
+                            // eye close 
+                            <img className='mb-1 me-2' src='eye-slash.svg' alt="Search"/> :
+                            // eye open 
+                            <img className='mb-1 me-2' src='eye.svg' alt="Search" />  
+                        }
                     </Button>
                 </InputGroup>
 

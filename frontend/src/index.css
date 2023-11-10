@@ -237,3 +237,10 @@ a {
   overflow-x: hidden;
   height: 40vh;
 }
+
+/* remove default password visibility eye */
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}

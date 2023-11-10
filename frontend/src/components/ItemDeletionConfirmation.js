@@ -2,11 +2,15 @@ import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
 import { DOMAIN } from '../config'
 
+import { useInventoryContext } from '../hooks/useInventoryContext'
+
 const ItemDeletionConfirmation = ({_id}) => {
     // show     boolean variable that determines if a component is visisble or not
     // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
     const [error, setError] = useState('')
+
+    const { dispatch } = useInventoryContext()
     
     // function that hides the component
     const handleClose = () => setShow(false);
@@ -15,23 +19,10 @@ const ItemDeletionConfirmation = ({_id}) => {
 
     const handleDelete = async (e) => {
 
-            
-
+        
             const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
                 method: 'DELETE',
             })
-
-            /* 
-             const response = await fetch('/api/workouts', {
-             method: 'POST',
-              body: JSON.stringify(workout),
-             headers: {
-               'Content-Type': 'application/json'
-          }
-        })
-        
-          const json = await response.json()
-            */
 
             const json = await response.json()
 
@@ -39,10 +30,11 @@ const ItemDeletionConfirmation = ({_id}) => {
                 setError(json.error)
             }
             if (response.ok) {
+                dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
+
+                // 
                 console.log('deleted inventory item:', json) // print to console
             }
-        
-
         handleClose()
     }
 

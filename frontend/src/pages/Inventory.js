@@ -18,10 +18,18 @@ import PaginationButtons from '../components/PaginationButtons'
 import InventoryItemList from '../components/InventoryItemList'
 import InventoryItemDetails from '../components/InventoryItemDetails';
 
+import {useInventoryContext} from '../hooks/useInventoryContext'
+
 const Inventory = () => {
     /* VARIABLES */
     // variables for the inventory items
-    const [inventoryItems, setInventoryItems] = useState([]) 
+    // const [inventoryItems, setInventoryItems] = useState([]) 
+
+    // replace inventoryItems state with the useInventoryContext hook
+    // destructure the return value of useInventoryContext hook {state, dispatch}
+    const {inventoryItems, dispatch} = useInventoryContext()
+    
+
     const [allInventoryItems, setAllInventoryItems] = useState([]) 
     const [dataFetched, setDataFetched] = useState(false) 
 
@@ -64,8 +72,7 @@ const Inventory = () => {
 
     const fetchAllInventoryItems = async () => {
 
-        var start = Date.now();
-
+        // var start = Date.now();
     
         try {
             const response = await fetch(DOMAIN + '/inventory/print-csv');
@@ -134,12 +141,14 @@ const Inventory = () => {
 
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
-            setInventoryItems(json.items)  // set state only if it's an array
+            // setInventoryItems(json.items)  // set state only if it's an array
+            dispatch({type: 'SET_INVENTORY_ITEMS', payload: json.items})
+
             setTotal(json.count)
             setCurrentPage(page)
         } else {
             console.error('Unexpected response: ', json.message)
-            setInventoryItems([])  // clear existing data or handle error appropriately
+            // setInventoryItems([])  // clear existing data or handle error appropriately
         }
     }
 
