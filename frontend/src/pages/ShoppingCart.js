@@ -1,11 +1,26 @@
-import { Container, Row, Col, Card, InputGroup, Form, Button, FloatingLabel } from 'react-bootstrap'
+import { Container, Row, Col, Card, InputGroup, Form, Button, FloatingLabel, Modal } from 'react-bootstrap'
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+
 
 const ShoppingCart = () => {
+    const navigate = useNavigate();
+
+    const navigateShoppingCart = () => {
+        navigate(`/shopping-cart`);
+        handleClose();
+    };
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
-        <Container className='main'>
+        <>
+            <Container className='main'>
             <Row className='fs-2 fw-bold'>
                 Check Out
             </Row>
@@ -33,6 +48,13 @@ const ShoppingCart = () => {
                             inventory + add items here + navigation tools (this is ez just copy paste eh)
                         </Col>
                         <Col className='col-6 nomargin nopadding scroll-space'>
+                            <Row className='mb-4'>
+                                <Button className='w-auto ms-auto me-4 bg-main-dominant-red border-0'
+                                        size='sm'
+                                        onClick={handleShow}>
+                                            Choose New Transaction Type
+                                </Button>
+                            </Row>
                             <Row className='mb-2'>
                                 <Col className='col-1'>
                                     <Form.Check
@@ -203,6 +225,30 @@ const ShoppingCart = () => {
                 </Card>
             </Row>
         </Container>
+
+        <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+        </Modal.Header>
+        <Modal.Body>
+            <Container className='text-center fs-2 fw-bold'>
+                *Choose Type of Transaction:
+                <Container className='d- mt-4'>
+                    <Button className='border-0 ms-auto me-3 px-4 py-2 bg-main-dominant-red'
+                            onClick={navigateShoppingCart}>
+                                Retail
+                    </Button>
+                    <Button className='border-0 me-auto ms-3 px-4 py-2 bg-main-dominant-red'
+                            onClick={navigateShoppingCart}>
+                                Wholesale
+                    </Button>
+                </Container>
+            </Container>
+        </Modal.Body>
+        <Modal.Footer>
+            <p>*Choosing a new transaction type would delete all items and clear the Job Id</p>
+        </Modal.Footer>
+        </Modal>
+        </>
     )
 }
 
