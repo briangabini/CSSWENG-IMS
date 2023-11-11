@@ -247,3 +247,10 @@ a {
 .link-no-underline{
   text-decoration: none!important;
 }
+
+/* remove default password visibility eye */
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}

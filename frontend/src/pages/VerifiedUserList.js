@@ -4,21 +4,29 @@ import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DOMAIN } from '../config'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const VerifiedUserList = () => {
+    const {user} = useAuthContext()
     const [userDetails, setVerifiedUsers] = useState(null)
 
     useEffect(() => { 
         const fetchVerifiedUsers = async () => { 
-            const response = await fetch(DOMAIN + '/users') // retrieves response from server as JSON
+            if (!user) {
+                return
+            }
+            const response = await fetch(DOMAIN + '/users', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+              }) // retrieves response from server as JSON
             const json = await response.json() // converts the json data into an array of objects
 
             if (response.ok) {
                 setVerifiedUsers(json)
             }
         }
-        
-        fetchVerifiedUsers()
+        if (user) {
+            fetchVerifiedUsers()
+        }
     }, [])
 
     const navigate = useNavigate();

@@ -3,7 +3,18 @@ import Sidebar from './Sidebar.js'
 import { Container, Navbar, Nav, NavDropdown, Modal, Button} from 'react-bootstrap'
 import { useState } from 'react';
 
+import { useLogout } from '../hooks/useLogout.js'
+import {useAuthContext} from '../hooks/useAuthContext.js'
+
 const NavigationBar = () => {
+
+    const { user } = useAuthContext()
+    const { logout } = useLogout()
+
+    const handleClick = () => {
+        logout()
+        navigateLogin()
+    }
 
     const navigate = useNavigate();
 
@@ -17,19 +28,34 @@ const NavigationBar = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const navigateLogin = () => {
+        navigate(`/`);
+    };
+
     return (
         <>
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <Sidebar/>
+                    {user && 
+                        <Sidebar />
+                    }
                 <Navbar.Brand href="/dashboard" className='ms-3'>JPDGarage</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ms-auto">
-                    <Nav.Link onClick={handleShow}>Cart</Nav.Link>
-                    <Nav.Link href="#link">Justin Depano</Nav.Link>
-                    <Nav.Link href='/'><img src='power.svg'></img></Nav.Link>
-                </Nav>
+                    <Nav className="ms-auto">
+                        <Nav.Link onClick={handleShow}>Cart</Nav.Link>
+                        <Nav.Link href="#link">{user && user.employeeName}</Nav.Link>
+                        <Nav.Link href='/'><img src='power.svg'></img></Nav.Link>
+                        
+                        {
+                            user && (
+                                <div>
+                                    <button onClick={handleClick}>
+                                        Logout
+                                    </button>
+                                </div>
+                        )}
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

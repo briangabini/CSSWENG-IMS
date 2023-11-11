@@ -12,16 +12,27 @@ import { DOMAIN } from '../config'
 import _ from 'lodash'
 
 // components 
-import Filter from '../components/Filter'
-import SortBy from '../components/SortBy'
-import PaginationButtons from '../components/PaginationButtons'
-import InventoryItemList from '../components/InventoryItemList'
+import Filter from '../components/Filter' 
+import SortBy from '../components/SortBy' 
+import PaginationButtons from '../components/PaginationButtons' 
+import InventoryItemList from '../components/InventoryItemList' 
 import InventoryItemDetails from '../components/InventoryItemDetails';
+
+import {useInventoryContext} from '../hooks/useInventoryContext'
+import { useAuthContext } from '../hooks/useAuthContext.js'
 
 const Inventory = () => {
     /* VARIABLES */
     // variables for the inventory items
-    const [inventoryItems, setInventoryItems] = useState([]) 
+    // const [inventoryItems, setInventoryItems] = useState([]) 
+    
+    const { user } = useAuthContext()
+
+    // replace inventoryItems state with the useInventoryContext hook
+    // destructure the return value of useInventoryContext hook {state, dispatch}
+    const {inventoryItems, dispatch} = useInventoryContext()
+    
+
     const [allInventoryItems, setAllInventoryItems] = useState([]) 
     const [dataFetched, setDataFetched] = useState(false) 
 
@@ -64,11 +75,16 @@ const Inventory = () => {
 
     const fetchAllInventoryItems = async () => {
 
-        var start = Date.now();
-
+        // var start = Date.now();
+        if (!user) {
+            return
+        }
     
         try {
-            const response = await fetch(DOMAIN + '/inventory/print-csv');
+            const response = await fetch(DOMAIN + '/inventory/print-csv', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            })
+              
             if (response.ok) {
                 const data = await response.json();
                 setAllInventoryItems(data);
@@ -87,9 +103,13 @@ const Inventory = () => {
         } catch (error) {
             console.error('An error occurred while fetching data:', error);
         }
-    };
+    }
 
     const fetchInventoryItems = async (page=1) => {
+        if (!user) {
+            return
+        }
+
         let endpoint = DOMAIN + '/inventory' + '/?'
 
         if (page) {
@@ -127,25 +147,31 @@ const Inventory = () => {
         // console.log(sortBy)
         // console.log(endpoint)
 
-        const response = await fetch(endpoint) // retrieves response from server as JSON
+        const response = await fetch(endpoint, {
+            headers: {'Authorization': `Bearer ${user.token}`},
+        }) // retrieves response from server as JSON
         const json = await response.json() // converts the json data into an array of objects
 
         // console.log(json.items)
 
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
-            setInventoryItems(json.items)  // set state only if it's an array
+            // setInventoryItems(json.items)  // set state only if it's an array
+            dispatch({type: 'SET_INVENTORY_ITEMS', payload: json.items})
+
             setTotal(json.count)
             setCurrentPage(page)
         } else {
             console.error('Unexpected response: ', json.message)
-            setInventoryItems([])  // clear existing data or handle error appropriately
+            // setInventoryItems([])  // clear existing data or handle error appropriately
         }
     }
 
     useEffect(() => {
-        fetchAllInventoryItems()
-        fetchInventoryItems()
+        if (user) {
+            fetchAllInventoryItems()
+            fetchInventoryItems()
+        }
     }, [])
 
 
@@ -182,6 +208,8 @@ const Inventory = () => {
     }
 
     return (
+        
+
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
                 Inventory

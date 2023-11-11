@@ -7,6 +7,7 @@ const PaginationButtons = ({
     currentPage,
     fetchInventoryItems,
 }) => {
+
     const goToFirstPage = () => {
         fetchInventoryItems(1);
     };

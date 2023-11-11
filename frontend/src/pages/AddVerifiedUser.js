@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react'
 import { DOMAIN } from '../config'
 import validator from 'validator'
 
+import { useAuthContext } from "../hooks/useAuthContext"
+
 import _ from 'lodash'
 
 const AddVerifiedUser = () => {
-    // email, password, employeename, role
-
+    
     /* STATE VARIABLES FOR USER DATA */
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -27,23 +28,30 @@ const AddVerifiedUser = () => {
     const [isValidEmployeeName, setValidEmployeeName] = useState(false)
     const [isValidRole, setValidRole] = useState(false)
     const [isButtonEnabled, setButtonEnabled] = useState(false)
-
+    
+    const { user } = useAuthContext()
+    
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
 
         console.log(email)
         console.log(password)
         console.log(employeeName)
         console.log(role)
 
-
-        const user = { email, password, employeeName, role }
+        const verifiedUser = { email, password, employeeName, role }
 
         const response = await fetch(DOMAIN + '/users/add-user', {
             method: 'POST',
-            body: JSON.stringify(user), // convert to json
+            body: JSON.stringify(verifiedUser), // convert to json
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -72,11 +80,18 @@ const AddVerifiedUser = () => {
     }, [isValidEmail, isValidPassword, isValidEmployeeName, isValidRole])
 
     const debouncedHandleEmailQuery = _.debounce(async (value, callback) => {
+
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
         try {
             const response = await fetch(DOMAIN + '/users/checkEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({ email: value }) // when sending values with POST use stringify
             });
@@ -219,20 +234,20 @@ const AddVerifiedUser = () => {
 
                         {/* password input */}
                         <InputGroup className="mb-1 nopadding">
-                            <FloatingLabel className="" 
-                                            controlId="floatingSelect"
-                                            label="Password">
-                                <Form.Control 
-                                    type="password" 
+                            <FloatingLabel className=""
+                                controlId="floatingSelect"
+                                label="Password">
+                                <Form.Control
+                                    type="password"
                                     placeholder=""
-                                onChange={handlePasswordInput}
-                                onClick={handlePasswordInput}
-                                value={password}
+                                    onChange={handlePasswordInput}
+                                    onClick={handlePasswordInput}
+                                    value={password}
                                 />
                             </FloatingLabel>
-                            <Button id="button-addon2" 
-                                    variant='light'
-                                    className='py-2 px-3 border border-start-0 bg-white'>
+                            <Button id="button-addon2"
+                                variant='light'
+                                className='py-2 px-3 border border-start-0 bg-white'>
                                 {/* eye open */}
                                 <img className='mb-1 me-2' src='eye.svg' alt="Search" />
                                 {/* eye close */}
@@ -265,17 +280,17 @@ const AddVerifiedUser = () => {
                         {/* admin password */}
                         {/* for added authentication */}
                         <InputGroup className="mb-1 nopadding">
-                            <FloatingLabel className="" 
-                                            controlId="floatingSelect"
-                                            label="Password">
-                                <Form.Control 
-                                    type="password" 
+                            <FloatingLabel className=""
+                                controlId="floatingSelect"
+                                label="Password">
+                                <Form.Control
+                                    type="password"
                                     placeholder=""
                                 />
                             </FloatingLabel>
-                            <Button id="button-addon2" 
-                                    variant='light'
-                                    className='py-2 px-3 border border-start-0 bg-white'>
+                            <Button id="button-addon2"
+                                variant='light'
+                                className='py-2 px-3 border border-start-0 bg-white'>
                                 {/* eye open */}
                                 <img className='mb-1 me-2' src='eye.svg' alt="Password" />
                                 {/* eye close */}

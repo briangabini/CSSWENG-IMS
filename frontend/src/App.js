@@ -1,7 +1,8 @@
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom'
+import { useAuthContext } from "./hooks/useAuthContext"
 
 // pages & components
 import Inventory from './pages/Inventory'
@@ -25,6 +26,7 @@ import Header from './components/Header';
 import { useState, useEffect  } from 'react';
 
 function App() {
+  const {user} = useAuthContext()
   
   // states to track if on login page
   const [isLoginPage, setIsLoginPage] = useState(false);
@@ -49,67 +51,67 @@ function App() {
 
               <Route
                 path="/"
-                element={<Login />}
+                element={!user ? <Login /> : <Navigate to="/dashboard"/>}
               />
 
               <Route
                 path="/dashboard"
-                element={<Dashboard />}
+                element={user ? <Dashboard /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/inventory"
-                element={<Inventory />}
+                element={user ? <Inventory /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/sales-page"
-                element={<SalesPage />}
+                element={(user && user.role === "Admin") ? <SalesPage /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/inventory/add-items"
-                element={<AddInventoryItems />}
+                element={user ? <AddInventoryItems /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/shopping-cart"
-                element={<ShoppingCart />}
+                element={user ? <ShoppingCart /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/audit-log"
-                element={<AuditLog />}
+                element={user ? <AuditLog /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/verified-user-list"
-                element={<VerifiedUserList />}
+                element={user ? <VerifiedUserList /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/calendar"
-                element={<Calendar />}
+                element={user ? <Calendar /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/add-verified-user"
-                element={<AddVerifiedUser />}
+                element={user ? <AddVerifiedUser /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/edit-verified-user"
-                element={<EditVerifiedUser />}
+                element={user ? <EditVerifiedUser /> : <Navigate to="/"/>}
               />
 
               <Route
                 path="/edit-item/:id"
-                element={<EditItem />}
+                element={user ? <EditItem /> : <Navigate to="/"/>}
               />
 
               <Route
                 path='/admin-control-center'
-                element={<AdminControlCenter />}
+                element={user ? <AdminControlCenter /> : <Navigate to="/"/>}
               />
 
             </Routes>

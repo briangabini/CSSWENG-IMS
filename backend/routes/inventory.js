@@ -12,7 +12,11 @@ const {
     checkPartNameBrand
 } = require('../controllers/inventoryItemController')
 
+const requireAuth = require('../middleware/requireAuth')
+
 const router = express.Router()
+
+router.use(requireAuth)
 
 // homepage - testing lang
 // router.get('/', getInventoryItems)

@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const inventoryRoutes = require('./routes/inventory')
 const verifiedUserRoutes = require('./routes/verified-users')
+const cartRoutes = require('./routes/cart')
 
 // express app
 const app = express()
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/users', verifiedUserRoutes)
 app.use('/inventory', inventoryRoutes)
+app.use('/cart', cartRoutes)
 
 // connect to the db
 // mongoose.connect(process.env.MONGO_URI)

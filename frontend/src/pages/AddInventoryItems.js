@@ -2,12 +2,14 @@ import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstr
 import { useState, useEffect } from 'react'
 import validator from 'validator'
 import _ from 'lodash'
+import { useAuthContext } from "../hooks/useAuthContext"
 // const validator = require('validator')
 
 
 import { DOMAIN } from '../config'
 
 const AddInventoryItems = () => {
+    const {user} = useAuthContext()
 
     /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
@@ -48,6 +50,11 @@ const AddInventoryItems = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
         console.log(partName)
         console.log(brand)
         console.log(motorModel)
@@ -67,7 +74,8 @@ const AddInventoryItems = () => {
             method: 'POST',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -88,11 +96,17 @@ const AddInventoryItems = () => {
     }
 
     const debouncedHandlePartNameQuery = _.debounce(async (partNameValue, brandValue, callback) => {
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
         try {
             const response = await fetch(DOMAIN + '/inventory/checkPartNameBrand', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({ partName: partNameValue, brand: brandValue }) // when sending values with POST use stringify
             });
