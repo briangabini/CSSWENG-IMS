@@ -232,10 +232,20 @@ a {
   transform:translateY(10%)!important;
 }
 
+.scroll-space{
+  scrollbar-gutter: stable;
+}
+
 .items-in-cart{
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 40vh;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.link-no-underline{
+  text-decoration: none!important;
 }
 
 /* remove default password visibility eye */
