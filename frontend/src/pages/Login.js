@@ -30,10 +30,6 @@ const Login = () => {
                 Log-in to <span className='txt-JPD-logo-red'>JPD</span>Garage
             </div>
 
-            <span>{process.env.PREVIEW_BRANCH}</span>
-            <span>{process.env.NODE_ENV}</span>
-            <span>{DOMAIN}</span>
-
             {/* <Form onSubmit={handleSubmit}> */}
                 {/* email input */}
                 <FloatingLabel className="mt-2 w-50"

@@ -1,17 +1,13 @@
-const { NODE_ENV, PREVIEW_BRANCH } = process.env;
-
 let DOMAIN;
 
+const temp = ""
 
-if (PREVIEW_BRANCH === 'dev') {
-    DOMAIN = "https://jpdgarage-dev-api.vercel.app";  // Development domain for preview
-} else if (NODE_ENV === 'production') {
+if (temp === 'production') {
     DOMAIN = "https://jpdgarage-api.vercel.app";  // Production domain
+} else if (temp === 'preview') {
+    DOMAIN = "https://jpdgarage-dev-api.vercel.app";  // Development domain
 } else {
     DOMAIN = "http://localhost:4000";  // Local testing domain
 }
-
-console.log('NODE_ENV:', NODE_ENV);
-console.log('DOMAIN:', DOMAIN);
 
 export { DOMAIN };

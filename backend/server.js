@@ -33,10 +33,12 @@ app.use('/cart', cartRoutes)
 
 let MONGO_URI = ""
 
-if (process.env.NODE_ENV === "development") {
-    MONGO_URI = process.env.MONGO_URI_DEV
-} else {
+const temp = ""
+
+if (temp === "production") {
     MONGO_URI = process.env.MONGO_URI
+} else {
+    MONGO_URI = process.env.MONGO_URI_DEV
 }
 
 // connect to the db
