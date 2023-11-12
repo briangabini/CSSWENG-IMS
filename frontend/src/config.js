@@ -8,4 +8,6 @@ if (process.env.NODE_ENV === 'production') {
     DOMAIN = "http://localhost:4000";  // Local testing domain
 }
 
+//test
+
 export { DOMAIN };
