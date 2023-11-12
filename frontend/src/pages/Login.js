@@ -25,12 +25,12 @@ const Login = () => {
     
 
     return (
-        <Container fluid className='d-flex align-items-end flex-column login'>
-            <div className='fs-2 fw-bold w-50 align-self-end mt-auto'>
-                Log-in to <span className='txt-JPD-logo-red'>JPD</span>Garage
-            </div>
+        <Form onSubmit={handleSubmit}>
+            <Container fluid className='d-flex align-items-end flex-column login'>
+                <div className='fs-2 fw-bold w-50 align-self-end mt-auto'>
+                    Log-in to <span className='txt-JPD-logo-red'>JPD</span>Garage
+                </div>
 
-            {/* <Form onSubmit={handleSubmit}> */}
                 {/* email input */}
                 <FloatingLabel className="mt-2 w-50"
                     controlId="floatingSelect"
@@ -80,12 +80,12 @@ const Login = () => {
                 <Button 
                     disabled={isLoading}
                     className='mb-auto px-4 rounded-4 bg-main-dominant-red border-0' 
-                    type="button" 
+                    type="submit" 
                     onClick={handleSubmit}
                 >Login
                 </Button>
-            {/* </Form> */}
-        </Container>
+            </Container>
+        </Form>
 
     )
 }

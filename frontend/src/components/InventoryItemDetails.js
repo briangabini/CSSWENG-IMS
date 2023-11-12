@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
 import moment from 'moment'                                         // for date formatting
-
+import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
 // helper functions
 
 
-const InventoryItemDetails = ({ inventoryItem, _id }) => {
+const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
     const navigate = useNavigate();
+    const {transactionType} = useTransactionTypeContext()
+    showPrice = transactionType
 
     const navigateEditItem = () => {
         navigate(`/edit-item/${_id}`);
@@ -22,15 +24,21 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
     // function that shows the component
     const handleShow = () => setShow(true);
 
-    const StockMessage = ({inventoryItem, _id}) => {
-        if(inventoryItem.stockNumber > 5){
-            return 
-        }
-        else if(inventoryItem.stockNumber <= 5){
-            return 
-        }
-        else if(inventoryItem.stockNumber === 0){
-            return 
+    console.log(showPrice)
+
+    // all, retail, wholesale
+    const priceShow = () => {
+        if (showPrice === 'retail') {
+            console.log('retail in priceShow')
+            return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+        } else if (showPrice === 'wholesale') {
+            console.log('wholesale in priceShow')
+            return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
+        } else {
+            return <>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
+            </>
         }
     }
 
@@ -38,12 +46,14 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
         <>
             {/* The details of an inventory item */}
             {/* When clicked, the modal of the item is shown */}
-            <Row onClick={handleShow} className='w-100 nopadding my-2 hover'>
+            <Row onClick={handleShow} className='w-150 nopadding my-2 hover'>
                 <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
                 <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                {/* <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col> */}
+                {priceShow()}
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
                 {/* for testing purposes */}
             </Row>
@@ -98,7 +108,7 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
                                     <p>WHOLESALE PRICE</p>
                                 </Col>
                                 <Col>
-                                    {/** WHOLESALE PRICE WILL BE INSERTED HERE */}
+                                <p>{inventoryItem.wholesalePrice}</p>
                                 </Col>
                             </Row>
                         </Col>

@@ -17,6 +17,7 @@ const AddInventoryItems = () => {
     const [motorModel, setMotorModel] = useState('')
     const [stockNumber, setStockNumber] = useState('')
     const [retailPrice, setRetailPrice] = useState('')
+    const [wholesalePrice, setWholesalePrice] = useState('')
     const [error, setError] = useState('')
 
     /* STATE VARIABLES FOR ERROR HANDLING */
@@ -24,12 +25,14 @@ const AddInventoryItems = () => {
     const [brandError, setBrandError] = useState('')
     const [stockNumberError, setStockNumberError] = useState('')
     const [retailPriceError, setRetailPriceError] = useState('')
+    const [wholesalePriceError, setWholesalePriceError] = useState('')
 
     // for enabling the submit button when there's no error
     const [isValidPartName, setValidPartName] = useState(false)
     const [isValidBrand, setValidBrand] = useState(false)
     const [isValidStockNumber, setValidStockNumber] = useState(false)
     const [isValidRetailPrice, setValidRetailPrice] = useState(false)
+    const [isValidWholesalePrice, setValidWholesalePrice] = useState(false)
     const [isButtonEnabled, setButtonEnabled] = useState(false)
 
     // enable button when there are no more errors or vice versa
@@ -39,12 +42,12 @@ const AddInventoryItems = () => {
         console.log('Stock Number: ', isValidStockNumber)
         console.log('Retail Price: ', isValidRetailPrice)
 
-        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
+        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice && isValidWholesalePrice) {
             setButtonEnabled(true)
         } else {
             setButtonEnabled(false)
         }
-    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice])
+    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice, isValidWholesalePrice])
 
     /* EVENT LISTENER FUNCTIONS */
     const handleSubmit = async (e) => {
@@ -60,14 +63,15 @@ const AddInventoryItems = () => {
         console.log(motorModel)
         console.log(stockNumber)
         console.log(retailPrice)
+        console.log(wholesalePrice)
 
         let inventoryItem = {}
 
         if (validator.isEmpty(motorModel)) {
-            inventoryItem = { partName, brand, stockNumber, retailPrice }
+            inventoryItem = { partName, brand, stockNumber, retailPrice, wholesalePrice }
         } else {
 
-            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
+            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice, wholesalePrice }
         }
 
         const response = await fetch(DOMAIN + '/inventory/add-item', {
@@ -91,6 +95,7 @@ const AddInventoryItems = () => {
             setMotorModel('')
             setStockNumber('')
             setRetailPrice('')
+            setWholesalePrice('')
             console.log('new inventory added:', json) // print to console
         }
     }
@@ -241,6 +246,33 @@ const AddInventoryItems = () => {
         setRetailPrice(value)
     }
 
+    const handleWholesalePriceInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+        let isValid = true
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+            isValid = false
+        } else {
+            if (!validator.isCurrency(value, { allow_negatives: false })) {
+
+                errorString += "Must be a positive whole number or 2 decimal places."
+                isValid = false
+            }
+
+            if (value > 9999999) {
+
+                errorString += "Must not exceed 9999999."
+                isValid = false
+            }
+        }
+
+        setValidWholesalePrice(isValid)
+        setWholesalePriceError(errorString)
+        setWholesalePrice(value)
+    }
+
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -329,13 +361,14 @@ const AddInventoryItems = () => {
                             <Form.Control 
                                 type="text" 
                                 placeholder="" 
-                                // onChange={}
-                                // value={}
+                                onChange={handleWholesalePriceInput}
+                                onClick={handleWholesalePriceInput}
+                                value={wholesalePrice}
                             />
                         </FloatingLabel>
                         {/* Error */}
                         <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
-                            Error: Invalid input!
+                            {wholesalePriceError}
                         </div>
 
                         {/* button to add item */}

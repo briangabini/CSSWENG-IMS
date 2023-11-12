@@ -12,29 +12,29 @@ import { DOMAIN } from '../config'
 import _ from 'lodash'
 
 // components 
-import Filter from '../components/Filter' 
-import SortBy from '../components/SortBy' 
-import PaginationButtons from '../components/PaginationButtons' 
-import InventoryItemList from '../components/InventoryItemList' 
+import Filter from '../components/Filter'
+import SortBy from '../components/SortBy'
+import PaginationButtons from '../components/PaginationButtons'
+import InventoryItemList from '../components/InventoryItemList'
 import InventoryItemDetails from '../components/InventoryItemDetails';
 
-import {useInventoryContext} from '../hooks/useInventoryContext'
+import { useInventoryContext } from '../hooks/useInventoryContext'
 import { useAuthContext } from '../hooks/useAuthContext.js'
 
 const Inventory = () => {
     /* VARIABLES */
     // variables for the inventory items
     // const [inventoryItems, setInventoryItems] = useState([]) 
-    
+
     const { user } = useAuthContext()
 
     // replace inventoryItems state with the useInventoryContext hook
     // destructure the return value of useInventoryContext hook {state, dispatch}
-    const {inventoryItems, dispatch} = useInventoryContext()
-    
+    const { inventoryItems, dispatch } = useInventoryContext()
 
-    const [allInventoryItems, setAllInventoryItems] = useState([]) 
-    const [dataFetched, setDataFetched] = useState(false) 
+
+    const [allInventoryItems, setAllInventoryItems] = useState([])
+    const [dataFetched, setDataFetched] = useState(false)
 
     // search and filter option variables
     const [searchTerm, setSearchTerm] = useState('')
@@ -67,12 +67,12 @@ const Inventory = () => {
         if (!user) {
             return
         }
-    
+
         try {
             const response = await fetch(DOMAIN + '/inventory/print-csv', {
-                headers: {'Authorization': `Bearer ${user.token}`},
+                headers: { 'Authorization': `Bearer ${user.token}` },
             })
-              
+
             if (response.ok) {
                 const data = await response.json();
                 setAllInventoryItems(data);
@@ -93,7 +93,7 @@ const Inventory = () => {
         }
     }
 
-    const fetchInventoryItems = async (page=1) => {
+    const fetchInventoryItems = async (page = 1) => {
         if (!user) {
             return
         }
@@ -136,7 +136,7 @@ const Inventory = () => {
         // console.log(endpoint)
 
         const response = await fetch(endpoint, {
-            headers: {'Authorization': `Bearer ${user.token}`},
+            headers: { 'Authorization': `Bearer ${user.token}` },
         }) // retrieves response from server as JSON
         const json = await response.json() // converts the json data into an array of objects
 
@@ -145,7 +145,7 @@ const Inventory = () => {
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
             // setInventoryItems(json.items)  // set state only if it's an array
-            dispatch({type: 'SET_INVENTORY_ITEMS', payload: json.items})
+            dispatch({ type: 'SET_INVENTORY_ITEMS', payload: json.items })
 
             setTotal(json.count)
             setCurrentPage(page)
@@ -163,7 +163,7 @@ const Inventory = () => {
     }, [])
 
 
-    
+
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
@@ -196,7 +196,7 @@ const Inventory = () => {
     }
 
     return (
-        
+
 
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -228,11 +228,11 @@ const Inventory = () => {
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} value={searchTerm}/>
-                    <Button id="button-addon2" 
-                            variant='light'
-                            className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'
-                            onClick={handleSearchClick}>
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} value={searchTerm} />
+                    <Button id="button-addon2"
+                        variant='light'
+                        className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'
+                        onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
                 </InputGroup>
@@ -276,8 +276,8 @@ const Inventory = () => {
                     {/* Loop for Individual Inventory Items */}
                     {inventoryItems && inventoryItems.map((inventoryItem) => (
                         // Component for Inventory Items
-                       <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} /> 
-                    ))} 
+                        <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} showPrice="all" />
+                    ))}
                 </Card>
             </Row>
 

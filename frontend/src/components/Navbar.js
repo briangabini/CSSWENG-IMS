@@ -5,11 +5,13 @@ import { useState } from 'react';
 
 import { useLogout } from '../hooks/useLogout.js'
 import {useAuthContext} from '../hooks/useAuthContext.js'
+import { useTransactionType } from '../hooks/useTransactionType.js';
 
 const NavigationBar = () => {
 
     const { user } = useAuthContext()
     const { logout } = useLogout()
+    const {setRetail, setWholesale} = useTransactionType()
 
     const handleClick = () => {
         logout()
@@ -18,8 +20,15 @@ const NavigationBar = () => {
 
     const navigate = useNavigate();
 
-    const navigateShoppingCart = () => {
+    const navigateShoppingCart = (e) => {
         navigate(`/shopping-cart`);
+
+        if (e.target.id === 'retail') {
+            setRetail()
+        } else {
+            setWholesale()
+        }
+
         handleClose();
     };
 
@@ -45,16 +54,17 @@ const NavigationBar = () => {
                     <Nav className="ms-auto">
                         <Nav.Link onClick={handleShow}>Cart</Nav.Link>
                         <Nav.Link href="#link">{user && user.employeeName}</Nav.Link>
-                        <Nav.Link href='/'><img src='power.svg'></img></Nav.Link>
-                        
                         {
                             user && (
-                                <div>
-                                    <button onClick={handleClick}>
-                                        Logout
-                                    </button>
-                                </div>
+                            <Nav.Link href='/'>
+                                    <button onClick={handleClick} style={{ border: 'none', background: 'none', padding: 0 }}>
+                                <img src='power.svg'>
+                                </img>
+                                        </button>
+                            </Nav.Link>
                         )}
+                        
+                       
                     </Nav>
                 </Navbar.Collapse>
             </Container>
@@ -68,13 +78,22 @@ const NavigationBar = () => {
                 <Container className='text-center fs-2 fw-bold'>
                     Choose Type of Transaction:
                     <Container className='d- mt-4'>
-                        <Button className='border-0 ms-auto me-3 px-4 py-2 bg-main-dominant-red'
-                                onClick={navigateShoppingCart}>
-                                    Retail
+                        {/* button for selecting retail price */}
+                        <Button 
+                            className='border-0 ms-auto me-3 px-4 py-2 bg-main-dominant-red'
+                            onClick={navigateShoppingCart}
+                            id="retail"
+                        >
+                            Retail
                         </Button>
-                        <Button className='border-0 me-auto ms-3 px-4 py-2 bg-main-dominant-red'
-                                onClick={navigateShoppingCart}>
-                                    Wholesale
+
+                        {/* button for selecting wholesale price */}
+                        <Button 
+                            className='border-0 me-auto ms-3 px-4 py-2 bg-main-dominant-red'
+                            onClick={navigateShoppingCart}
+                            id="wholesale"
+                        >
+                            Wholesale
                         </Button>
                     </Container>
                 </Container>

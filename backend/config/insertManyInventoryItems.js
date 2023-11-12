@@ -18,6 +18,9 @@ const maxStockNumber = 500 // Change this value as needed
 // Define the max limit of retail price per inventory item
 const maxRetailPrice = 10000 // Change this value as needed
 
+// Define the max limit of retail price per inventory item
+const maxWholesalePrice = 10000 // Change this value as needed
+
 // .on(event, callback): This method is used to set up a continuous event listener. It listens for a specific event and executes the provided callback function every time that event occurs.
 db.on('error', (err) => {
     console.error('MongoDB connection error:', err);
@@ -37,7 +40,8 @@ db.once('open', async () => {
             brand: `Brand ${i}`,
             motorModel: `Model ${i}`,
             stockNumber: Math.floor(Math.random() * maxStockNumber),                                // Random stock number between 0 and 500
-            retailPrice: parseFloat((Math.random() * maxRetailPrice).toString()).toFixed(2)         // Random retail price between 0 and 10000
+            retailPrice: parseFloat((Math.random() * maxRetailPrice).toString()).toFixed(2),         // Random retail price between 0 and 10000
+            wholesalePrice: parseFloat((Math.random() * maxWholesalePrice).toString()).toFixed(2) 
         };
 
         if (newItem.stockNumber == 0) {

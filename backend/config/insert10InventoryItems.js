@@ -1,3 +1,5 @@
+/* OUTDATED DON'T USE */
+
 require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
 const InventoryItem = require('../models/inventoryItemModel');

@@ -30,7 +30,7 @@ const removeItemFromCart = async (req, res) => {
             }
 
             await cart.save();
-            return res.status(200).json({ message: 'Item updated in cart' });
+            return res.status(200).json({ message: 'Item removed from cart' });
         } else {
             return res.status(404).json({ error: 'Item not found in the cart' });
         }
@@ -42,18 +42,23 @@ const removeItemFromCart = async (req, res) => {
 
 const addItemToCart = async (req, res) => {
     const { user, partName, brand } = req.body;
+    const array = [];
+    itemIndex = -1;
 
     try {
         const cart = await Cart.findOne({ userEmail: user });
 
         if (!cart) {
-            return res.status(404).json({ error: 'Cart not found' });
+            cart = await Cart.create({ userEmail: user, array })
+            res.status(200).json(cart)
         }
 
         // Find the index of the item in the cartItems array
-        const itemIndex = cart.cartItems.findIndex(
-            (item) => item.partName === partName && item.brand === brand
-        );
+        if (cart.cartItems.length !== 0) {
+            itemIndex = cart.cartItems.findIndex(
+                (item) => item.partName === partName && item.brand === brand
+            );
+        }
 
         // If the item is found, increase stockNumber by one
         if (itemIndex !== -1) {
