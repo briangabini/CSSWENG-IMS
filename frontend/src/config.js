@@ -1,3 +1,11 @@
-// export const DOMAIN = "https://jpdgarage-api.vercel.app"  // this domain is for client testing
-// export const DOMAIN = "https://jpdgarage-dev-api.vercel.app" // this domain is for dev testing
-export const DOMAIN = "http://localhost:4000"             // this domain is for local testing
+let DOMAIN;
+
+if (process.env.NODE_ENV === 'production') {
+    DOMAIN = "https://jpdgarage-api.vercel.app";  // Production domain
+} else if (process.env.NODE_ENV === 'development') {
+    DOMAIN = "https://jpdgarage-dev-api.vercel.app";  // Development domain
+} else {
+    DOMAIN = "http://localhost:4000";  // Local testing domain
+}
+
+export { DOMAIN };

@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-csv": "^2.2.2",
-    "validator": "^13.11.0"
-  }
-}

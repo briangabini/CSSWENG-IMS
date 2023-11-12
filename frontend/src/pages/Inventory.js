@@ -61,18 +61,6 @@ const Inventory = () => {
     ]
 
     /* FUNCTIONS */
-    /* const fetchAllInventoryItems = async () => {
-        const response = await fetch(DOMAIN + '/inventory/print-csv')
-        const json = response.json()
-
-        if (response.ok) {
-            setAllInventoryItems(json)
-            console.log(json)
-        } 
-        
-
-    } */
-
     const fetchAllInventoryItems = async () => {
 
         // var start = Date.now();
