@@ -22,12 +22,15 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setIsPasswordVisible(!isPasswordVisible) // toggle the boolean value
     }
+    
 
     return (
         <Container fluid className='d-flex align-items-end flex-column login'>
             <div className='fs-2 fw-bold w-50 align-self-end mt-auto'>
                 Log-in to <span className='txt-JPD-logo-red'>JPD</span>Garage
             </div>
+
+            <span>{DOMAIN}</span>
 
             {/* <Form onSubmit={handleSubmit}> */}
                 {/* email input */}
