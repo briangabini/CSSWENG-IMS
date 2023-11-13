@@ -39,12 +39,13 @@ const InventoryItemDetails = ({ inventoryItem, _id }) => {
             {/* The details of an inventory item */}
             {/* When clicked, the modal of the item is shown */}
             <Row onClick={handleShow} className='w-100 nopadding my-2 hover'>
-                <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding text-truncate'>{inventoryItem.partName}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
                 <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-1 fs-6 nopadding text-truncate'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
                 {/* for testing purposes */}
             </Row>
             

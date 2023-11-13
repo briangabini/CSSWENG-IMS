@@ -402,6 +402,22 @@ const EditItem = () => {
                         <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {retailPriceError}
                         </div>
+                        {/* retail price */}
+                        <FloatingLabel className="mb-1" controlId="retailPriceInput" label="Item Wholesale Price (PHP)">
+                            <Form.Control
+                            // TODO: not yet adjusted for wholesale price
+                                type="number"
+                                // onChange={(e) => setRetailPrice(e.target.value ? Number(e.target.value) : "")}
+                                onChange={handleRetailPriceInput}
+                                onClick={handleRetailPriceInput}
+                                value={retailPrice}
+                                required
+                            />
+                        </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
+                                Invalid input!
+                        </div>
 
                         {/* Button to save changes of the edited item */}
                         <Container fluid className='d-flex justify-content-end pt-5'>
