@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useReducer, useEffect } from 'react'
 
 // create context
 export const TransactionTypeContext = createContext()
@@ -6,9 +6,7 @@ export const TransactionTypeContext = createContext()
 export const transactionTypeReducer = (state, action) => {
     switch (action.type) {
         case 'SET_TRANSACTION_TYPE':
-            return {
-                transactionType: action.payload
-            }
+            return {...state, transactionType: action.payload}
         default:
             return state
     }
@@ -18,6 +16,13 @@ export const TransactionTypeContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(transactionTypeReducer, {
         transactionType: null
     })
+
+    useEffect(() => {
+        const transactionType = localStorage.getItem('transaction')
+        if (transactionType) {
+            dispatch({ type: 'SET_TRANSACTION_TYPE', payload: transactionType });
+        } 
+    }, []);
 
     // return jsx template
     return (

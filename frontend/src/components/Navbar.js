@@ -25,7 +25,7 @@ const NavigationBar = () => {
 
         if (e.target.id === 'retail') {
             setRetail()
-        } else {
+        } else { 
             setWholesale()
         }
 
