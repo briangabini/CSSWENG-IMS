@@ -10,6 +10,7 @@ import InventoryItemDetails from '../components/InventoryItemDetails';
 import { useInventoryContext } from '../hooks/useInventoryContext'
 import { useAuthContext } from '../hooks/useAuthContext.js'
 import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
+import { useTransactionType } from '../hooks/useTransactionType.js'
 import { DOMAIN } from '../config'
 
 const ShoppingCart = () => {
@@ -23,16 +24,24 @@ const ShoppingCart = () => {
     // const {state} = 
 
     const { inventoryItems, dispatch } = useInventoryContext()
-    const { transactionType, type_dispatch } = useTransactionTypeContext()
+    const { transactionType } = useTransactionTypeContext()
+    const { setRetail, setWholesale } = useTransactionType()
 
     const navigate = useNavigate();
 
-    const navigateShoppingCart = () => {
+    const navigateShoppingCart = (e) => {
         navigate(`/shopping-cart`);
+
+        if (e.target.id === 'retail') {
+            setRetail()
+        } else {
+            setWholesale()
+        }
+
         handleClose();
     };
 
-    console.log(transactionType)
+    // console.log(transactionType)
 
     const [show, setShow] = useState(false);
 
@@ -219,12 +228,21 @@ const ShoppingCart = () => {
                     <Container className='text-center fs-2 fw-bold'>
                         *Choose Type of Transaction:
                         <Container className='d- mt-4'>
-                            <Button className='border-0 ms-auto me-3 px-4 py-2 bg-main-dominant-red'
-                                onClick={navigateShoppingCart}>
+                            {/* button for selecting retail price */}
+                            <Button
+                                className='border-0 ms-auto me-3 px-4 py-2 bg-main-dominant-red'
+                                onClick={navigateShoppingCart}
+                                id="retail"
+                            >
                                 Retail
                             </Button>
-                            <Button className='border-0 me-auto ms-3 px-4 py-2 bg-main-dominant-red'
-                                onClick={navigateShoppingCart}>
+
+                            {/* button for selecting wholesale price */}
+                            <Button
+                                className='border-0 me-auto ms-3 px-4 py-2 bg-main-dominant-red'
+                                onClick={navigateShoppingCart}
+                                id="wholesale"
+                            >
                                 Wholesale
                             </Button>
                         </Container>

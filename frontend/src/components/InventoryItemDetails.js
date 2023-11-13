@@ -24,7 +24,7 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
     // function that shows the component
     const handleShow = () => setShow(true);
 
-    console.log(showPrice)
+    // console.log(showPrice)
 
     // all, retail, wholesale
     const priceShow = () => {
