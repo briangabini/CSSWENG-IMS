@@ -13,7 +13,7 @@ const app = express()
 app.use(cors(
     {
         origin: "*", // only until the duration of deployment, since it may bring security risks, allows access from any origin
-        methods: ["POST", "GET", "PATCH", "DELETE"],
+        methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
 ));

@@ -16,6 +16,10 @@ import { DOMAIN } from '../config'
 const ShoppingCart = () => {
     const { user } = useAuthContext()
 
+    const [cart, setCart] = useState()
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectAllChecked, setSelectAllChecked] = useState(false)
+
     const [motorModel, setMotorModel] = useState('')
     const [brand, setBrand] = useState('')
     const [stockStatus, setStockStatus] = useState('')
@@ -29,8 +33,14 @@ const ShoppingCart = () => {
 
     const navigate = useNavigate();
 
+    /* useEffect(() => {
+        
+    }, [selectedItems]) */
+
     const navigateShoppingCart = (e) => {
         navigate(`/shopping-cart`);
+
+        cancelOrder()
 
         if (e.target.id === 'retail') {
             setRetail()
@@ -39,6 +49,101 @@ const ShoppingCart = () => {
         }
 
         handleClose();
+    };
+
+    const confirmOrder = async () => {
+        const data = {
+            userId: user._id,
+        }
+
+        /* const response =  */
+        await fetch(DOMAIN + `/cart/confirmOrder`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+            body: JSON.stringify(data)
+        })
+    }
+
+    const cancelOrder = async () => {
+        const data = {
+            userId: user._id,
+        }
+
+        /* const response =  */
+        await fetch(DOMAIN + `/cart/cancelOrder`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+            body: JSON.stringify(data)
+        })
+    }
+
+    const deleteItems = async () => {
+        try {
+            // Send a request to delete items based on selectedItems
+            const response = await fetch(DOMAIN + '/cart/deleteItems', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+                body: JSON.stringify({ userId: user._id, itemIds: selectedItems }),
+            });
+
+            if (response.ok) {
+                // Update the cart and selectedItems state after successful deletion
+                fetchCart();
+                setSelectedItems([]);
+            } else {
+                // Handle errors or display a notification
+                console.error('Error deleting items:', response.error);
+            }
+        } catch (error) {
+            console.error('Error deleting items:', error.message);
+        }
+    }
+
+    // Handle checkbox change in CartItemDetails
+    /* const handleCheckboxChange = (itemId) => {
+        // Clone the current selectedItems array
+        const updatedSelectedItems = [...selectedItems];
+
+        // Check if the item is already in the selectedItems array
+        const index = updatedSelectedItems.indexOf(itemId);
+
+        if (index !== -1) {
+            // If the item is already selected, remove it
+            updatedSelectedItems.splice(index, 1);
+        } else {
+            // If the item is not selected, add it
+            updatedSelectedItems.push(itemId);
+        }
+
+        // Update the state with the new array
+        setSelectedItems(updatedSelectedItems);
+    }; */
+
+    const handleCheckboxChange = (itemId) => {
+        if (itemId === 'selectAll') {
+            // If the "select all" checkbox is clicked, update the selectAllChecked state
+            setSelectAllChecked(!selectAllChecked);
+
+            // Update the selectedItems array accordingly
+            if (!selectAllChecked) {
+                const allItemIds = cart.inventoryItems.map((item) => item._id);
+                setSelectedItems(allItemIds);
+            } else {
+                setSelectedItems([]);
+            }
+        } else {
+            // If an individual checkbox is clicked, handle it as before
+            const updatedSelectedItems = [...selectedItems];
+            const index = updatedSelectedItems.indexOf(itemId);
+
+            if (index !== -1) {
+                updatedSelectedItems.splice(index, 1);
+            } else {
+                updatedSelectedItems.push(itemId);
+            }
+
+            setSelectedItems(updatedSelectedItems);
+        }
     };
 
     // console.log(transactionType)
@@ -94,9 +199,26 @@ const ShoppingCart = () => {
         }
     }
 
+    const fetchCart = async () => {
+        const userId = user._id
+
+        const response = await fetch(DOMAIN + `/cart/getCartDetailsByUserId/${userId}`, {
+            headers: { 'Authorization': `Bearer ${user.token}` },
+        })
+
+        const json = await response.json() // converts the json data into an array of objects
+
+        if (response.ok) {
+            setCart(json)
+
+            console.log(json.inventoryItems)
+        }
+    }
+
     useEffect(() => {
         if (user) {
             fetchInventoryItems()
+            fetchCart()
         }
     }, [])
 
@@ -160,6 +282,8 @@ const ShoppingCart = () => {
                                         <Form.Check
                                             type={'checkbox'}
                                             className=''
+                                            id='selectAll'
+                                            onClick={(e) => {handleCheckboxChange(e.target.id)}}
                                         />
                                     </Col>
                                     <Col className='col-4'>
@@ -174,13 +298,18 @@ const ShoppingCart = () => {
                                 </Row>
                                 <Container fluid className='nopadding'>
                                     <div className='items-in-cart'>
-                                        <CartItemDetails />
-                                        <CartItemDetails />
-                                        <CartItemDetails />
-                                        <CartItemDetails />
-                                        <CartItemDetails />
-                                        <CartItemDetails />
-                                        <CartItemDetails />
+                                        {cart && cart.inventoryItems.map((inventoryItemObj) => (
+                                            // Component for Inventory Items
+                                            <CartItemDetails
+                                                key={inventoryItemObj._id}
+                                                cart={cart}
+                                                _id={inventoryItemObj._id}
+                                                item={inventoryItemObj}
+                                                showPrice={transactionType}
+                                                handleCheckboxChange={handleCheckboxChange}
+                                                isSelected={selectedItems.includes(inventoryItemObj._id)} // Check if the item is selected
+                                            />
+                                        ))}
 
 
 
@@ -188,7 +317,11 @@ const ShoppingCart = () => {
                                     </div>
                                 </Container>
                                 <Row>
-                                    <Button className='w-auto px-5 mx-auto mt-4 bg-main-dominant-red shadow border-0 mb-4'>Delete Items</Button>
+                                    <Button
+                                        className='w-auto px-5 mx-auto mt-4 bg-main-dominant-red shadow border-0 mb-4'
+                                        onClick={deleteItems}
+                                    >Delete Items
+                                    </Button>
                                 </Row>
                                 <Row>
                                     <Card className='w-75 mx-auto'>
@@ -212,8 +345,21 @@ const ShoppingCart = () => {
                                     </Card>
                                 </Row>
                                 <Container className='w-100'>
-                                    <Button className='w-auto px-5 ms-auto me-1 mt-4 bg-main-dominant-red shadow border-0'>Cancel Order</Button>
-                                    <Button className='w-auto px-5 me-auto ms-1 mt-4 bg-main-dominant-red shadow border-0'>Confirm Order</Button>
+                                    {/* BUTTON FOR CANCELLING ORDER */}
+                                    <Button
+                                        className='w-auto px-5 ms-auto me-1 mt-4 bg-main-dominant-red shadow border-0'
+                                        onClick={cancelOrder}
+                                    >
+                                        Cancel Order
+                                    </Button>
+
+                                    {/* BUTTON FOR CONFIRMING ORDER */}
+                                    <Button
+                                        className='w-auto px-5 me-auto ms-1 mt-4 bg-main-dominant-red shadow border-0'
+                                        onClick={confirmOrder}
+                                    >
+                                        Confirm Order
+                                    </Button>
                                 </Container>
                             </Col>
                         </Row>
