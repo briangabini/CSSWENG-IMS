@@ -1,6 +1,53 @@
 import {Row, Col, Form, Button } from 'react-bootstrap'
+import { DOMAIN } from '../config'
+import {useState} from 'react'
+import { useAuthContext } from '../hooks/useAuthContext.js'
 
-const CartItemDetails = () => {
+const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelected }) => {
+    const { user } = useAuthContext()
+    const [quantity, setQuantity] = useState(item.quantity)
+
+    const deductQuantity = async () => {
+        const inventoryId = item.inventoryItem._id
+
+        const data = {
+            userId: user._id,
+            inventoryId: inventoryId
+        }
+
+        const response = await fetch(DOMAIN + `/cart/deductItemFromCart`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${user.token}` },
+            body: JSON.stringify(data)
+        })
+
+        if (response.ok) {
+            const newQty = quantity - 1
+            setQuantity(newQty)
+            console.log(newQty)
+        }
+    }
+    
+    const addQuantity = async () => {
+        const inventoryId = item.inventoryItem._id
+        
+        const data = {
+            userId: user._id,
+            inventoryId: inventoryId
+        }
+        
+        const response = await fetch(DOMAIN + `/cart/addItemToCart`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+            body: JSON.stringify(data)
+        })
+        
+        if (response.ok) {
+            const newQty = quantity + 1
+            setQuantity(newQty)
+            console.log(newQty)
+        }
+    }
 
     return (
         <Row fluid className='mb-2'>
@@ -8,19 +55,45 @@ const CartItemDetails = () => {
                 <Form.Check
                     type='checkbox'
                     className=''
+                    id={_id}
+                    checked={isSelected} // Set the checked status based on the prop
+                    onChange={() => {handleCheckboxChange(_id)}}
                 />
             </Col>
             <Col className='col-4 text-wrap'>
-                Lorem Ipsum Lorem Ipsum..
+                {item.inventoryItem.partName}
             </Col>
+
             <Col className='col-3 nopadding d-flex justify-content-center'>
-                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                <span className='mx-1 my-2'> 10000 </span>
-                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
+            {/* BUTTON FOR ADDING */}
+                <Button 
+                    variant="outline-dark" 
+                    className='nopadding px-2 my-2'
+                    onClick={deductQuantity}
+                >-</Button>
+
+                <span className='mx-1 my-2'> {quantity} </span>
+
+                <Button 
+                    variant="outline-dark" 
+                    className='nopadding px-2 my-2'
+                    onClick={addQuantity}
+                >+
+                </Button>
             </Col>
-            <Col className='col-3 text-wrap ps-2 nopadding'>
-                ₱515.03
-            </Col>
+            {
+                showPrice === 'retail' && 
+                <Col className='col-3 text-wrap ps-2 nopadding'>
+                    {item.inventoryItem.retailPrice}
+                </Col>
+            }
+            {
+                showPrice === 'wholesale' &&
+                <Col className='col-3 text-wrap ps-2 nopadding'>
+                    {item.inventoryItem.wholesalePrice}
+                </Col>
+            }
+            
         </Row>
     )
 }

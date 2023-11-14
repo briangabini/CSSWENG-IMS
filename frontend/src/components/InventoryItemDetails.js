@@ -29,10 +29,10 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
     // all, retail, wholesale
     const priceShow = () => {
         if (showPrice === 'retail') {
-            console.log('retail in priceShow')
+            // console.log('retail in priceShow')
             return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
         } else if (showPrice === 'wholesale') {
-            console.log('wholesale in priceShow')
+            // console.log('wholesale in priceShow')
             return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
         } else {
             return <>

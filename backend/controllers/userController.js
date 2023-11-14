@@ -21,7 +21,7 @@ const loginUser = async (req, res) => {
         const employeeName = user.employeeName
         const role = user.role
 
-        res.status(200).json({ email, role, employeeName, token })
+        res.status(200).json({ _id: user._id, email, role, employeeName, token })
 
         console.log(user)
     } catch (error) {
