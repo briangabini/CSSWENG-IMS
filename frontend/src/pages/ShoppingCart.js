@@ -369,7 +369,7 @@ const ShoppingCart = () => {
                                 <Col className='col-3 nopadding'>
                                     QTY
                                 </Col>
-                                <Col className='col-3 nopadding'>
+                                <Col className='col-3 nopadding ms-2'>
                                     Price
                                 </Col>
                             </Row>
@@ -387,10 +387,10 @@ const ShoppingCart = () => {
                                             </Col>
                                             <Col className='col-3 nopadding d-flex justify-content-center'>
                                                 <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2'> 10000 </span>
+                                                <span className='mx-auto my-2'> 10000 </span>
                                                 <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
                                             </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
+                                            <Col className='col-3 text-wrap ps-2 nopadding ms-1'>
                                                 ₱515.03
                                             </Col>
                                         </Row>
@@ -406,91 +406,13 @@ const ShoppingCart = () => {
                                             </Col>
                                             <Col className='col-3 nopadding d-flex justify-content-center'>
                                                 <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2'> 10000 </span>
+                                                <span className='mx-auto my-2'> 4 </span>
                                                 <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
                                             </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
+                                            <Col className='col-3 text-wrap ps-2 nopadding ms-1'>
                                                 ₱515.03
                                             </Col>
                                         </Row>
-                                        <Row fluid className='mb-2'>
-                                            <Col className='col-1'>
-                                                <Form.Check
-                                                    type={'checkbox'}
-                                                    className=''
-                                                />
-                                            </Col>
-                                            <Col className='col-4 text-wrap'>
-                                                Lorem Ipsum Lorem Ipsum..
-                                            </Col>
-                                            <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2'> 10000 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
-                                            </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
-                                                ₱515.03
-                                            </Col>
-                                        </Row>
-                                        <Row fluid className='mb-2'>
-                                            <Col className='col-1'>
-                                                <Form.Check
-                                                    type={'checkbox'}
-                                                    className=''
-                                                />
-                                            </Col>
-                                            <Col className='col-4 text-wrap'>
-                                                Lorem Ipsum Lorem Ipsum..
-                                            </Col>
-                                            <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2'> 4 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
-                                            </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
-                                                ₱515.03
-                                            </Col>
-                                        </Row>
-                                        <Row fluid className='mb-2'>
-                                            <Col className='col-1'>
-                                                <Form.Check
-                                                    type={'checkbox'}
-                                                    className=''
-                                                />
-                                            </Col>
-                                            <Col className='col-4 text-wrap'>
-                                                Lorem Ipsum Lorem Ipsum..
-                                            </Col>
-                                            <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2'> 10000 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
-                                            </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
-                                                ₱515.03
-                                            </Col>
-                                        </Row>
-                                        <Row fluid className='mb-2'>
-                                            <Col className='col-1'>
-                                                <Form.Check
-                                                    type={'checkbox'}
-                                                    className=''
-                                                />
-                                            </Col>
-                                            <Col className='col-4 text-wrap'>
-                                                Lorem Ipsum Lorem Ipsum..
-                                            </Col>
-                                            <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-1 my-2 text-wrap'> 10000 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
-                                            </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding'>
-                                                ₱515.03
-                                            </Col>
-                                        </Row>
-
-                                        
                                     </div>
                                 </Container>
                             <Row>
