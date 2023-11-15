@@ -81,6 +81,16 @@ a {
 .txt-JPD-logo-red {
   color: var(--JPD-logo-red)!important;
 }
+.txt-faded-text-button {
+  color: var(--faded-text-button);
+}
+
+.accordion-button {
+  background-color: var(--main-dominant-red)!important;
+  font-size: 1.5rem!important;
+  color: var(--white)!important;
+  font-weight: 600!important;
+}
 
 .bg-main-dominant-red {
   background-color: var(--main-dominant-red)!important;
@@ -244,6 +254,12 @@ a {
   width: 100%;
 }
 
+.cart-inventory{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 80vh;
+}
+
 .link-no-underline{
   text-decoration: none!important;
 }
@@ -253,4 +269,8 @@ input[type=password]::-ms-reveal,
 input[type=password]::-ms-clear
 {
     display: none;
+}
+
+.height-content{
+  height: fit-content!important;
 }

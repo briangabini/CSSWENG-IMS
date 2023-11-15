@@ -257,64 +257,75 @@ const ShoppingCart = () => {
     return (
         <>
             <Container className='main'>
-                <Row className='fs-2 fw-bold'>
-                    Check Out
-                </Row>
-                <Row>
-                    <Card className='p-4 rounded-4 shadow mt-3'>
-                        <Row>
-                            <Col className='col-6 border px-4'>
-                                {/* Navigation Tooles: Search + Filter + Sort By */}
-                                <Row>
+            <Row className='fs-2 fw-bold'>
+                Check Out
+            </Row>
+            <Row>
+                <Card className='p-4 rounded-4 shadow mt-3'>
+                    <Row>
+                        <Col className='col-6 px-4'>
+                            {/* Navigation Tooles: Search + Filter + Sort By */}
+                            <Row>
                                     <ButtonToolbar className='nopadding'>
                                         {/* Component for filtering items */}
                                         <Filter min={min} max={max} brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate} />
                                         {/* Component for sorting items */}
                                         <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate} />
                                     </ButtonToolbar>
-                                </Row>
-                                <Row>
-                                    {/* Search Bar */}
-                                    <InputGroup className="mb-5 mt-2 nopadding">
-                                        <Form.Control placeholder="Search"
-                                            className='rounded-start-2 ps-4 py-2 bg-search-gray'
-                                            onChange={debouncedHandleSearchChange}
-                                            onKeyDown={handleSearch}
-                                            // value={searchTerm}
-                                            />
-                                        <Button id="button-addon2"
-                                            variant='light'
-                                            className='py-2 px-3 border border-start-0 bg-search-gray'
-                                            onClick={handleSearchClick}>
-                                            <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
-                                        </Button>
-                                    </InputGroup>
-                                </Row>
-                                <Row>
-                                    {/* INVENTORY ITEM LIST */}
-                                    {/*<InventoryItemList inventoryItems={inventoryItems} />*/}
-                                    <Card className='rounded-4 shadow'>
-                                        {/* Headings of the inventory items */}
-                                        <Row className='w-100 nopadding my-2'>
-                                            <Col className='txt-black col-3 fs-6 nopadding font-weight-bold'>Part Name</Col>
-                                            <Col className='txt-black col-2 fs-6 nopadding'>Brand</Col>
-                                            <Col className='txt-black col-2 fs-6 nopadding'>Motor model</Col>
-                                            <Col className='txt-black col-1 fs-6 nopadding'>Stock No.</Col>
-                                            {/* ^^^ Would it be better to make this stock nalang to avoid space issues?
-                                                or do we adjust the spacing of the retail price nalang instead? */}
-                                            <Col className='txt-black col-2 fs-6 nopadding'>Price</Col>
-                                            <Col className='txt-black col-2 fs-6 nopadding'>Date Added</Col>
-                                        </Row>
-                                        {/* Loop for Individual Inventory Items */}
-                                        {inventoryItems && inventoryItems.map((inventoryItem) => (
+                            </Row>
+                            <Row>
+                                {/* Search Bar */}
+                                <InputGroup className="mb-5 mt-2 nopadding">
+                                    <Form.Control placeholder="Search"
+                                        className='rounded-start-2 ps-4 py-2 bg-search-gray'
+                                        onChange={debouncedHandleSearchChange}
+                                        onKeyDown={handleSearch}
+                                        // value={searchTerm}
+                                        />
+                                    <Button id="button-addon2"
+                                        variant='light'
+                                        className='py-2 px-3 border border-start-0 bg-search-gray'
+                                        onClick={handleSearchClick}>
+                                        <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
+                                    </Button>
+                                </InputGroup>
+                            </Row>
+                            {/* <Row>
+                                <Filter />
+                                <SortBy />
+                            </Row> */}
+                            <Row className='cart-inventory'>
+                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
+                                    <Row>
+                                        <Col className='col-10'>
+                                            <Row className='fs-4 fw-bold txt-white ms-2'>
+                                                Item Name
+                                            </Row>
+                                            <Row className='fs-6 txt-white ms-2'>
+                                                Price: ₱1,753.49
+                                            </Row>
+                                            <Row className='fs-6 txt-white ms-2'>
+                                                Brand: Lorem Ipsum
+                                            </Row>
+                                            <Row className='fs-6 txt-white ms-2'>
+                                                Stock: 40 left
+                                            </Row>
+                                        </Col>
+                                        <Col className='col-2'>
+                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
+                                                +
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                    {inventoryItems && inventoryItems.map((inventoryItem) => (
                                             // Component for Inventory Items
                                             <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} showPrice={transactionType} />
                                         ))}
-                                    </Card>
-                                </Row>
-                                inventory + add items here + navigation tools (this is ez just copy paste eh)
-                            </Col>
-                            <Col className='col-6 nomargin nopadding scroll-space'>
+                                </Card>
+                                
+                            </Row>
+                        </Col>
+                        <Col className='col-6 nomargin nopadding scroll-space'>
                                 <Row className='mb-4'>
                                     <Button className='w-auto ms-auto me-4 bg-main-dominant-red border-0'
                                         size='sm'
@@ -358,57 +369,39 @@ const ShoppingCart = () => {
 
                                     </div>
                                 </Container>
-                                <Row>
-                                    <Button
-                                        className='w-auto px-5 mx-auto mt-4 bg-main-dominant-red shadow border-0 mb-4'
-                                        onClick={deleteItems}
-                                    >Delete Items
-                                    </Button>
-                                </Row>
-                                <Row>
-                                    <Card className='w-75 mx-auto'>
-                                        <Row className='fs-5 fw-bold ps-2 pt-2'>
-                                            Transaction Type:{transactionType}
-                                        </Row>
-                                        <Row className='mt-2'>
-                                            <Col className=''>
-                                                <FloatingLabel
-                                                    controlId="floatingInput"
-                                                    label="Job ID"
-                                                    className="mb-3"
-                                                >
-                                                    <Form.Control type="text" placeholder="name@example.com" />
-                                                </FloatingLabel>
-                                            </Col>
-                                            <Col className='ps-2 nopadding'>
-                                                <span className='d-inline fs-5 fw-bold text-wrap'>Total: ₱46000.52</span>
-                                            </Col>
-                                        </Row>
-                                    </Card>
-                                </Row>
-                                <Container className='w-100'>
-                                    {/* BUTTON FOR CANCELLING ORDER */}
-                                    <Button
-                                        className='w-auto px-5 ms-auto me-1 mt-4 bg-main-dominant-red shadow border-0'
-                                        onClick={cancelOrder}
-                                    >
-                                        Cancel Order
-                                    </Button>
-
-                                    {/* BUTTON FOR CONFIRMING ORDER */}
-                                    <Button
-                                        className='w-auto px-5 me-auto ms-1 mt-4 bg-main-dominant-red shadow border-0'
-                                        onClick={confirmOrder}
-                                    >
-                                        Confirm Order
-                                    </Button>
-                                </Container>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Row>
-            </Container>
-
+                            <Row>
+                                <Button className='w-auto px-5 mx-auto mt-4 bg-main-dominant-red shadow border-0 mb-4' onClick={deleteItems}>Delete Items</Button>
+                            </Row>
+                            <Row>
+                                <Card className='w-auto mx-auto'>
+                                    <Row className='fs-5 fw-bold ps-2 pt-2'>
+                                        Transaction Type: {transactionType}
+                                    </Row>
+                                    <Row className='mt-2'>
+                                        <Col className=''>
+                                        <FloatingLabel
+                                            controlId="floatingInput"
+                                            label="Job ID"
+                                            className="mb-3"
+                                        >
+                                            <Form.Control type="text" placeholder="name@example.com" />
+                                        </FloatingLabel>
+                                        </Col>
+                                        <Col className='ps-2 nopadding'>
+                                            <span className='d-inline fs-5 fw-bold text-wrap'>Total: ₱46000.52</span>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </Row>
+                            <Container className='w-100'>
+                                    <Button className='w-auto px-5 ms-auto me-1 mt-4 bg-main-dominant-red shadow border-0' onClick={cancelOrder}>Cancel Order</Button>
+                                    <Button className='w-auto px-5 me-auto ms-1 mt-4 bg-main-dominant-red shadow border-0' onClick={confirmOrder}>Confirm Order</Button>
+                            </Container>
+                        </Col>
+                    </Row>
+                </Card>
+            </Row>
+        </Container>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                 </Modal.Header>
