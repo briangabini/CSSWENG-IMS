@@ -21,12 +21,7 @@
   --black: #000000;
   --card1-red: #FFD4D4;
   --card2-red: #FF9898;
-  --navbar-cart: #DFFFDE;
-  --hover-background: #cbcbcb;
-  --stocks-good: #60db58;
-  --stocks-danger:#f0d735;
-  --stocks-out: #eb5954;
-  --search-gray: #D9D9D9;
+  --navbar-cart: #DFFFDE
 }
 
 body {
@@ -69,27 +64,8 @@ a {
 .txt-gray-text{
   color: var(--gray-text)!important;
 }
-.txt-black{
-  color: var(--black)!important;
-}
 .txt-profit-dark{
   color: var(--profit-dark)!important;
-}
-.txt-main-dominant-red {
-  color: var(--main-dominant-red)!important;
-}
-.txt-JPD-logo-red {
-  color: var(--JPD-logo-red)!important;
-}
-.txt-faded-text-button {
-  color: var(--faded-text-button);
-}
-
-.accordion-button {
-  background-color: var(--main-dominant-red)!important;
-  font-size: 1.5rem!important;
-  color: var(--white)!important;
-  font-weight: 600!important;
 }
 
 .bg-main-dominant-red {
@@ -104,25 +80,6 @@ a {
 .bg-card3-red{
   background-color: var(--card3-red)!important;
 }
-.bg-white{
-  background-color: var(--white)!important;
-}
-.bg-background-red{
-  background-color: var(--background-red)!important;
-}
-.bg-stocks-good{
-  background-color: var(--stocks-good);
-}
-.bg-stocks-danger{
-  background-color: var(--stocks-danger);
-}
-.bg-stocks-out{
-  background-color: var(--stocks-out);
-}
-.bg-search-gray{
-  background-color: var(--search-gray)!important;
-}
- 
 
 .txt-14{
   font-size: 14px!important; /* fs-6 */
@@ -203,74 +160,15 @@ a {
   background-size: 8rem;
 }
 
-.hover:hover{
-  text-decoration: underline;
-  cursor: pointer;
+.sidebar {
+  width: 250px;
+  transition: all 0.3s;
 }
 
-.button-page{
-  width: auto;
-  height: auto;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  background-size: 1rem;
+.expanded {
+  width: 60px;
 }
 
-.first{
-  background-image: url(../public/icon_first.png);
-}
-
-.last{
-  background-image: url(../public/icon_last.png);
-}
-
-.right{
-  background-size: 0.75rem;
-  background-image: url(../public/icon_right.png);
-}
-
-.left{
-  background-image: url(../public/icon_left.png);
-  background-size: 0.75rem;
-}
-
-.login{
-  height: 90vh;
-}
-
-.modalCenter{
-  transform:translateY(10%)!important;
-}
-
-.scroll-space{
-  scrollbar-gutter: stable;
-}
-
-.items-in-cart{
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 40vh;
-  box-sizing: border-box;
+.toggle-button {
   width: 100%;
-}
-
-.cart-inventory{
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height: 80vh;
-}
-
-.link-no-underline{
-  text-decoration: none!important;
-}
-
-/* remove default password visibility eye */
-input[type=password]::-ms-reveal,
-input[type=password]::-ms-clear
-{
-    display: none;
-}
-
-.height-content{
-  height: fit-content!important;
 }

@@ -1,62 +1,21 @@
 import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
-import { DOMAIN } from '../config'
 
-import { useInventoryContext } from '../hooks/useInventoryContext'
-import { useAuthContext } from "../hooks/useAuthContext"
 
-const ItemDeletionConfirmation = ({_id}) => {
-    // show     boolean variable that determines if a component is visisble or not
-    // setShow  function that changes the variable 'show'
+const ItemDeletionConfirmation = () => {
     const [show, setShow] = useState(false);
-    const [error, setError] = useState('')
-    const { user } = useAuthContext()
-
-    const { dispatch } = useInventoryContext()
     
-    // function that hides the component
     const handleClose = () => setShow(false);
-    // function that shows the component
     const handleShow = () => setShow(true);
-
-    const handleDelete = async (e) => {
-
-        if (!user) {
-            return 
-        }
-        
-        const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${user.token}` },
-        })
-
-        const json = await response.json()
-
-        if (!response.ok) {
-            setError(json.error)
-        }
-        if (response.ok) {
-            dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
-
-            // 
-            console.log('deleted inventory item:', json) // print to console
-        }
-
-        handleClose()
-    }
-
-
 
     return (
         <>  
-            {/* Button to delete an item */}
             <Button onClick={handleShow} 
                     size='sm' variant='danger' 
-                    className='shadow rounded-2 col-4 txt-16' >
+                    className='shadow rounded-2 px-4' >
                 Delete
             </Button>
 
-            {/* Modal that would ask for confirmation of item deletion */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
@@ -70,14 +29,12 @@ const ItemDeletionConfirmation = ({_id}) => {
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* Deletes the item when clicked */}
-                    <Button variant="secondary" onClick={handleDelete} className='ms-auto px-4'>
-                        Proceed
-                    </Button>
-                    {/* Does NOT delete the item when clicked */}
-                    <Button variant="danger" onClick={handleClose} className='me-auto px-4'>
-                        Cancel
-                    </Button>
+                <Button variant="secondary" onClick={handleClose} className='ms-auto px-4'>
+                    Proceed
+                </Button>
+                <Button variant="danger" onClick={handleClose} className='me-auto px-4'>
+                    Cancel
+                </Button>
                 </Modal.Footer>
             </Modal>
         </>

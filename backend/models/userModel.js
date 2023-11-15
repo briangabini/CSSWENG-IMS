@@ -22,12 +22,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['Partsman', 'Cashier', 'Secretary', 'Admin'],
         required: true,
-    }
-}, {
-    timestamps: {
-        createdAt: 'dateAdded', // Use `dateAdded` to store the created date
-        updatedAt: 'dateModified' // and `dateModified` to store the last updated date
-    }
+    },
+    dateAdded: {
+        type: Date,
+        default: Date.now,
+    },
 })
 
 // static signup method
@@ -40,7 +39,7 @@ userSchema.statics.signup = async function (email, password, employeeName, role)
     if (!validator.isEmail(email)) { // checks if the format is in email format
         throw Error('Email is not valid')
     }
-
+    
     // ALL the parameters needs to be changed; all the fields must be present, removing one causes an error.
     /* if (!validator.isStrongPassword(password, { minLength: 8, minLowercase: 0, minUppercase: 0, minNumbers: 0, minSymbols: 0, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 })) {
         throw Error('Password not strong enough')
@@ -70,13 +69,13 @@ userSchema.statics.login = async function (email, password) {
 
     const user = await this.findOne({ email })
     if (!user) {
-        throw Error('Incorrect email and/or password.')
+        throw Error('Incorrect email')
     }
 
     const match = await bcrypt.compare(password, user.password)
-
+    
     if (!match) {
-        throw Error('Incorrect email and/or password.')
+        throw Error('Incorrect password')
     }
 
     return user

@@ -3,27 +3,19 @@ import { useState } from "react";
 
 
 const UserDeletionConfirmation = () => {
-    // show     boolean variable that determines if a component is visisble or not
-    // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
     
-    // function that hides the component
     const handleClose = () => setShow(false);
-    // function that shows the component
     const handleShow = () => setShow(true);
-
-    const handleError = () => {}
 
     return (
         <>  
-            {/* Button to delete users */}
             <Button onClick={handleShow} 
                     size='sm' variant='danger' 
                     className='shadow rounded-2 px-4' >
                 Delete
             </Button>
 
-            {/* Modal for deletion confirmation */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
@@ -35,24 +27,15 @@ const UserDeletionConfirmation = () => {
                                 label="Administrator Password"
                                 className="my-3"
                             >
-                                {/* Input for Administrator Password */}
-                                <Form.Control type="password" placeholder="" />
+                                <Form.Control type="email" placeholder="name@example.com" />
                             </FloatingLabel>
-                            {/* Error */}
-                            <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'
-                                onClick={handleError}>
-                                Error: Invalid input!
-                            </div>
-                            
                         </Stack>
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                {/* Deletes the user */}
                 <Button variant="secondary" onClick={handleClose} className='ms-auto px-4'>
                     Proceed
                 </Button>
-                {/* Does NOT delete the user */}
                 <Button variant="danger" onClick={handleClose} className='me-auto px-4'>
                     Cancel
                 </Button>
