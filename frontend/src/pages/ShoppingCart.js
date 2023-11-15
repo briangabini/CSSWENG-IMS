@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
 import CartItemDetails from '../components/CartItemDetails'
-import InventoryItemDetails from '../components/InventoryItemDetails';
+import ShopCartInvenItemDetails from '../components/ShopCartInvenItemDetails.js';
 import { useInventoryContext } from '../hooks/useInventoryContext'
 import { useAuthContext } from '../hooks/useAuthContext.js'
 import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
@@ -201,6 +201,7 @@ const ShoppingCart = () => {
             // setInventoryItems([])  // clear existing data or handle error appropriately
         }
     }
+    
 
     const fetchCart = async () => {
         const userId = user._id
@@ -247,10 +248,30 @@ const ShoppingCart = () => {
     }
     const debouncedHandleSearchChange = _.debounce(handleSearchChange, 200);
 
+    const addInventoryItem = async (itemId) => {
+        const data = {
+            userId: user._id,
+            inventoryId: itemId
+        };
+        console.log(data)
+        console.log(itemId)
+        try {
+            const response = await fetch(`${DOMAIN}/cart/addItemToCart`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
+                body: JSON.stringify(data)
+            })
+        } catch (error) {
+            console.error('Error hehehee:', error)
+        }
+    }
+    
+
     useEffect(() => {
         if (user) {
             fetchInventoryItems()
             fetchCart()
+            addInventoryItem()
         }
     }, [])
 
@@ -296,30 +317,16 @@ const ShoppingCart = () => {
                             </Row> */}
                             <Row className='cart-inventory'>
                                 <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
+                                    
                                     {inventoryItems && inventoryItems.map((inventoryItem) => (
                                             // Component for Inventory Items
-                                            <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} showPrice={transactionType} />
+                                            <ShopCartInvenItemDetails
+                                                key={inventoryItem._id}
+                                                _id={inventoryItem._id}
+                                                inventoryItem={inventoryItem}
+                                                showPrice={transactionType}
+                                                onAddToCart={() => addInventoryItem(inventoryItem._id)}
+                                                />
                                         ))}
                                 </Card>
                                 
