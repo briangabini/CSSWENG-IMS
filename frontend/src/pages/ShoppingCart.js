@@ -69,282 +69,6 @@ const ShoppingCart = () => {
                                         </Col>
                                     </Row>
                                 </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    <Row>
-                                        <Col className='col-10'>
-                                            <Row className='fs-4 fw-bold txt-white ms-2'>
-                                                Item Name
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Price: ₱1,753.49
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Brand: Lorem Ipsum
-                                            </Row>
-                                            <Row className='fs-6 txt-white ms-2'>
-                                                Stock: 40 left
-                                            </Row>
-                                        </Col>
-                                        <Col className='col-2'>
-                                            <Button className='bg-white txt-main-dominant-red fw-bold border-0'>
-                                                +
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Card>
                                 
                             </Row>
                         </Col>
@@ -375,6 +99,7 @@ const ShoppingCart = () => {
                             </Row>
                                 <Container fluid className='nopadding'>
                                     <div className='items-in-cart'>
+                                    
                                         <Row fluid className='mb-2'>
                                             <Col className='col-1'>
                                                 <Form.Check
@@ -382,35 +107,16 @@ const ShoppingCart = () => {
                                                     className=''
                                                 />
                                             </Col>
-                                            <Col className='col-4 text-wrap'>
+                                            <Col className='col-4'> 
                                                 Lorem Ipsum Lorem Ipsum..
                                             </Col>
                                             <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-auto my-2'> 10000 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
+                                                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content'>-</Button>
+                                                <span className='m-auto'> 10000 </span>
+                                                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content'>+</Button>
                                             </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding ms-1'>
-                                                ₱515.03
-                                            </Col>
-                                        </Row>
-                                        <Row fluid className='mb-2'>
-                                            <Col className='col-1'>
-                                                <Form.Check
-                                                    type={'checkbox'}
-                                                    className=''
-                                                />
-                                            </Col>
-                                            <Col className='col-4 text-wrap'>
-                                                Lorem Ipsum Lorem Ipsum..
-                                            </Col>
-                                            <Col className='col-3 nopadding d-flex justify-content-center'>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>-</Button>
-                                                <span className='mx-auto my-2'> 4 </span>
-                                                <Button variant="outline-dark" className='nopadding px-2 my-2'>+</Button>
-                                            </Col>
-                                            <Col className='col-3 text-wrap ps-2 nopadding ms-1'>
-                                                ₱515.03
+                                            <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
+                                                <span className='my-auto'>₱515.03</span>
                                             </Col>
                                         </Row>
                                     </div>
@@ -419,7 +125,7 @@ const ShoppingCart = () => {
                                 <Button className='w-auto px-5 mx-auto mt-4 bg-main-dominant-red shadow border-0 mb-4'>Delete Items</Button>
                             </Row>
                             <Row>
-                                <Card className='w-75 mx-auto'>
+                                <Card className='w-auto mx-auto'>
                                     <Row className='fs-5 fw-bold ps-2 pt-2'>
                                         Transaction Type: Retail
                                     </Row>
