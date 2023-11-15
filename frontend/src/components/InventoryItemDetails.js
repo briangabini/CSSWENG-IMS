@@ -82,6 +82,12 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                             </Card>
                         </Container>
 
+        <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title className='fs-2 fw-bold'>{inventoryItem.partName}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
                         <Container className='ms-3'>
                             <Row className='fs-4 fw-bold mb-2 pt-3'>
                                 Basic Information
@@ -156,6 +162,47 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                     </Modal.Footer>
                 </Modal>
         </>
+                        </Row>
+                        <Row className="pt-2">
+                            <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                RETAIL PRICE
+                            </Col>
+                            <Col className='col-6'>
+                                {inventoryItem.retailPrice}
+                            </Col>
+                        </Row>
+                        <Row className="pt-1">
+                            <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                WHOLESALE PRICE
+                            </Col>
+                            <Col className='col-6'>
+                                *insert wholesale price here*
+                            </Col>
+                        </Row>
+                        <Row className="pt-1">
+                            <Col className="txt-gray-text me-2 pt-3">
+                                Last edited at *insert time here*
+                            </Col>
+                        </Row>
+                    </Container>
+
+                    <Container fluid className='mt-4'>
+                        <Button onClick={navigateEditItem}
+                                size='sm' variant='dark' className='me-2 shadow rounded-2 px-4'>Edit</Button>
+                        <ItemDeletionConfirmation />
+                    </Container>
+
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                    Save Changes
+                </Button>
+                </Modal.Footer>
+            </Modal>
+    </>
     )
 }
 
