@@ -2,11 +2,23 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const inventoryRoutes = require('./routes/inventory')
 const verifiedUserRoutes = require('./routes/verified-users')
+const cartRoutes = require('./routes/cart')
 
 // express app
 const app = express()
+app.use(cors(
+    {
+        // origin: [], // only until the duration of deployment, since it may bring security risks, allows access from any origin
+        // origin: "https://jpdgarage.vercel.app",
+        // origin: "https://jpdgarage-dev.vercel.app",
+        origin: "http://localhost:3000",
+        methods: ["POST", "GET", "PATCH", "DELETE"],
+        credentials: true
+    }
+));
 
 // middleware
 app.use(express.json())
@@ -17,11 +29,13 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.use('/jpd/users', verifiedUserRoutes)
-app.use('/jpd/inventory', inventoryRoutes)
+app.use('/users', verifiedUserRoutes)
+app.use('/inventory', inventoryRoutes)
+app.use('/cart', cartRoutes)
 
 // connect to the db
-mongoose.connect(process.env.MONGO_URI)
+// mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI_DEV)
     .then(() => {
         console.log('connected to database')
         // listen to port

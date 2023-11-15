@@ -1,9 +1,18 @@
 // bootstrap
 import {Container, Row, Col, Card} from 'react-bootstrap'
 import ReminderAndStatistics from '../components/ReminderAndStatistics'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const AdminControlCenter = () => {
+    const navigate = useNavigate();
+
+    const navigateAuditLog = () => {
+        navigate(`/audit-log`);
+    };
+
+    const navigateVerifiedUsersList = () => {
+        navigate(`/verified-user-list`)
+    }
 
     return (
 
@@ -13,42 +22,44 @@ const AdminControlCenter = () => {
             </Row>
 
             <Row className='pe-2'>
-                <Col className='col-8'>
-                <Link to="/audit-log" style={{textDecoration:'none', margin:0, padding:0, color:'black'}}>
-                        <Row className='fw-bold txt-20 my-2'>
-                            Audit Log
-                        </Row>
-                        <Row className='me-2'>
-                            <Card className='p-4 bg-main-dominant-red overlay-audit-log'>
-                                <Row>
-                                    <Col className='m-2 txt-white fs-1 fw-bold'>Juan Dela Cruz</Col>
-                                </Row>
-                                <Row>
-                                    <Col className='ms-2 mb-3 txt-white fs-5'>
-                                        adjusted the stock number of “Arai Astro Light Helmet” from “16” to “15”
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </Row>
-                    </Link>
+                {/* Audit Log Section*/}
+                {/* When this section is clicked, would navigate to Audit Log Page */}
+                <Col className='col-8' onClick={navigateAuditLog}>
+                    <Row className='fw-bold txt-20 my-2'>
+                        Audit Log
+                    </Row>
+                    <Row className='me-2'>
+                        <Card className='p-4 bg-main-dominant-red overlay-audit-log'>
+                            <Row>
+                                {/* Name of Employee who recently made an action */}
+                                <Col className='m-2 txt-white fs-1 fw-bold'>Juan Dela Cruz</Col>
+                            </Row>
+                            <Row>
+                                {/* The most recent action of the employee */}
+                                <Col className='ms-2 mb-3 txt-white fs-5'>
+                                    adjusted the stock number of “Arai Astro Light Helmet” from “16” to “15”
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Row>
                 </Col>
                 
-                <Col className='w-auto d-flex flex-grow-1'>
-                    <Link className='d-flex flex-column flex-grow-1' to="/verified-user-list" style={{textDecoration:'none', margin:0, padding:0, color:'black'}}>
-                        <Row className='fw-bold txt-20 my-2'>
-                            Verified User List
+                {/* Verified User List Section */}
+                {/* When this section is clicked, would navigate to Verified User List Page */}
+                <Col className='w-auto d-flex flex-column' onClick={navigateVerifiedUsersList}>
+                    <Row className='fw-bold txt-20 my-2'>
+                        Verified User List
+                    </Row>
+                    <Row className='flex-grow-1'>
+                        <Card className='bg-main-dominant-red w-100 p-4 overlay-user-list flex-grow-1'>
+                        <Row className='h-100 d-flex align-items-end'>
+                            {/* The current number of verified users */}
+                            <Col className='text-center txt-white fw-bold fs-5'>
+                                8 Verified Users
+                            </Col>
                         </Row>
-                        
-                        <Row className='flex-grow-1'>
-                            <Card className='bg-main-dominant-red w-100 p-4 overlay-user-list' >
-                                <Row className='h-100 d-flex align-items-end'>
-                                    <Col className='text-center txt-white fw-bold fs-5'>
-                                        8 Verified Users
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </Row>
-                    </Link>
+                        </Card>
+                    </Row>
                 </Col>
             </Row>
 

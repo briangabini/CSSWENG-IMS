@@ -17,11 +17,19 @@ const loginUser = async (req, res) => {
         // create a token
         const token = createToken(user._id)
 
-        res.status(200).json({ email, token })
+        // other user data
+        const employeeName = user.employeeName
+        const role = user.role
+
+        res.status(200).json({ email, role, employeeName, token })
+
+        console.log(user)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
+
+/* TODO: Create a logout function for the user */
 
 
 // get all verified users
@@ -36,6 +44,20 @@ const getVerifiedUser = async (req, res) => {
     const { employeeName } = req.params
 
     const userDetail = await User.findOne({ employeeName: employeeName })
+
+    if (!userDetail) {
+        return res.status(404).json({ error: 'No such employee is found!' })
+    }
+
+    res.status(200).json(userDetail)
+
+}
+
+// get a single user using their employee name
+const getVerifiedUserByEmail = async (req, res) => {
+    const { email } = req.params
+
+    const userDetail = await User.findOne({ email })
 
     if (!userDetail) {
         return res.status(404).json({ error: 'No such employee is found!' })
@@ -70,10 +92,10 @@ const createVerifiedUser = async (req, res) => {
     // add doc to db
     try {
 
-        const userDetail = await User.signup(email, password, employeeName, role)
+        const user = await User.signup(email, password, employeeName, role)
         
         // create token
-        const token = createToken(userDetail._id)
+        const token = createToken(user._id)
         
         res.status(200).json({email, token})
     } catch (error) {
@@ -81,9 +103,35 @@ const createVerifiedUser = async (req, res) => {
     }
 }
 
+const checkEmail = async (req, res) => {
+    try {
+        const { email } = req.body // the client sends the email through POST request
+    
+        // Use mongoose to check if the partName value already exists in the database
+        const existingEmail = await User.findOne({ email })
+
+        console.log('Email retrieved: ', existingEmail)
+
+        if (existingEmail) {
+            // If email is found then there's a duplicate in the database
+            return res.status(200).json({ isDuplicate: true })
+        } else {
+            // If no matching email is found then there's no duplicate in the database
+            return res.status(200).json({ isDuplicate: false })
+        }
+    } catch (error) {
+        console.error('An error occurred while checking for duplicates: ', error)
+        return res.status(500).json({
+            error: 'An error occurred while checking for duplicates.'
+        })
+    }
+}
+
 module.exports = {
     getVerifiedUsers,
     getVerifiedUser,
     createVerifiedUser,
-    loginUser
+    loginUser,
+    checkEmail,
+    getVerifiedUserByEmail
 }
