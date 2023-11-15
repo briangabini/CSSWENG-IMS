@@ -1,4 +1,4 @@
-import { Container, Col, Row, Modal, Button } from "react-bootstrap"
+import { Button, Col, Row, Modal, Container, Card } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
@@ -58,79 +58,103 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
             
             {/* The modal for an inventory item */}
             {/* Shows more details of the inventory item */}
-            <Modal className="modal-lg nopadding nomargin modalCenter" show={show} onHide={handleClose}>
-                <Modal.Header closeButton className="bg-background-red">
-                    <Modal.Title>Item Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="bg-background-red rounded">
+            
 
-                    <Row className="my-2">
-                        <h3>{inventoryItem.partName}</h3>
-                        <Col className="col-8">
-                            <Row className="pt-3">
-                                <h5>Basic Information</h5>
-                                <Col>
-                                    <p>BRAND</p>
+            <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className='fs-2 fw-bold'>{inventoryItem.partName}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                        <Container fluid className=''>
+                            {/**Insert if statement to change color depending on stock quality. Will be yellow for now */}
+                            <Card className='bg-warning'>
+                                <Row className='fw-bold mx-auto pt-3 h5'>
+                                    Current Stocks
+                                </Row>
+                                <Row className='mx-auto pt-3 h1'>
+                                    {inventoryItem.stockNumber}
+                                </Row>
+                                {/**Insert if statement to show text depending on stocks. */}
+                                <Row className="mx-auto pt-3 pb-3">
+                                    Critical stocks remaining!
+                                </Row>
+                            </Card>
+                        </Container>
+
+                        <Container className='ms-3'>
+                            <Row className='fs-4 fw-bold mb-2 pt-3'>
+                                Basic Information
+                            </Row>
+                            <Row className="pt-2">
+                                <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                    BRAND
                                 </Col>
-                                <Col>
-                                    <p>{inventoryItem.brand}</p>
+                                <Col className='col-6'>
+                                    {inventoryItem.brand}
                                 </Col>
                             </Row>
+                            <Row className="pt-2">
+                                <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                    COMPATIBLE MOTORCYCLE MODEL
+                                </Col>
+                                <Col className='col-6'>
+                                    {inventoryItem.motorModel}
+                                </Col>
+                            </Row>
+                            <Row className="pt-2">
+                                <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                    LAST UPDATED
+                                </Col>
+                                <Col className='col-6'>
+                                    *insert date here*
+                                </Col>
+                            </Row>
+
                             <Row>
-                                <Col>
-                                    <p>MOTORCYCLE MODEL</p>
+                                <Row className='fs-4 fw-bold mb-2 pt-3'>
+                                    Sales Information
+                                </Row>
+                            </Row>
+                            <Row className="pt-2">
+                                <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                    RETAIL PRICE
                                 </Col>
-                                <Col>
-                                    <p>{inventoryItem.motorModel}</p>
+                                <Col className='col-6'>
+                                    {inventoryItem.retailPrice}
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col>
-                                    <p>DATE ADDED</p>
+                            <Row className="pt-1">
+                                <Col className='txt-gray-text col-4 me-2 fw-bold'>
+                                    WHOLESALE PRICE
                                 </Col>
-                                <Col>
-                                    <p>{inventoryItem.dateAdded}</p>
-                                </Col>
-                            </Row>
-                            <Row className="pt-3">
-                                <h5>Sales Information</h5>
-                                <Col>
-                                    <p>RETAIL PRICE</p>
-                                </Col>
-                                <Col>
-                                    <p>{inventoryItem.retailPrice}</p>
+                                <Col className='col-6'>
+                                    *insert wholesale price here*
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col>
-                                    <p>WHOLESALE PRICE</p>
-                                </Col>
-                                <Col>
-                                <p>{inventoryItem.wholesalePrice}</p>
+                            <Row className="pt-1">
+                                <Col className="txt-gray-text me-2 pt-3">
+                                    Last edited at *insert time here*
                                 </Col>
                             </Row>
-                        </Col>
+                        </Container>
 
-                        <Col className="col-4">
-                            <Row className='mx-auto py-1 justify-content-end'>
-                                <Button className="shadow rounded-2 col-4 mx-2 bg-white txt-black txt-16 border-0" onClick={navigateEditItem}>Edit</Button>
-                                <ItemDeletionConfirmation _id={_id}/>
-                            </Row>
+                        <Container fluid className='mt-4'>
+                            <Button onClick={navigateEditItem}
+                                    size='sm' variant='dark' className='me-2 shadow rounded-2 px-4'>Edit</Button>
+                            <ItemDeletionConfirmation />
+                        </Container>
 
-                            <Row className="py-3 mx-auto">
-                                <Container className="bg-stocks-good rounded py-4">
-                                    {/**THE BG-COLOR WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE COLOR DEPENDING ON STOCK */}
-                                    <h4 className="text-center">Current Stocks</h4>
-                                    <h1 className="text-center py-2">{inventoryItem.stockNumber}</h1>
-                                    <p className="text-center">Sufficient amount of stocks remaining</p>
-                                        {/**THE TEXT ITSELF WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE TEXT DEPENDING ON STOCK */}
-                                </Container>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-            </Modal>
-
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
         </>
     )
 }
