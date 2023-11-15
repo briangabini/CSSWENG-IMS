@@ -51,9 +51,10 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
 
     return (
         <Row fluid className='mb-2'>
+
             <Col className='col-1'>
                 <Form.Check
-                    type='checkbox'
+                    type={'checkbox'}
                     className=''
                     id={_id}
                     checked={isSelected} // Set the checked status based on the prop
@@ -63,38 +64,32 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
             <Col className='col-4 text-wrap'>
                 {item.inventoryItem.partName}
             </Col>
-
             <Col className='col-3 nopadding d-flex justify-content-center'>
-            {/* BUTTON FOR ADDING */}
-                <Button 
-                    variant="outline-dark" 
-                    className='nopadding px-2 my-2'
-                    onClick={deductQuantity}
-                >-</Button>
-
-                <span className='mx-1 my-2'> {quantity} </span>
-
-                <Button 
-                    variant="outline-dark" 
-                    className='nopadding px-2 my-2'
-                    onClick={addQuantity}
-                >+
-                </Button>
+                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content'
+                    onClick={deductQuantity}>-</Button>
+                <span className='m-auto'> {quantity} </span>
+                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content' onClick={addQuantity}>+</Button>
             </Col>
+            <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
+                <span className='my-auto'>₱515.03</span>
+            </Col>
+
             {
                 showPrice === 'retail' && 
-                <Col className='col-3 text-wrap ps-2 nopadding'>
-                    {item.inventoryItem.retailPrice}
+                <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
+                    <span className='my-auto'>{item.inventoryItem.retailPrice}</span>
                 </Col>
             }
             {
                 showPrice === 'wholesale' &&
-                <Col className='col-3 text-wrap ps-2 nopadding'>
-                    {item.inventoryItem.wholesalePrice}
+                <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
+                    <span className='my-auto'>{item.inventoryItem.wholesalePrice}</span>
                 </Col>
             }
             
         </Row>
+                                    
+
     )
 }
 
