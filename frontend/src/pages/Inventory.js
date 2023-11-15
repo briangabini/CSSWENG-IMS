@@ -228,7 +228,7 @@ const Inventory = () => {
             <Row>
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
-                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} />
+                    <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} value={searchTerm} />
                     <Button id="button-addon2"
                         variant='light'
                         className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'

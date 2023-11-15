@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, InputGroup, Form, Button, ButtonToolbar, FloatingLabel, Modal } from 'react-bootstrap'
+import { Container, Row, Col, Card, InputGroup, Form, Button, FloatingLabel, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 
@@ -12,7 +12,6 @@ import { useAuthContext } from '../hooks/useAuthContext.js'
 import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
 import { useTransactionType } from '../hooks/useTransactionType.js'
 import { DOMAIN } from '../config'
-import _ from 'lodash'
 
 const ShoppingCart = () => {
     const { user } = useAuthContext()
@@ -21,8 +20,6 @@ const ShoppingCart = () => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectAllChecked, setSelectAllChecked] = useState(false)
 
-    const [min, setMin] = useState('')
-    const [max, setMax] = useState('')
     const [motorModel, setMotorModel] = useState('')
     const [brand, setBrand] = useState('')
     const [stockStatus, setStockStatus] = useState('')
@@ -160,7 +157,7 @@ const ShoppingCart = () => {
 
         console.log(DOMAIN)
 
-        let endpoint = DOMAIN + '/inventory' + '/?'
+        let endpoint = DOMAIN + '/inventory/?'
 
         if (searchTerm) {
             endpoint += `&search=${searchTerm}`; // using "query" as the query parameter name
@@ -217,35 +214,6 @@ const ShoppingCart = () => {
             console.log(json.inventoryItems)
         }
     }
-    const handleSortByUpdate = (newSortByValue) => {
-        setSortBy(newSortByValue)
-    }
-
-    const handleFilterUpdate = (newMin, newMax, newBrand, newMotorModel, newStockStatus) => {
-        setMin(newMin)
-        setMax(newMax)
-        setBrand(newBrand)
-        setMotorModel(newMotorModel)
-        setStockStatus(newStockStatus)
-    }
-    // Handle search term changes
-    const handleSearchChange = (event) => {
-        // Update the search term state whenever the input value changes
-        setSearchTerm(event.target.value);
-    }
-
-    const handleSearchClick = () => {
-        fetchInventoryItems()
-    }
-
-    const handleSearch = (event) => {
-        // Check if the function was called via a key down and if that key was Enter
-        if (event.type === 'keydown' && event.key === 'Enter') {
-            event.preventDefault(); // Prevent the default action
-            fetchInventoryItems(); // Call the function that fetches the inventory items
-        }
-    }
-    const debouncedHandleSearchChange = _.debounce(handleSearchChange, 200);
 
     useEffect(() => {
         if (user) {
@@ -266,26 +234,13 @@ const ShoppingCart = () => {
                             <Col className='col-6 border px-4'>
                                 {/* Navigation Tooles: Search + Filter + Sort By */}
                                 <Row>
-                                    <ButtonToolbar className='nopadding'>
-                                        {/* Component for filtering items */}
-                                        <Filter min={min} max={max} brand={brand} motorModel={motorModel} stockStatus={stockStatus} onUpdate={handleFilterUpdate} />
-                                        {/* Component for sorting items */}
-                                        <SortBy sortBy={sortBy} onUpdate={handleSortByUpdate} />
-                                    </ButtonToolbar>
-                                </Row>
-                                <Row>
                                     {/* Search Bar */}
                                     <InputGroup className="mb-5 mt-2 nopadding">
                                         <Form.Control placeholder="Search"
-                                            className='rounded-start-2 ps-4 py-2 bg-search-gray'
-                                            onChange={debouncedHandleSearchChange}
-                                            onKeyDown={handleSearch}
-                                            // value={searchTerm}
-                                            />
+                                            className='rounded-start-2 ps-4 py-2 bg-search-gray' />
                                         <Button id="button-addon2"
                                             variant='light'
-                                            className='py-2 px-3 border border-start-0 bg-search-gray'
-                                            onClick={handleSearchClick}>
+                                            className='py-2 px-3 border border-start-0 bg-search-gray'>
                                             <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                                         </Button>
                                     </InputGroup>
@@ -355,6 +310,9 @@ const ShoppingCart = () => {
                                                 isSelected={selectedItems.includes(inventoryItemObj._id)} // Check if the item is selected
                                             />
                                         ))}
+
+
+
 
                                     </div>
                                 </Container>
