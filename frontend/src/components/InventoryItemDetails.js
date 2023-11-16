@@ -51,7 +51,8 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
                 <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
                 <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
-                <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
                 <Col className='txt-gray-text col-1 fs-6 nopadding text-truncate'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
                 {/* for testing purposes */}
             </Row>
@@ -106,7 +107,7 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                                     <p>WHOLESALE PRICE</p>
                                 </Col>
                                 <Col>
-                                <p>{inventoryItem.wholesalePrice}</p>
+                                    <p>{inventoryItem.wholesalePrice}</p>
                                 </Col>
                             </Row>
                         </Col>

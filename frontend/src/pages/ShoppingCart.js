@@ -316,9 +316,7 @@ const ShoppingCart = () => {
                                 <Filter />
                                 <SortBy />
                             </Row> */}
-                            <Row className='cart-inventory'>
-                                <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                                    
+                            <Row className='cart-inventory'>                                    
                                     {inventoryItems && inventoryItems.map((inventoryItem) => (
                                             // Component for Inventory Items
                                             <ShopCartInvenItemDetails
@@ -328,9 +326,7 @@ const ShoppingCart = () => {
                                                 showPrice={transactionType}
                                                 onAddToCart={() => addInventoryItem(inventoryItem._id)}
                                                 />
-                                        ))}
-                                </Card>
-                                
+                                        ))}                                
                             </Row>
                         </Col>
                         <Col className='col-6 nomargin nopadding scroll-space'>

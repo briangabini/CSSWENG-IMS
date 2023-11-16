@@ -1,4 +1,4 @@
-import { Container, Col, Row, Modal, Button } from "react-bootstrap"
+import { Container, Col, Row, Modal, Button, Card } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
@@ -21,44 +21,46 @@ const ShopCartInvenItemDetails = ({ inventoryItem, _id, showPrice, onAddToCart})
     const priceShow = () => {
         if (showPrice === 'retail') {
             // console.log('retail in priceShow')
-            return <Row className='fs-6 txt-white ms-2'>{inventoryItem.retailPrice}</Row>
+            return <Row className='fs-6 txt-white ms-2'>Price: {inventoryItem.retailPrice}</Row>
         } else if (showPrice === 'wholesale') {
             // console.log('wholesale in priceShow')
-            return <Row className='fs-6 txt-white ms-2'>{inventoryItem.wholesalePrice}</Row>
+            return <Row className='fs-6 txt-white ms-2'>Price: {inventoryItem.wholesalePrice}</Row>
         } else {
             return <>
-                <Row className='fs-6 txt-white ms-2'>{inventoryItem.retailPrice}</Row>
-                <Row className='fs-6 txt-white ms-2'>{inventoryItem.wholesalePrice}</Row>
+                <Row className='fs-6 txt-white ms-2'>Price: {inventoryItem.retailPrice}</Row>
+                <Row className='fs-6 txt-white ms-2'>Price: {inventoryItem.wholesalePrice}</Row>
             </>
         }
     }
     
     return (
         <>
-            <Row className='w-100 nopadding my-2'>
-                <Col className='col-10'>
-                    <Row className='fs-4 fw-bold txt-white ms-2'>
-                        {inventoryItem.partName}
-                    </Row>
-                    
-                    {priceShow()}
-                    
-                    <Row className='fs-6 txt-white ms-2'>
-                        {inventoryItem.brand}
-                    </Row>
-                    <Row className='fs-6 txt-white ms-2'>
-                        {inventoryItem.stockNumber}
-                    </Row>
-                </Col>
-                <Col className='col-2'>
-                    <Button
-                        className='bg-white txt-main-dominant-red fw-bold border-0'
-                        onClick={onAddToCart}>
-                        +
-                    </Button>
-                </Col>
-            </Row>
-            
+            <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
+                <Row className='w-100 nopadding my-2'>
+                    <Col className='col-10'>
+                        <Row className='fs-4 fw-bold txt-white ms-2'>
+                            {inventoryItem.partName}
+                        </Row>
+                        
+                        {priceShow()}
+                        
+                        <Row className='fs-6 txt-white ms-2'>
+                            Brand: {inventoryItem.brand}
+                        </Row>
+                        <Row className='fs-6 txt-white ms-2'>
+                            Stock: {inventoryItem.stockNumber} left
+                        </Row>
+                    </Col>
+                    <Col className='col-2'>
+                        <Button
+                            className='bg-white txt-main-dominant-red fw-bold border-0'
+                            onClick={onAddToCart}>
+                            +
+                        </Button>
+                    </Col>
+                </Row>
+            </Card> 
+                   
 
         </>
     )
