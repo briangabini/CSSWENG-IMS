@@ -124,6 +124,28 @@ a {
 }
  
 
+.bg-white{
+  background-color: var(--white)!important;
+}
+.bg-background-red{
+  background-color: var(--background-red)!important;
+}
+.bg-stocks-good{
+  background-color: var(--stocks-good);
+}
+.bg-stocks-danger{
+  background-color: var(--stocks-danger);
+}
+.bg-stocks-out{
+  background-color: var(--stocks-out);
+}
+.bg-search-gray{
+  background-color: var(--search-gray)!important;
+}
+.bg-finances-positive{
+  background-color: var(--finances-positive)!important;
+}
+
 .txt-14{
   font-size: 14px!important; /* fs-6 */
 }
@@ -205,6 +227,17 @@ a {
 
 .hover:hover{
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.button-page{
+  width: auto;
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 1rem;
+}
+.point-cursor{
   cursor: pointer;
 }
 

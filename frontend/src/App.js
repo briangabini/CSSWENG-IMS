@@ -24,6 +24,7 @@ import Sidebar from './components/Sidebar'
 import NavigationBar from './components/Navbar';
 import Header from './components/Header';
 import { useState, useEffect  } from 'react';
+import Payments from './pages/Payments';
 
 function App() {
   const {user} = useAuthContext()
@@ -69,14 +70,24 @@ function App() {
                 element={(user && user.role === "Admin") ? <SalesPage /> : <Navigate to="/"/>}
               />
 
+            <Route
+              path="/inventory/add-items"
+              element={<AddInventoryItems />}
+            />
+
+            <Route
+              path="/shopping-cart"
+              element={<ShoppingCart />}
+            />
+            
+              <Route
+                path="/payments"
+                element={(user && user.role === "Admin") ? <Payments /> : <Navigate to="/"/>}
+              />  
+
               <Route
                 path="/inventory/add-items"
                 element={user ? <AddInventoryItems /> : <Navigate to="/"/>}
-              />
-
-              <Route
-                path="/shopping-cart"
-                element={user ? <ShoppingCart /> : <Navigate to="/"/>}
               />
 
               <Route
