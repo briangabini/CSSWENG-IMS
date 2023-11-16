@@ -30,9 +30,10 @@ const NavigationBar = () => {
 
     const handleTransactionClick = async (e) => {
         try {
-            const transactionType = e.target.id === 'retail' ? 'retail' : 'wholesale';
+            const transactionType = e.target.id === 'retail' ? setRetail() : setWholesale();
 
             const userId = user._id;
+
 
             // Make a POST request to create a cart with the specified transaction type
             const response = await fetch(DOMAIN + '/cart/createCart', {
@@ -45,7 +46,8 @@ const NavigationBar = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to create cart');
+                // throw new Error('Failed to create cart')
+                console.log(response.error)
             }
 
             // Handle success, for example, navigate to the shopping cart

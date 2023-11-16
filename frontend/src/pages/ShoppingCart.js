@@ -36,9 +36,9 @@ const ShoppingCart = () => {
 
     const navigate = useNavigate();
 
-    /* useEffect(() => {
-        
-    }, [selectedItems]) */
+    useEffect(() => {
+        fetchCart()
+    }, [])
 
     const navigateShoppingCart = (e) => {
         navigate(`/shopping-cart`);
@@ -53,6 +53,7 @@ const ShoppingCart = () => {
 
         handleClose();
     };
+
 
     const confirmOrder = async () => {
         const data = {
@@ -270,8 +271,8 @@ const ShoppingCart = () => {
     useEffect(() => {
         if (user) {
             fetchInventoryItems()
-            fetchCart()
-            addInventoryItem()
+            // fetchCart()
+            // addInventoryItem()
         }
     }, [])
 

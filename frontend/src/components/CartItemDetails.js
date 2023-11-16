@@ -1,11 +1,18 @@
 import {Row, Col, Form, Button } from 'react-bootstrap'
 import { DOMAIN } from '../config'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useAuthContext } from '../hooks/useAuthContext.js'
 
 const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelected }) => {
     const { user } = useAuthContext()
     const [quantity, setQuantity] = useState(item.quantity)
+
+    
+
+    /* useEffect(() => {
+        // setQuantity()
+
+    }, [quantity]) */
 
     const deductQuantity = async () => {
         const inventoryId = item.inventoryItem._id
@@ -22,9 +29,7 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
         })
 
         if (response.ok) {
-            const newQty = quantity - 1
-            setQuantity(newQty)
-            console.log(newQty)
+            setQuantity(quantity - 1)
         }
     }
     
@@ -38,14 +43,13 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
         
         const response = await fetch(DOMAIN + `/cart/addItemToCart`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+            headers: { 'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${user.token}` },
             body: JSON.stringify(data)
         })
         
         if (response.ok) {
-            const newQty = quantity + 1
-            setQuantity(newQty)
-            console.log(newQty)
+            setQuantity(quantity + 1)
         }
     }
 
