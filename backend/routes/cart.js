@@ -10,7 +10,8 @@ const {
     addItemToCart, 
     cancelOrder,
     confirmOrder,
-    deleteItems
+    deleteItems,
+    createCart
 
 } = require('../controllers/cartController')
 
@@ -41,6 +42,8 @@ router.delete('/cancelOrder', cancelOrder)
 router.post('/confirmOrder', confirmOrder)
 
 router.delete('/deleteItems', deleteItems)
+
+router.post('/createCart', createCart)
 
 // remove item from cart
 // router.post('/remove-item', removeItemFromCart)

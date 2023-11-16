@@ -70,10 +70,6 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
                 <span className='m-auto'> {quantity} </span>
                 <Button variant="outline-dark" className='nopadding px-2 m-auto height-content' onClick={addQuantity}>+</Button>
             </Col>
-            <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
-                <span className='my-auto'>₱515.03</span>
-            </Col>
-
             {
                 showPrice === 'retail' && 
                 <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>

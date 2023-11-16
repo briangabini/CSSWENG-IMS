@@ -125,6 +125,33 @@ const deleteItems = async (req, res) => {
     }
 }
 
+const createCart = async (req, res) => {
+    const { userId, transactionType } = req.body;
+
+    try {
+        // Check if the user already has a cart
+        const existingCart = await Cart.findByUserId(userId);
+
+        if (existingCart) {
+            return res.status(400).json({ error: 'User already has a cart' });
+        }
+
+        // Create a new cart
+        const newCart = new Cart({
+            user: userId,
+            transactionType: transactionType || 'retail', // Provide a default if not provided
+        });
+
+        // Save the new cart to the database
+        await newCart.save();
+
+        return res.status(201).json({ message: 'Cart created successfully', cart: newCart });
+    } catch (error) {
+        console.error('Error creating cart:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 /* const getCartDetailsByUserId = async (req, res) => {
     const userId = req.params.userId
 
@@ -183,5 +210,6 @@ module.exports = {
     addItemToCart,
     cancelOrder,
     confirmOrder,
-    deleteItems
+    deleteItems,
+    createCart
 }
