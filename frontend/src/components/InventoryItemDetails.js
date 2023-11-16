@@ -1,38 +1,56 @@
 import { Button, Col, Row, Modal, Container, Card } from "react-bootstrap"
 import { useNavigate } from 'react-router-dom'
-import { useState } from "react";
+import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
+import moment from 'moment'                                         // for date formatting
 
-const InventoryItemDetails = ({inventoryItem}) => {
+// helper functions
+
+
+const InventoryItemDetails = ({ inventoryItem, _id }) => {
     const navigate = useNavigate();
-    
-    const navigateEditItem = () => {
-        navigate('/edit-item');
-    };
 
+    const navigateEditItem = () => {
+        navigate(`/edit-item/${_id}`);
+    };
+    // show     boolean variable that determines if a component is visisble or not
+    // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
 
+    // function that hides the component
     const handleClose = () => setShow(false);
+    // function that shows the component
     const handleShow = () => setShow(true);
 
-    return (
-        // <div className="inventory-item-details">
-        //     <p>Part Name: {inventoryItem.partName}</p>
-        //     <p>Brand: {inventoryItem.brand}</p>
-        //     <p>Motor Model: {inventoryItem.motorModel}</p>
-        //     <p>Stock Number: {inventoryItem.stockNumber}</p>
-        //     <p>Retail Price: {inventoryItem.retailPrice}</p>
-        // </div>
+    const StockMessage = ({inventoryItem, _id}) => {
+        if(inventoryItem.stockNumber > 5){
+            return 
+        }
+        else if(inventoryItem.stockNumber <= 5){
+            return 
+        }
+        else if(inventoryItem.stockNumber === 0){
+            return 
+        }
+    }
 
-    <>
-        <Row onClick={handleShow} className='w-100 nopadding my-2'>
-            <Col className='txt-gray-text col-3 fs-6 nopadding'>{inventoryItem.partName}</Col>
-            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
-            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
-            <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
-            <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-            <Col className='txt-gray-text col-1 fs-6 nopadding'>Date Added</Col>
-        </Row>
+    return (
+        <>
+            {/* The details of an inventory item */}
+            {/* When clicked, the modal of the item is shown */}
+            <Row onClick={handleShow} className='w-100 nopadding my-2 hover'>
+                <Col className='txt-gray-text col-2 fs-6 nopadding text-truncate'>{inventoryItem.partName}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.brand}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.motorModel}</Col>
+                <Col className='txt-gray-text col-1 fs-6 nopadding'>{inventoryItem.stockNumber}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
+                <Col className='txt-gray-text col-1 fs-6 nopadding text-truncate'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
+                {/* for testing purposes */}
+            </Row>
+            
+            {/* The modal for an inventory item */}
+            {/* Shows more details of the inventory item */}
 
         <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
