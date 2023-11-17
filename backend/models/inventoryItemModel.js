@@ -29,8 +29,8 @@ const inventoryItemSchema = new Schema({
     wholesalePrice: {
         type: Number,
         required: true,
-        min: [0, 'Retail Price Should be greater than or equal to 0'],
-        max: [9999999, 'Retail Price should be less than or equal to 9999999'],
+        min: [0, 'Wholesale Price Should be greater than or equal to 0'],
+        max: [9999999, 'Wholesale Price should be less than or equal to 9999999'],
     },
     retailPrice: {
         type: Number, 

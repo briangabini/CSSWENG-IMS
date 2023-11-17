@@ -27,6 +27,13 @@ const cartSchema = new Schema({
     transactionType: {
         type: String,
         required: true
+    },
+    totalPrice: {
+        type: Number,
+        default: 0,
+        required: true,
+        min: [0, 'Wholesale Price Should be greater than or equal to 0'],
+        max: [9999999, 'Wholesale Price should be less than or equal to 9999999']
     }
 });
 
@@ -63,6 +70,8 @@ cartSchema.methods.addItemToCart = async function (inventoryItemId) {
     if (existingItem && existingItem.quantity > inventoryItem.stockNumber) {
         existingItem.quantity = inventoryItem.stockNumber;
     }
+
+    this.totalPrice = await this.calculateTotalPrice();
 
     // Save the cart document
     await this.save();
@@ -152,6 +161,24 @@ cartSchema.methods.deleteItems = async function (itemIds) {
     } catch (error) {
         throw new Error(`Error deleting items from the cart: ${error.message}`);
     }
+};
+
+cartSchema.methods.calculateTotalPrice = async function () {
+    let totalPrice = 0;
+    const cart = await this.findOne({ user: userId }).populate('inventoryItems.inventoryItem');
+
+    for (const cartItem of cart.inventoryItems) {
+        const inventoryItem = cartItem.inventoryItem;
+        const quantity = cartItem.quantity;
+
+        // Determine the price based on transaction type
+        const price = cart.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
+
+        // Add the total price for this item to the total price of the cart
+        totalPrice += price * quantity;
+    }
+
+    this.totalPrice = totalPrice; // Update the total price of the cart
 };
 
 const Cart = mongoose.model('Cart', cartSchema)
