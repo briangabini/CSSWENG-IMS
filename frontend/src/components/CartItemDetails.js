@@ -1,98 +1,113 @@
-import {Row, Col, Form, Button } from 'react-bootstrap'
-import { DOMAIN } from '../config'
-import {useState, useEffect} from 'react'
-import { useAuthContext } from '../hooks/useAuthContext.js'
+import { Row, Col, Form, Button } from 'react-bootstrap';
+import { DOMAIN } from '../config';
+import { useState, useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext.js';
 
 const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelected }) => {
-    const { user } = useAuthContext()
-    const [quantity, setQuantity] = useState(item.quantity)
-
-    
-
-    /* useEffect(() => {
-        // setQuantity()
-
-    }, [quantity]) */
+    const { user } = useAuthContext();
+    const [quantity, setQuantity] = useState(item.quantity);
+    const [loading, setLoading] = useState(false);
+    const [clickCount, setClickCount] = useState(0);
 
     const deductQuantity = async () => {
-        const inventoryId = item.inventoryItem._id
+        const inventoryId = item.inventoryItem._id;
 
-        const data = {
-            userId: user._id,
-            inventoryId: inventoryId
+        if (!loading) {
+            setLoading(true);
+            setClickCount((prevClickCount) => prevClickCount + 1);
+
+            const data = {
+                userId: user._id,
+                inventoryId: inventoryId,
+            };
+
+            try {
+                const response = await fetch(DOMAIN + `/cart/deductItemFromCart`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    setQuantity((prevQuantity) => prevQuantity - 1);
+                    console.log('Quantity deducted successfully');
+                } else {
+                    console.log('Failed to deduct quantity');
+                }
+            } finally {
+                setLoading(false);
+            }
         }
+    };
 
-        const response = await fetch(DOMAIN + `/cart/deductItemFromCart`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${user.token}` },
-            body: JSON.stringify(data)
-        })
-
-        if (response.ok) {
-            setQuantity(quantity - 1)
-        }
-    }
-    
     const addQuantity = async () => {
-        const inventoryId = item.inventoryItem._id
-        
-        const data = {
-            userId: user._id,
-            inventoryId: inventoryId
+        const inventoryId = item.inventoryItem._id;
+
+        if (!loading) {
+            setLoading(true);
+            setClickCount((prevClickCount) => prevClickCount + 1);
+
+            const data = {
+                userId: user._id,
+                inventoryId: inventoryId,
+            };
+
+            try {
+                const response = await fetch(DOMAIN + `/cart/addItemToCart`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                console.log('status: ', response.ok);
+
+                if (response.ok) {
+                    setQuantity((prevQuantity) => prevQuantity + 1);
+                    console.log('Quantity added successfully');
+                    console.log('New quantity: ', quantity);
+                } else {
+                    console.log('Failed to add quantity');
+                }
+            } finally {
+                setLoading(false);
+            }
         }
-        
-        const response = await fetch(DOMAIN + `/cart/addItemToCart`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 
-            'Authorization': `Bearer ${user.token}` },
-            body: JSON.stringify(data)
-        })
-        
-        if (response.ok) {
-            setQuantity(quantity + 1)
-        }
-    }
+    };
 
     return (
         <Row fluid className='mb-2'>
-
             <Col className='col-1'>
                 <Form.Check
                     type={'checkbox'}
                     className=''
                     id={_id}
-                    checked={isSelected} // Set the checked status based on the prop
-                    onChange={() => {handleCheckboxChange(_id)}}
+                    checked={isSelected}
+                    onChange={() => { handleCheckboxChange(_id) }}
                 />
             </Col>
             <Col className='col-4 text-wrap'>
                 {item.inventoryItem.partName}
             </Col>
             <Col className='col-3 nopadding d-flex justify-content-center'>
-                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content'
-                    onClick={deductQuantity}>-</Button>
+                <Button variant="outline-dark" className='nopadding px-2 m-auto height-content' onClick={deductQuantity}>-</Button>
                 <span className='m-auto'> {quantity} </span>
                 <Button variant="outline-dark" className='nopadding px-2 m-auto height-content' onClick={addQuantity}>+</Button>
             </Col>
-            {
-                showPrice === 'retail' && 
+            {showPrice === 'retail' &&
                 <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
                     <span className='my-auto'>{item.inventoryItem.retailPrice}</span>
                 </Col>
             }
-            {
-                showPrice === 'wholesale' &&
+            {showPrice === 'wholesale' &&
                 <Col className='col-3 text-wrap ps-2 nopadding ms-1 d-flex'>
                     <span className='my-auto'>{item.inventoryItem.wholesalePrice}</span>
                 </Col>
             }
-            
         </Row>
-                                    
+    );
+};
 
-    )
-}
-
-export default CartItemDetails
-
-
+export default CartItemDetails;

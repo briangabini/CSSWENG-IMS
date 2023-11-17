@@ -52,7 +52,7 @@ const deductItemFromCart = async (req, res) => {
     try {
         await userCart.deductItemFromCart(inventoryId)
 
-        return res.status(200)
+        return res.status(200).json({ message: 'Item deducted successfully' })
     } catch (error) {
 
         console.error('Error deleting item from cart:', error.message)
@@ -69,7 +69,7 @@ const addItemToCart = async (req, res) => {
     try {
         await userCart.addItemToCart(inventoryId)
 
-        return res.status(200)
+        return res.status(200).json({message: 'Item added successfully'})
     } catch (error) {
 
         console.error('Error adding item to cart:', error.message)
