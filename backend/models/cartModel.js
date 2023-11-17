@@ -166,18 +166,14 @@ cartSchema.methods.calculateTotalPrice = async function () {
     let totalPrice = 0;
 
     for (const cartItem of this.inventoryItems) {
+        // Get indiv item in the CART
         const inventoryItemId = cartItem.inventoryItem;
         const quantity = cartItem.quantity;
 
-        // Fetch the inventory item details if not populated
-        const inventoryItem = inventoryItemId.retailPrice ? inventoryItemId : await InventoryItem.findById(inventoryItemId);
+        // Fetch the inventory item details
+        const inventoryItem = this.retailPrice ? inventoryItemId : await InventoryItem.findById(inventoryItemId);
 
-        if (!inventoryItem || (inventoryItem.retailPrice === undefined && inventoryItem.wholesalePrice === undefined)) {
-            console.error('Missing price information for inventory item');
-            continue; // Skip this item and continue with the next one
-        }
-
-        // Determine the price based on transaction type
+        // Price based on transaction type
         const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
 
         // Add the total price for this item to the total price of the cart
