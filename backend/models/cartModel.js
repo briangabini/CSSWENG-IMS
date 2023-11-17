@@ -31,7 +31,7 @@ const cartSchema = new Schema({
     totalPrice: {
         type: Number,
         default: 0,
-        required: true,
+        require: true,
         min: [0, 'Wholesale Price Should be greater than or equal to 0'],
         max: [9999999, 'Wholesale Price should be less than or equal to 9999999']
     }
@@ -165,14 +165,18 @@ cartSchema.methods.deleteItems = async function (itemIds) {
 
 cartSchema.methods.calculateTotalPrice = async function () {
     let totalPrice = 0;
-    const cart = await this.findOne({ user: userId }).populate('inventoryItems.inventoryItem');
 
-    for (const cartItem of cart.inventoryItems) {
+    for (const cartItem of this.inventoryItems) {
+        console.log(cartItem)
         const inventoryItem = cartItem.inventoryItem;
+        console.log(inventoryItem)
         const quantity = cartItem.quantity;
 
+        console.log(inventoryItem.retailPrice)
+        console.log(inventoryItem.wholesalePrice)
+        
         // Determine the price based on transaction type
-        const price = cart.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
+        const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
 
         // Add the total price for this item to the total price of the cart
         totalPrice += price * quantity;
