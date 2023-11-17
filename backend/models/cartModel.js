@@ -102,7 +102,7 @@ cartSchema.methods.deductItemFromCart = async function (inventoryItemId) {
     } else {
         throw new Error('Item not found in the cart');
     }
-
+    inventoryItem.totalPrice = await this.calculateTotalPrice();
     // Save the cart document
     await this.save();
 }
