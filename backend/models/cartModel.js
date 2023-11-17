@@ -31,7 +31,6 @@ const cartSchema = new Schema({
     totalPrice: {
         type: Number,
         default: 0,
-        require: true,
         min: [0, 'Wholesale Price Should be greater than or equal to 0'],
         max: [9999999, 'Wholesale Price should be less than or equal to 9999999']
     }
@@ -71,7 +70,7 @@ cartSchema.methods.addItemToCart = async function (inventoryItemId) {
         existingItem.quantity = inventoryItem.stockNumber;
     }
 
-    this.totalPrice = await this.calculateTotalPrice();
+    inventoryItem.totalPrice = await this.calculateTotalPrice();
 
     // Save the cart document
     await this.save();
@@ -167,14 +166,17 @@ cartSchema.methods.calculateTotalPrice = async function () {
     let totalPrice = 0;
 
     for (const cartItem of this.inventoryItems) {
-        console.log(cartItem)
-        const inventoryItem = cartItem.inventoryItem;
-        console.log(inventoryItem)
+        const inventoryItemId = cartItem.inventoryItem;
         const quantity = cartItem.quantity;
 
-        console.log(inventoryItem.retailPrice)
-        console.log(inventoryItem.wholesalePrice)
-        
+        // Fetch the inventory item details if not populated
+        const inventoryItem = inventoryItemId.retailPrice ? inventoryItemId : await InventoryItem.findById(inventoryItemId);
+
+        if (!inventoryItem || (inventoryItem.retailPrice === undefined && inventoryItem.wholesalePrice === undefined)) {
+            console.error('Missing price information for inventory item');
+            continue; // Skip this item and continue with the next one
+        }
+
         // Determine the price based on transaction type
         const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
 
@@ -184,6 +186,7 @@ cartSchema.methods.calculateTotalPrice = async function () {
 
     this.totalPrice = totalPrice; // Update the total price of the cart
 };
+
 
 const Cart = mongoose.model('Cart', cartSchema)
 
