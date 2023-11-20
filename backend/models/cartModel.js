@@ -171,7 +171,7 @@ cartSchema.methods.calculateTotalPrice = async function () {
         const quantity = cartItem.quantity;
 
         // Fetch the inventory item details
-        const inventoryItem = this.retailPrice ? inventoryItemId : await InventoryItem.findById(inventoryItemId);
+        const inventoryItem = await InventoryItem.findById(inventoryItemId);
 
         // Price based on transaction type
         const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
