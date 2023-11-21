@@ -1,4 +1,4 @@
-import { Container, Row, Button, ButtonToolbar, InputGroup, Form } from 'react-bootstrap'
+import { Container, Row, Col, Button, ButtonToolbar, InputGroup, Form, Card } from 'react-bootstrap'
 // import { Modal } from 'react-bootstrap'
 // import VerifiedUserDetails from '../components/VerifiedUserDetails'
 import { useEffect, useState } from 'react'
@@ -16,11 +16,23 @@ import Filter from '../components/Filter'
 import SortBy from '../components/SortBy'
 import PaginationButtons from '../components/PaginationButtons'
 import InventoryItemList from '../components/InventoryItemList'
+import InventoryItemDetails from '../components/InventoryItemDetails';
+
+import { useInventoryContext } from '../hooks/useInventoryContext'
+import { useAuthContext } from '../hooks/useAuthContext.js'
 
 const Inventory = () => {
     /* VARIABLES */
     // variables for the inventory items
-    const [inventoryItems, setInventoryItems] = useState([])
+    // const [inventoryItems, setInventoryItems] = useState([]) 
+
+    const { user } = useAuthContext()
+
+    // replace inventoryItems state with the useInventoryContext hook
+    // destructure the return value of useInventoryContext hook {state, dispatch}
+    const { inventoryItems, dispatch } = useInventoryContext()
+
+
     const [allInventoryItems, setAllInventoryItems] = useState([])
     const [dataFetched, setDataFetched] = useState(false)
 
@@ -49,25 +61,18 @@ const Inventory = () => {
     ]
 
     /* FUNCTIONS */
-    /* const fetchAllInventoryItems = async () => {
-        const response = await fetch(DOMAIN + '/inventory/print-csv')
-        const json = response.json()
-
-        if (response.ok) {
-            setAllInventoryItems(json)
-            console.log(json)
-        } 
-        
-
-    } */
-
     const fetchAllInventoryItems = async () => {
 
-        var start = Date.now();
+        // var start = Date.now();
+        if (!user) {
+            return
+        }
 
-    
         try {
-            const response = await fetch(DOMAIN + '/inventory/print-csv');
+            const response = await fetch(DOMAIN + '/inventory/print-csv', {
+                headers: { 'Authorization': `Bearer ${user.token}` },
+            })
+
             if (response.ok) {
                 const data = await response.json();
                 setAllInventoryItems(data);
@@ -86,9 +91,13 @@ const Inventory = () => {
         } catch (error) {
             console.error('An error occurred while fetching data:', error);
         }
-    };
+    }
 
-    const fetchInventoryItems = async (page=1) => {
+    const fetchInventoryItems = async (page = 1) => {
+        if (!user) {
+            return
+        }
+
         let endpoint = DOMAIN + '/inventory' + '/?'
 
         if (page) {
@@ -126,29 +135,35 @@ const Inventory = () => {
         // console.log(sortBy)
         // console.log(endpoint)
 
-        const response = await fetch(endpoint) // retrieves response from server as JSON
+        const response = await fetch(endpoint, {
+            headers: { 'Authorization': `Bearer ${user.token}` },
+        }) // retrieves response from server as JSON
         const json = await response.json() // converts the json data into an array of objects
 
         // console.log(json.items)
 
         // console.log('Is json an array?', Array.isArray(json));
         if (response.ok) {
-            setInventoryItems(json.items)  // set state only if it's an array
+            // setInventoryItems(json.items)  // set state only if it's an array
+            dispatch({ type: 'SET_INVENTORY_ITEMS', payload: json.items })
+
             setTotal(json.count)
             setCurrentPage(page)
         } else {
             console.error('Unexpected response: ', json.message)
-            setInventoryItems([])  // clear existing data or handle error appropriately
+            // setInventoryItems([])  // clear existing data or handle error appropriately
         }
     }
 
     useEffect(() => {
-        fetchAllInventoryItems()
-        fetchInventoryItems()
+        if (user) {
+            fetchAllInventoryItems()
+            fetchInventoryItems()
+        }
     }, [])
 
 
-    
+
     // Handle search term changes
     const handleSearchChange = (event) => {
         // Update the search term state whenever the input value changes
@@ -181,6 +196,8 @@ const Inventory = () => {
     }
 
     return (
+
+
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
                 Inventory
@@ -212,7 +229,10 @@ const Inventory = () => {
                 {/* Search Bar */}
                 <InputGroup className="mb-5 mt-2 nopadding">
                     <Form.Control placeholder="Search" className='rounded-start-pill ps-4 shadow' onChange={debouncedHandleSearchChange} onKeyDown={handleSearch} />
-                    <Button id="button-addon2" variant="light" className='rounded-end-pill py-2 px-3 shadow' onClick={handleSearchClick}>
+                    <Button id="button-addon2"
+                        variant='light'
+                        className='rounded-end-pill py-2 px-3 border border-start-0 bg-white shadow'
+                        onClick={handleSearchClick}>
                         <img className='mb-1 me-2' src='icon_magnifyingglass_.png' alt="Search" />
                     </Button>
                 </InputGroup>
@@ -240,7 +260,24 @@ const Inventory = () => {
 
             <Row>
                 {/* INVENTORY ITEM LIST */}
-                <InventoryItemList inventoryItems={inventoryItems} />
+                {/*<InventoryItemList inventoryItems={inventoryItems} />*/}
+                <Card className='rounded-4 shadow'>
+                    {/* Headings of the inventory items */}
+                    <Row className='w-100 nopadding my-2'>
+                        <Col className='txt-black col-2 fs-6 nopadding font-weight-bold'>Part Name</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Brand</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Motor model</Col>
+                        <Col className='txt-black col-1 fs-6 nopadding'>Stock</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Retail Price</Col>
+                        <Col className='txt-black col-2 fs-6 nopadding'>Wholesale Price</Col>
+                        <Col className='txt-black col-1 fs-6 nopadding'>Date Added</Col>
+                    </Row>
+                    {/* Loop for Individual Inventory Items */}
+                    {inventoryItems && inventoryItems.map((inventoryItem) => (
+                        // Component for Inventory Items
+                        <InventoryItemDetails key={inventoryItem._id} _id={inventoryItem._id} inventoryItem={inventoryItem} showPrice="all" />
+                    ))}
+                </Card>
             </Row>
 
             {/* Pagination */}

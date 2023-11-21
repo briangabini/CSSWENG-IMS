@@ -2,12 +2,14 @@ import { Container, Row, Button, Form, Card, FloatingLabel } from 'react-bootstr
 import { useState, useEffect } from 'react'
 import validator from 'validator'
 import _ from 'lodash'
+import { useAuthContext } from "../hooks/useAuthContext"
 // const validator = require('validator')
 
 
 import { DOMAIN } from '../config'
 
 const AddInventoryItems = () => {
+    const {user} = useAuthContext()
 
     /* STATE VARIABLES FOR INVENTORY ITEM DATA */
     const [partName, setPartName] = useState('')
@@ -15,6 +17,7 @@ const AddInventoryItems = () => {
     const [motorModel, setMotorModel] = useState('')
     const [stockNumber, setStockNumber] = useState('')
     const [retailPrice, setRetailPrice] = useState('')
+    const [wholesalePrice, setWholesalePrice] = useState('')
     const [error, setError] = useState('')
 
     /* STATE VARIABLES FOR ERROR HANDLING */
@@ -22,12 +25,14 @@ const AddInventoryItems = () => {
     const [brandError, setBrandError] = useState('')
     const [stockNumberError, setStockNumberError] = useState('')
     const [retailPriceError, setRetailPriceError] = useState('')
+    const [wholesalePriceError, setWholesalePriceError] = useState('')
 
     // for enabling the submit button when there's no error
     const [isValidPartName, setValidPartName] = useState(false)
     const [isValidBrand, setValidBrand] = useState(false)
     const [isValidStockNumber, setValidStockNumber] = useState(false)
     const [isValidRetailPrice, setValidRetailPrice] = useState(false)
+    const [isValidWholesalePrice, setValidWholesalePrice] = useState(false)
     const [isButtonEnabled, setButtonEnabled] = useState(false)
 
     // enable button when there are no more errors or vice versa
@@ -37,37 +42,44 @@ const AddInventoryItems = () => {
         console.log('Stock Number: ', isValidStockNumber)
         console.log('Retail Price: ', isValidRetailPrice)
 
-        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice) {
+        if (isValidPartName && isValidBrand && isValidStockNumber && isValidRetailPrice && isValidWholesalePrice) {
             setButtonEnabled(true)
         } else {
             setButtonEnabled(false)
         }
-    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice])
+    }, [isValidPartName, isValidBrand, isValidStockNumber, isValidRetailPrice, isValidWholesalePrice])
 
     /* EVENT LISTENER FUNCTIONS */
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
 
         console.log(partName)
         console.log(brand)
         console.log(motorModel)
         console.log(stockNumber)
         console.log(retailPrice)
+        console.log(wholesalePrice)
 
         let inventoryItem = {}
 
         if (validator.isEmpty(motorModel)) {
-            inventoryItem = { partName, brand, stockNumber, retailPrice }
+            inventoryItem = { partName, brand, stockNumber, retailPrice, wholesalePrice }
         } else {
 
-            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice }
+            inventoryItem = { partName, brand, motorModel, stockNumber, retailPrice, wholesalePrice }
         }
 
         const response = await fetch(DOMAIN + '/inventory/add-item', {
             method: 'POST',
             body: JSON.stringify(inventoryItem), // convert to json
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
 
@@ -83,16 +95,23 @@ const AddInventoryItems = () => {
             setMotorModel('')
             setStockNumber('')
             setRetailPrice('')
+            setWholesalePrice('')
             console.log('new inventory added:', json) // print to console
         }
     }
 
     const debouncedHandlePartNameQuery = _.debounce(async (partNameValue, brandValue, callback) => {
+        if (!user) {
+            setError('You must be logged in.')
+            return
+        }
+
         try {
             const response = await fetch(DOMAIN + '/inventory/checkPartNameBrand', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
                 },
                 body: JSON.stringify({ partName: partNameValue, brand: brandValue }) // when sending values with POST use stringify
             });
@@ -227,6 +246,33 @@ const AddInventoryItems = () => {
         setRetailPrice(value)
     }
 
+    const handleWholesalePriceInput = (e) => {
+        const value = e.target.value
+        let errorString = ""
+        let isValid = true
+
+        if (validator.isEmpty(value)) {
+            errorString += "Must be filled."
+            isValid = false
+        } else {
+            if (!validator.isCurrency(value, { allow_negatives: false })) {
+
+                errorString += "Must be a positive whole number or 2 decimal places."
+                isValid = false
+            }
+
+            if (value > 9999999) {
+
+                errorString += "Must not exceed 9999999."
+                isValid = false
+            }
+        }
+
+        setValidWholesalePrice(isValid)
+        setWholesalePriceError(errorString)
+        setWholesalePrice(value)
+    }
+
     return (
         <Container className='main'>
             <Row className='fs-2 fw-bold'>
@@ -236,7 +282,7 @@ const AddInventoryItems = () => {
                 <Card className='p-4 rounded-4 shadow mt-3'>
                     <Form onSubmit={handleSubmit}>
                         {/* part name input */}
-                        <FloatingLabel className="mt-2" controlId="floatingInput" label="Item Name" >
+                        <FloatingLabel className="mb-1" controlId="floatingInput" label="Item Name" >
                             <Form.Control
                                     type="text"
                                     placeholder=""
@@ -246,16 +292,14 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
 
-                            <div className="error-partName">
                                 {/* insert error for part name */}
                                 {partNameError}
-                            </div>
                         </div>
 
                         {/* brand input */}
-                        <FloatingLabel className="mt-2" controlId="floatingSelect" label="Item Brand">
+                        <FloatingLabel className="mb-1" controlId="floatingSelect" label="Item Brand">
                             <Form.Control
                                 type="text"
                                 placeholder=""
@@ -265,16 +309,12 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
-
-                            <div className="error-brand">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {brandError}
-                            </div>
-
                         </div>
 
                         {/* motorModel input */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Compatible Motorcycle Model/s">
                             <Form.Control
                                 type="text"
                                 placeholder=""
@@ -283,12 +323,11 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
-
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                         </div>
 
                         {/* stockNumber input */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Stock Number">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Stock Number">
                             <Form.Control
                                 type="number"
                                 placeholder=""
@@ -298,14 +337,12 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
-                            <div className="error-stockNumber">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {stockNumberError}
-                            </div>
                         </div>
 
                         {/* retail price */}
-                        <FloatingLabel className="mt-2" controlId="floatingPassword" label="Item Retail Price (PHP)">
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Retail Price (PHP)">
                             <Form.Control
                                 type="number"
                                 placeholder=""
@@ -315,10 +352,23 @@ const AddInventoryItems = () => {
                             />
                         </FloatingLabel>
                         {/* Error */}
-                        <div className='ms-2 txt-main-dominant-red fst-italic fw-bold'>
-                            <div className="error-motorModel">
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
                                 {retailPriceError}
-                            </div>
+                        </div>
+                        
+                        {/* wholesale price */}
+                        <FloatingLabel className="mb-1" controlId="floatingPassword" label="Item Wholesale Price (PHP)">
+                            <Form.Control 
+                                type="text" 
+                                placeholder="" 
+                                onChange={handleWholesalePriceInput}
+                                onClick={handleWholesalePriceInput}
+                                value={wholesalePrice}
+                            />
+                        </FloatingLabel>
+                        {/* Error */}
+                        <div className='ms-2 mb-3 txt-main-dominant-red fst-italic fw-bold'>
+                            {wholesalePriceError}
                         </div>
 
                         {/* button to add item */}

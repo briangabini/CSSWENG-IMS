@@ -26,6 +26,12 @@ const inventoryItemSchema = new Schema({
             message: 'Stock number must be greater than or equal to 0',
         }  */
     },
+    wholesalePrice: {
+        type: Number,
+        required: true,
+        min: [0, 'Wholesale Price Should be greater than or equal to 0'],
+        max: [9999999, 'Wholesale Price should be less than or equal to 9999999'],
+    },
     retailPrice: {
         type: Number, 
         required: true, 

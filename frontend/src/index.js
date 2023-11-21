@@ -1,12 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom';
 import './index.css';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// Context
+import { InventoryItemsContextProvider } from './context/InventoryContext';
+import { AuthContextProvider } from './context/AuthContext';
+import { TransactionTypeContextProvider } from './context/TransactionTypeContext';
+
+const root = createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <App />
+    <TransactionTypeContextProvider>
+      <InventoryItemsContextProvider>
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </InventoryItemsContextProvider>
+    </TransactionTypeContextProvider>
   </React.StrictMode>
 );

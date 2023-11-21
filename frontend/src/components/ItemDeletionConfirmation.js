@@ -2,11 +2,17 @@ import { Modal, Stack, Button, Container, Form } from 'react-bootstrap'
 import { useState } from "react";
 import { DOMAIN } from '../config'
 
+import { useInventoryContext } from '../hooks/useInventoryContext'
+import { useAuthContext } from "../hooks/useAuthContext"
+
 const ItemDeletionConfirmation = ({_id}) => {
     // show     boolean variable that determines if a component is visisble or not
     // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
     const [error, setError] = useState('')
+    const { user } = useAuthContext()
+
+    const { dispatch } = useInventoryContext()
     
     // function that hides the component
     const handleClose = () => setShow(false);
@@ -15,33 +21,26 @@ const ItemDeletionConfirmation = ({_id}) => {
 
     const handleDelete = async (e) => {
 
-            
-
-            const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
-                method: 'DELETE',
-            })
-
-            /* 
-             const response = await fetch('/api/workouts', {
-             method: 'POST',
-              body: JSON.stringify(workout),
-             headers: {
-               'Content-Type': 'application/json'
-          }
+        if (!user) {
+            return 
+        }
+        
+        const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${user.token}` },
         })
-        
-          const json = await response.json()
-            */
 
-            const json = await response.json()
+        const json = await response.json()
 
-            if (!response.ok) {
-                setError(json.error)
-            }
-            if (response.ok) {
-                console.log('deleted inventory item:', json) // print to console
-            }
-        
+        if (!response.ok) {
+            setError(json.error)
+        }
+        if (response.ok) {
+            dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
+
+            // 
+            console.log('deleted inventory item:', json) // print to console
+        }
 
         handleClose()
     }
@@ -53,7 +52,7 @@ const ItemDeletionConfirmation = ({_id}) => {
             {/* Button to delete an item */}
             <Button onClick={handleShow} 
                     size='sm' variant='danger' 
-                    className='shadow rounded-2 px-4' >
+                    className='shadow rounded-2 col-4 txt-16' >
                 Delete
             </Button>
 
