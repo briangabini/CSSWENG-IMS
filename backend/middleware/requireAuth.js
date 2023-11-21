@@ -27,7 +27,7 @@ const requireAuth = async (req, res, next) => {
     try{
         // it needs secret to verify the signature from token
         // if authentication is successful, returns the _id from the payload
-        const {_id} = jwt.verify(token, process.env.SECRET)
+        const { _id } = jwt.verify(token, gustokomaglarongcs2)
 
         // attach a user property to req object
         // so you find one id in the db, but you only select the id
