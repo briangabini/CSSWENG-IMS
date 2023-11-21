@@ -48,8 +48,8 @@ mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('connected to database')
         // listen to port
-        app.listen(4000, () => {
-            console.log('listening for requests on port', 4000)
+        app.listen(process.env.PORT, () => {
+            console.log('listening for requests on port', process.env.PORT)
         })
     })
     .catch((err) => {
