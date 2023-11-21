@@ -35,10 +35,12 @@ let MONGO_URI = ""
 // const temp = "production"
 
 // if (temp === "production") {
-    MONGO_URI = process.env.MONGO_URI
+    // MONGO_URI = process.env.MONGO_URI
 // } else {
     // MONGO_URI = process.env.MONGO_URI_DEV
 // }
+
+MONGO_URI = 'mongodb+srv://brian_gabini:JJp5gWZc0gNLPfcT@cssweng-ims.3qrhrzm.mongodb.net/?retryWrites=true&w=majority'
 
 // connect to the db
 // mongoose.connect(process.env.MONGO_URI)
