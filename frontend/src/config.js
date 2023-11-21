@@ -1,6 +1,6 @@
 let DOMAIN;
 
-const temp = ""
+const temp = "production"
 
 if (temp === 'production') {
     DOMAIN = "https://jpdgarage-api.vercel.app";  // Production domain

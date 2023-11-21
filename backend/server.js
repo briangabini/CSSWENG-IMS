@@ -33,7 +33,7 @@ app.use('/cart', cartRoutes)
 
 let MONGO_URI = ""
 
-const temp = ""
+const temp = "production"
 
 if (temp === "production") {
     MONGO_URI = process.env.MONGO_URI
