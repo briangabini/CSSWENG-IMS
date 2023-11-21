@@ -32,13 +32,13 @@ app.use('/cart', cartRoutes)
 
 let MONGO_URI = ""
 
-const temp = "production"
+// const temp = "production"
 
-if (temp === "production") {
+// if (temp === "production") {
     MONGO_URI = process.env.MONGO_URI
-} else {
-    MONGO_URI = process.env.MONGO_URI_DEV
-}
+// } else {
+    // MONGO_URI = process.env.MONGO_URI_DEV
+// }
 
 // connect to the db
 // mongoose.connect(process.env.MONGO_URI)
