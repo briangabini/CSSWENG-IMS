@@ -10,14 +10,12 @@ const cartRoutes = require('./routes/cart')
 
 // express app
 const app = express()
-app.use(cors(
-    {
-        // origin: "*", // only until the duration of deployment, since it may bring security risks, allows access from any origin
-        origin: 'https://jpdgarage.vercel.app',
-        methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
-        credentials: true
-    }
-));
+app.use(cors({
+    // origin: "*",
+    origin: 'https://jpdgarage.vercel.app',
+    methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
+    credentials: true
+}));
 
 // middleware
 app.use(express.json())

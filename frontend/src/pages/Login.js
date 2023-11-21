@@ -33,7 +33,7 @@ const Login = () => {
 
                 {/* email input */}
                 <FloatingLabel className="mt-2 w-50"
-                    controlId="floatingSelect"
+                    // controlId="floatingSelect"
                     label="Email">
                     <Form.Control
                         type="email"
@@ -45,7 +45,7 @@ const Login = () => {
                 {/* password input */}
                 <InputGroup className="mb-5 mt-2 nopadding w-50">
                     <FloatingLabel className=""
-                        controlId="floatingSelect"
+                        // controlId="floatingSelect"
                         label="Password">
                         <Form.Control
                             type={isPasswordVisible ? "text" : "password"}

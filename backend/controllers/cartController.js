@@ -1,6 +1,4 @@
 const Cart = require('../models/cartModel')
-const InventoryItem = require('../models/inventoryItemModel')
-const mongoose = require('mongoose')
 
 const getCartById = async (req, res) => {
     const user = { _id: req.params.id }
