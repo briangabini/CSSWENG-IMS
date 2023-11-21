@@ -12,7 +12,8 @@ const cartRoutes = require('./routes/cart')
 const app = express()
 app.use(cors(
     {
-        origin: "*", // only until the duration of deployment, since it may bring security risks, allows access from any origin
+        // origin: "*", // only until the duration of deployment, since it may bring security risks, allows access from any origin
+        origin: 'https://jpdgarage.vercel.app',
         methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
