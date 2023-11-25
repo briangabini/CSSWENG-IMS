@@ -13,13 +13,13 @@ const timeLabels = [
     },
     {
       timeFrame: 'Monthly',
-      current: 'Current Month',
-      prev: 'Previous Month',
+      current: 'This Month',
+      prev: 'Last Month',
     },
     {
       timeFrame: 'Yearly',
-      current: 'Current Year',
-      prev: 'Previous Year',
+      current: 'This Year',
+      prev: 'Last Year',
     },
   ];
 

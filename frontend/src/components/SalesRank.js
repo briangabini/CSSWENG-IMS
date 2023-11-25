@@ -5,23 +5,20 @@ import SalesQuota from "./SalesQuota";
 
 const time = { 
     Daily: "Today",
-    Monthly: "Current Month",
-    Yearly: "Current Year"
+    Monthly: "This Month",
+    Yearly: "This Year"
 }
 
 
 const SalesRank = (props) => {
     return (
         <>
-        <Row className="ps-3 mt-2 fs-5 fw-bold d-flex flex-row">
+        <Row className="ps-1 mt-2 fs-5 fw-bold d-flex flex-row">
                 <Col>
                     Sales { time[props.period] }
                 </Col>
-                <Col>
+                <Col className="d-flex justify-content-end">
                     <SalesFilter />
-                </Col>
-                <Col>
-                    { time[props.period] } Goal
                 </Col>
         </Row>
         <Row>
@@ -63,9 +60,6 @@ const SalesRank = (props) => {
                     </Row>
                 </Card>
             </Col>
-            <Col>
-                <SalesQuota/>
-            </Col>   
         </Row>
             
         </>

@@ -9,12 +9,20 @@ const time = {
     Yearly: "Yearly"
 }
 
+const now = 50
+
 const SalesQuota = (props) => {
     return (
         <>
-            <ProgressBar className="progress-bar now={now} label={`${now}%`}">
-                TESTING
-            </ProgressBar>
+            <Col className="py-3">
+
+                <Row className="ps-3 my-2 fs-5 fw-bold d-flex flex-row">
+                    { time[props.period] } Goal
+                </Row>
+                
+                <ProgressBar now={now} label={`${now}% of target reached`} />
+
+            </Col>
         </>
     )
 }
