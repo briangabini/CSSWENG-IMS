@@ -10,7 +10,6 @@ const MonthlyReport = () => {
             <SalesGraph period= {reportPeriod} />
 
             <SalesRank period= {reportPeriod}/>
-            <SalesQuota />
         </>
     )
 }
