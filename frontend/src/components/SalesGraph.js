@@ -2,8 +2,9 @@ import { Button, Col, Container, Row, Card } from "react-bootstrap"
 import Stack from 'react-bootstrap/Stack';
 import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
-
-const labels = ["January", "February", "March", "April", "May", "June"];
+import { DOMAIN } from '../config'
+import { useState, useEffect } from 'react'
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const timeLabels = [
     {
@@ -23,31 +24,193 @@ const timeLabels = [
     },
   ];
 
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: "My First dataset",
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgb(255, 99, 132)",
-      data: [0, 10, 5, 2, 20, 30, 45],
-    },
-    {
-        label: "My Second dataset",
-        backgroundColor: "rgb(90, 90, 90)",
-        borderColor: "rgb(90, 90, 90)",
-        data: [0, 30, 5, 2, 70, 60, 50],
-    }
-  ],
-};
+//   const dailySalesData = [
+//     {
+//         totalPrice: 150.25,
+//         orderDate: new Date('2023-09-19T08:30:00Z'), // Adjust the date and time as needed
+//     },
+//     {
+//         totalPrice: 75.5,
+//         orderDate: new Date('2023-09-19T12:15:00Z'),
+//     },
+//     {
+//         totalPrice: 200,
+//         orderDate: new Date('2023-09-19T16:45:00Z'),
+//     },
+//     {
+//         totalPrice: 120.75,
+//         orderDate: new Date('2023-09-19T09:30:00Z'),
+//     },
+//     {
+//         totalPrice: 90.0,
+//         orderDate: new Date('2023-09-19T14:00:00Z'),
+//     },
+//     {
+//         totalPrice: 180.50,
+//         orderDate: new Date('2023-09-19T18:30:00Z'),
+//     },
+//     {
+//         totalPrice: 100.25,
+//         orderDate: new Date('2023-09-19T10:45:00Z'),
+//     },
+//     {
+//         totalPrice: 50.75,
+//         orderDate: new Date('2023-09-19T13:30:00Z'),
+//     },
+//     {
+//         totalPrice: 220.0,
+//         orderDate: new Date('2023-09-19T17:15:00Z'),
+//     },
+//     {
+//         totalPrice: 80.50,
+//         orderDate: new Date('2023-09-19T11:00:00Z'),
+//     },
+//     {
+//         totalPrice: 160.25,
+//         orderDate: new Date('2023-09-19T15:45:00Z'),
+//     },
+//     {
+//         totalPrice: 220.0,
+//         orderDate: new Date('2023-09-19T17:15:00Z'),
+//     },
+//     {
+//         totalPrice: 80.50,
+//         orderDate: new Date('2023-09-19T11:00:00Z'),
+//     },
+//     {
+//         totalPrice: 160.25,
+//         orderDate: new Date('2023-09-19T15:45:00Z'),
+//     },
+//     {
+//         totalPrice: 220.0,
+//         orderDate: new Date('2023-09-19T17:15:00Z'),
+//     },
+//     {
+//         totalPrice: 80.50,
+//         orderDate: new Date('2023-09-19T11:00:00Z'),
+//     },
+//     {
+//         totalPrice: 160.25,
+//         orderDate: new Date('2023-09-19T15:45:00Z'),
+//     },
+//     {
+//         totalPrice: 220.0,
+//         orderDate: new Date('2023-09-19T17:15:00Z'),
+//     },
+//     {
+//         totalPrice: 80.50,
+//         orderDate: new Date('2023-09-19T11:00:00Z'),
+//     },
+//     {
+//         totalPrice: 160.25,
+//         orderDate: new Date('2023-09-19T15:45:00Z'),
+//     },
+//     ];
+
 
 const SalesGraph = (props) => {
+    const { user } = useAuthContext()
+
+    const [dailySalesData, setDailySalesData] = useState([])
+    const [dailyGraphData, setDailyGraphData] = useState({})
+
+    const options = {
+        scales: {
+            x: {
+                display: false, // Hides the x-axis labels
+            },
+            y: {
+                display: true, // Hides the y-axis labels
+            }
+        },
+        plugins: {
+            legend: {
+                display: false, // Hides the legend (if you also want to hide it)
+            }
+        },
+        elements: {
+            point: {
+                radius: 3 // Adjust the radius of the points on the line
+            }
+        },
+        maintainAspectRatio: false // Optional, if you want a responsive chart
+    }
+
+
+// const sortedDailySalesData = dailySalesData.sort((a, b) => {
+//     const timeA = a.orderDate.getHours() * 100 + a.orderDate.getMinutes() + (a.orderDate.getHours() >= 12 ? 10000 : 0);
+//     const timeB = b.orderDate.getHours() * 100 + b.orderDate.getMinutes() + (b.orderDate.getHours() >= 12 ? 10000 : 0);
+//     return timeA - timeB;
+// });
+
+// const labels = sortedDailySalesData.map(entry => entry.orderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+// const dailySalesValues = sortedDailySalesData.map(entry => entry.totalPrice);
+
+    const fetchData = async () => {
+            try {
+                const response = await fetch(DOMAIN + '/orders/date', {
+                    method: "POST",
+                    body: JSON.stringify({date: new Date()}), // convert to json
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
+                
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const json = await response.json()
+
+                const data = json.map(order => ({
+                    orderDate: order.orderDate,
+                    totalPrice: order.totalPrice
+                }))
+
+                console.log(data)
+
+                setDailySalesData(data)
+                
+                const graphData = {
+                    labels: json.map(order => new Date(order.orderDate).toLocaleDateString()),
+                    datasets: [{
+                        label: "Sales Today",
+                        backgroundColor: "rgb(255, 99, 132)",
+                        borderColor: "rgb(255, 99, 132)",
+                        data: json.map(order => order.totalPrice),
+                    }],
+                };
+                
+
+                console.log(graphData)
+            
+                setDailyGraphData(graphData)
+
+                console.log('You\'ve reached this point')
+                
+            } catch (error) {
+                console.error('Error fetching daily sales data:', error);
+            }
+        };
+
+    useEffect(() => {
+    
+
+        fetchData();
+
+        console.log('done fetching')
+    }, []);
+
+    
 
     const selectedPeriod = timeLabels.find(period => period.timeFrame === props.period);
 
     return (
         <>
-        <Row>
+            <Row>
                 <Stack direction="horizontal">
                     <div className="fs-2 fw-bold">September 19, 2023</div>
                     <div className="ms-2">
@@ -120,7 +283,11 @@ const SalesGraph = (props) => {
                 </Col>
             </Row>
             <Row className="mt-4">
-                <Line data={data} />
+                {dailySalesData.length > 0 ? (
+        <Line data={dailyGraphData} options={options}/>
+    ) : (
+        <p>Loading data...</p>
+    )}
             </Row>
         </>
     )

@@ -25,38 +25,41 @@ const ShopCartInvenItemDetails = ({ inventoryItem, _id, showPrice, onAddToCart})
             </>
         }
     }
+    const noShow = () => {
+        if(inventoryItem.stockNumber !== 0){
+            return <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
+                        <Row>
+
+                            <Col className='col-10'>
+                                <Row className='fs-4 fw-bold txt-white ms-2'>
+                                    {inventoryItem.partName}
+                                </Row>
+                                
+                                {priceShow()}
+                                
+                                <Row className='fs-6 txt-white ms-2'>
+                                    Brand: {inventoryItem.brand}
+                                </Row>
+                                <Row className='fs-6 txt-white ms-2'>
+                                    Stock: {inventoryItem.stockNumber} left
+                                </Row>
+                            </Col>
+                            <Col className='col-2'>
+                                <Button
+                                    className='bg-white txt-main-dominant-red fw-bold border-0'
+                                    onClick={onAddToCart}>
+                                    +
+                                </Button> 
+                            </Col> 
+                             
+                        </Row> 
+                    </Card> 
+        } 
+    } 
     
     return (
         <>
-            <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                <Row>
-
-                    <Col className='col-10'>
-                        <Row className='fs-4 fw-bold txt-white ms-2'>
-                            {inventoryItem.partName}
-                        </Row>
-                        
-                        {priceShow()}
-                        
-                        <Row className='fs-6 txt-white ms-2'>
-                            Brand: {inventoryItem.brand}
-                        </Row>
-                        <Row className='fs-6 txt-white ms-2'>
-                            Stock: {inventoryItem.stockNumber} left
-                        </Row>
-                    </Col>
-                    <Col className='col-2'>
-                        <Button
-                            className='bg-white txt-main-dominant-red fw-bold border-0'
-                            onClick={onAddToCart}>
-                            +
-                        </Button>
-                    </Col>
-                    
-                </Row>
-            </Card> 
-                   
-
+            {noShow()}
         </>
     )
 }

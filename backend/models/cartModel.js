@@ -1,5 +1,6 @@
 const InventoryItem = require('../models/inventoryItemModel')
 const mongoose = require('mongoose')
+const Order = require('./orderModel');
 
 const Schema = mongoose.Schema
 
@@ -110,6 +111,30 @@ cartSchema.methods.deductItemFromCart = async function (inventoryItemId) {
 
 cartSchema.methods.confirmOrder = async function () {
     try {
+
+
+        // const arr = this.inventoryItems.map(item => 
+        //     item.inventoryItem)
+                // quantity: item.quantity
+
+        const arr = this.inventoryItems.map(item => item.inventoryItem);
+
+        console.log("TESTINGTESTES", arr)
+
+        const newOrder = new Order ({
+            // Assuming your order model has fields like this
+            items: this.inventoryItems.map(item => ({
+                productName: item.inventoryItem.partName,
+                quantity: item.quantity
+            })),
+            totalPrice: this.totalPrice,
+            transactionType: this.transactionType,
+            // Other relevant fields like user, etc.
+        });
+
+        console.log(newOrder)
+        await newOrder.save();
+        
         // Loop through each inventory item in the cart
         for (const cartItem of this.inventoryItems) {
             const inventoryItemId = cartItem.inventoryItem._id;
@@ -181,6 +206,7 @@ cartSchema.methods.calculateTotalPrice = async function () {
         totalPrice += price * quantity;
     }
 
+    totalPrice = parseFloat(totalPrice.toFixed(2));
     this.totalPrice = totalPrice; // Update the total price of the cart
 };
 

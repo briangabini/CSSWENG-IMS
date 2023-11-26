@@ -165,15 +165,15 @@
 
             let endpoint = DOMAIN + '/inventory' + '/?'
 
-            if (searchTerm) {
+            if (searchTerm) { 
                 endpoint += `&search=${searchTerm}`; // using "query" as the query parameter name
             }
 
-            if (motorModel) {
+            if (motorModel) { 
                 endpoint += `&motorModel=${motorModel}`
             }
 
-            if (stockStatus) {
+            if (stockStatus) { 
                 endpoint += `&stockStatus=${stockStatus}`
             }
 
