@@ -8,7 +8,7 @@ const DailyReport = () => {
     return (
         <>
             <SalesGraph period = {reportPeriod} />
-            <SalesQuota period= {reportPeriod} />
+            {/* <SalesQuota period= {reportPeriod} /> */}
             <SalesRank period = {reportPeriod} />
             
         </>
