@@ -17,7 +17,7 @@
     const ShoppingCart = () => {
         const { user } = useAuthContext()
 
-        const [cart, setCart] = useState()
+        const [cart, setCart] = useState('')
         const [selectedItems, setSelectedItems] = useState([]);
         const [selectAllChecked, setSelectAllChecked] = useState(false)
 
@@ -259,13 +259,13 @@
             console.log(data)
             console.log(itemId)
             try {
-                const response = await fetch(`${DOMAIN}/cart/addItemToCart`, {
+                    await fetch(`${DOMAIN}/cart/addItemToCart`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}`},
                     body: JSON.stringify(data)
                 })
             } catch (error) {
-                console.error('Error hehehee:', error)
+                console.error('Error:', error.message)
             }
         }
         
@@ -298,7 +298,7 @@
                                 </Row>
                                 <Row>
                                     {/* Search Bar */}
-                                    <InputGroup className="mb-5 mt-2 nopadding">
+                                    <InputGroup className="mb-3 mt-2 nopadding">
                                         <Form.Control placeholder="Search"
                                             className='rounded-start-2 ps-4 py-2 bg-search-gray'
                                             onChange={debouncedHandleSearchChange}
@@ -317,7 +317,7 @@
                                     <Filter />
                                     <SortBy />
                                 </Row> */}
-                                <Row className='cart-inventory'>                                    
+                                <Row className='cart-inventory flex-column align-items-start'>                                 
                                         {inventoryItems && inventoryItems.map((inventoryItem) => (
                                                 // Component for Inventory Items
                                                 <ShopCartInvenItemDetails

@@ -30,13 +30,49 @@ const NavigationBar = () => {
 
     const handleTransactionClick = async (e) => {
         try {
-            const transactionType = e.target.id === 'retail' ? setRetail() : setWholesale();
+            let transactionType = e.target.id
 
             const userId = user._id;
 
+            // TODO: function to check if a cart exists
 
-            // Make a POST request to create a cart with the specified transaction type
-            const response = await fetch(DOMAIN + '/cart/createCart', {
+            const response = await fetch(`${DOMAIN }/cart/getCartDetailsByUserId/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                },
+            });
+            
+            const json = response.json()
+
+            // console.log('TransactionType: ', json.transactionType)
+            // console.log(json.userCart)
+            // console.log('From button: ', transactionType)
+
+            // if cart exists
+            if (response.ok) {
+                // if current transaction type is selected by user
+                if (json.transactionType === transactionType) { //navigate to existing shopping cart
+
+
+                    // transactionType === 'retail' ? setRetail() : setWholesale()
+                    navigateShoppingCart();
+                    return 
+                } else { //delete 
+                    await fetch(`${DOMAIN}/cart/cancelOrder`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${user.token}`
+                        },
+                        body: JSON.stringify({ userId }),
+                    });
+                }
+            }
+
+            // create cart
+            await fetch(`${DOMAIN}/cart/createCart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,12 +81,8 @@ const NavigationBar = () => {
                 body: JSON.stringify({ userId, transactionType }),
             });
 
-            if (!response.ok) {
-                // throw new Error('Failed to create cart')
-                console.log(response.error)
-            }
-
-            // Handle success, for example, navigate to the shopping cart
+            // execute function based on value (transaction type)
+            transactionType === 'retail' ? setRetail() : setWholesale()
             navigateShoppingCart();
         } catch (error) {
             console.error('Error handling transaction click:', error.message);

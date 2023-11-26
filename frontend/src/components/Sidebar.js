@@ -3,12 +3,25 @@ import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Row, Col, Container } from 'react-bootstrap';
+import { useAuthContext } from "../hooks/useAuthContext"
 
 function Sidebar() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const { user } = useAuthContext()
 
+    const showAdminControl = () => {
+        if (user.role === "Admin") {
+            return <Row className='me-auto my-4 px-2'>
+                <Container className='border rounded text-center me-auto py-3'>
+                    <Link to="/admin-control-center" className='link-no-underline'>
+                        <h5 className='txt-black py-1'>Admin Control Center</ h5>
+                    </Link>
+                </Container>
+            </Row>
+        }
+    }
     return (
         <>
             <Button className="border mx-2" onClick={handleShow}>
@@ -31,7 +44,7 @@ function Sidebar() {
                                     < h5 className='txt-black py-1'>Inventory</ h5>
                                 </Link>
                             </Row>
-                            
+
                             <Row className='my-3'>
                                 {/* Links to the finance page */}
                                 <Link to="/sales-page" className='link-no-underline'>
@@ -65,16 +78,17 @@ function Sidebar() {
                             </Row>
                         </Row>
 
+                        {showAdminControl()}
                         {/** ADD IF STATEMENT TO CHECK IF USER IS ADMIN OR NOT */}
                         {/* Links to the login page*/}
 
-                        <Row className='me-auto my-4 px-2'>
+                        {/* <Row className='me-auto my-4 px-2'>
                             <Container className='border rounded text-center me-auto py-3'>
                                 <Link to="/admin-control-center" className='link-no-underline'>
                                     <h5 className='txt-black py-1'>Admin Control Center</ h5>
                                 </Link>
                             </Container>
-                        </Row>
+                        </Row> */}
                     </Col>
 
                 </Offcanvas.Body>

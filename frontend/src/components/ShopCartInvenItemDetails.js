@@ -1,17 +1,10 @@
-import { Container, Col, Row, Modal, Button, Card } from "react-bootstrap"
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react';
-import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
-import moment from 'moment'                                         // for date formatting
+import { Col, Row, Button, Card } from "react-bootstrap"
 import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
-import { DOMAIN } from '../config'
-import { useAuthContext } from '../hooks/useAuthContext.js'
 
 // helper functions
 
 
 const ShopCartInvenItemDetails = ({ inventoryItem, _id, showPrice, onAddToCart}) => {
-    const { user } = useAuthContext()
     const {transactionType} = useTransactionTypeContext()
     showPrice = transactionType
 
@@ -36,7 +29,8 @@ const ShopCartInvenItemDetails = ({ inventoryItem, _id, showPrice, onAddToCart})
     return (
         <>
             <Card className='bg-main-dominant-red p-3 mb-2 rounded-4 height-content'>
-                <Row className='w-100 nopadding my-2'>
+                <Row>
+
                     <Col className='col-10'>
                         <Row className='fs-4 fw-bold txt-white ms-2'>
                             {inventoryItem.partName}
@@ -58,6 +52,7 @@ const ShopCartInvenItemDetails = ({ inventoryItem, _id, showPrice, onAddToCart})
                             +
                         </Button>
                     </Col>
+                    
                 </Row>
             </Card> 
                    

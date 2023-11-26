@@ -163,25 +163,28 @@ cartSchema.methods.deleteItems = async function (itemIds) {
 };
 
 cartSchema.methods.calculateTotalPrice = async function () {
-    let totalPrice = 0;
+    try {
+        // Populate the inventoryItems array with details from the InventoryItem model
+        await this.populate('inventoryItems.inventoryItem').execPopulate();
 
-    for (const cartItem of this.inventoryItems) {
-        // Get indiv item in the CART
-        const inventoryItemId = cartItem.inventoryItem;
-        const quantity = cartItem.quantity;
+        let totalPrice = 0;
 
-        // Fetch the inventory item details
-        const inventoryItem = await InventoryItem.findById(inventoryItemId);
+        for (const cartItem of this.inventoryItems) {
+            const quantity = cartItem.quantity;
+            const inventoryItem = cartItem.inventoryItem;
 
-        // Price based on transaction type
-        const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
+            // Price based on transaction type
+            const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
 
-        // Add the total price for this item to the total price of the cart
-        totalPrice += price * quantity;
+            // Add the total price for this item to the total price of the cart
+            totalPrice += price * quantity;
+        }
+
+        this.totalPrice = totalPrice; // Update the total price of the cart
+    } catch (error) {
+        throw new Error(`Error calculating total price: ${error.message}`);
     }
-
-    this.totalPrice = totalPrice; // Update the total price of the cart
-};
+}
 
 
 const Cart = mongoose.model('Cart', cartSchema)

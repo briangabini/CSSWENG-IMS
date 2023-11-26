@@ -4,12 +4,13 @@ import { useState } from 'react';
 import ItemDeletionConfirmation from "./ItemDeletionConfirmation";
 import moment from 'moment'                                         // for date formatting
 import { useTransactionTypeContext } from '../hooks/useTransactionTypeContext'
+import { useAuthContext } from "../hooks/useAuthContext"
 // helper functions
 
-
-const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
+const InventoryItemDetails = ({ inventoryItem, _id, showPrice }) => {
+    const { user } = useAuthContext()
     const navigate = useNavigate();
-    const {transactionType} = useTransactionTypeContext()
+    const { transactionType } = useTransactionTypeContext()
     showPrice = transactionType
 
     const navigateEditItem = () => {
@@ -24,24 +25,13 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
     // function that shows the component
     const handleShow = () => setShow(true);
 
-    // console.log(showPrice)
-
-    // all, retail, wholesale
-    const priceShow = () => {
-        if (showPrice === 'retail') {
-            // console.log('retail in priceShow')
-            return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-        } else if (showPrice === 'wholesale') {
-            // console.log('wholesale in priceShow')
-            return <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
-        } else {
-            return <>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.retailPrice}</Col>
-                <Col className='txt-gray-text col-2 fs-6 nopadding'>{inventoryItem.wholesalePrice}</Col>
-            </>
+    const showEdit = () => {
+        if (user.role === "Admin") {
+            return <Button className="shadow rounded-2 col-4 mx-2 bg-white txt-black txt-16 border-0" onClick={navigateEditItem} disabled={user.role === "Partsman"}>Edit</Button>
         }
     }
 
+    // console.log(showPrice)
     return (
         <>
             {/* The details of an inventory item */}
@@ -56,7 +46,7 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                 <Col className='txt-gray-text col-1 fs-6 nopadding text-truncate'>{moment(inventoryItem.dateAdded).format('MM/DD/YYYY')}</Col>
                 {/* for testing purposes */}
             </Row>
-            
+
             {/* The modal for an inventory item */}
             {/* Shows more details of the inventory item */}
             <Modal className="modal-lg nopadding nomargin modalCenter" show={show} onHide={handleClose}>
@@ -114,8 +104,9 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
 
                         <Col className="col-4">
                             <Row className='mx-auto py-1 justify-content-end'>
-                                <Button className="shadow rounded-2 col-4 mx-2 bg-white txt-black txt-16 border-0" onClick={navigateEditItem}>Edit</Button>
-                                <ItemDeletionConfirmation _id={_id}/>
+                                {showEdit()}
+                                {/* <Button className="shadow rounded-2 col-4 mx-2 bg-white txt-black txt-16 border-0" onClick={navigateEditItem} disabled={user.role === "Partsman"}>Edit</Button> */}
+                                <ItemDeletionConfirmation _id={_id} />
                             </Row>
 
                             <Row className="py-3 mx-auto">
@@ -124,7 +115,7 @@ const InventoryItemDetails = ({ inventoryItem, _id, showPrice}) => {
                                     <h4 className="text-center">Current Stocks</h4>
                                     <h1 className="text-center py-2">{inventoryItem.stockNumber}</h1>
                                     <p className="text-center">Sufficient amount of stocks remaining</p>
-                                        {/**THE TEXT ITSELF WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE TEXT DEPENDING ON STOCK */}
+                                    {/**THE TEXT ITSELF WILL BE CHANGED. WILL USE A FUNCTION TO CHANGE TEXT DEPENDING ON STOCK */}
                                 </Container>
                             </Row>
                         </Col>

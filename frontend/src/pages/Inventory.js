@@ -195,6 +195,23 @@ const Inventory = () => {
         setStockStatus(newStockStatus)
     }
 
+
+    const showCSVDownload = () => {
+        if (user.role === "Admin") {
+            return <Button
+                variant="light"
+                size='sm'
+                className='rounded-4 px-3 my-2 ms-auto me-2 shadow'
+                disabled={!dataFetched}
+            >
+                <CSVLink data={allInventoryItems} headers={headers} filename="inventory.csv">
+                    Download as .csv file
+                    <img className='ms-2 mb-1' src='icon_datatransferdownload_.png' alt="Download" />
+                </CSVLink>
+            </Button>
+        }
+    }
+
     return (
 
 
@@ -206,7 +223,9 @@ const Inventory = () => {
                 <ButtonToolbar className='nopadding'>
                     {/* Button to download the csv file of the inventory */}
                     {/* Disable the download button while data is not fetched */}
-                    <Button
+
+                    {showCSVDownload()}
+                    {/* <Button
                         variant="light"
                         size='sm'
                         className='rounded-4 px-3 my-2 ms-auto me-2 shadow'
@@ -216,7 +235,7 @@ const Inventory = () => {
                             Download as .csv file
                             <img className='ms-2 mb-1' src='icon_datatransferdownload_.png' alt="Download" />
                         </CSVLink>
-                    </Button>
+                    </Button> */}
 
 
                     {/* Component for filtering items */}

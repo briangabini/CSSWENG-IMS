@@ -28,7 +28,7 @@ const getCartDetailsByUserId = async (req, res) => {
 
         if (userCart) {
             console.log('User Cart:', userCart);
-            return res.status(200).json(userCart)
+            return res.status(200).json({userCart})
         } else {
             console.log('Cart not found for the user.');
             return res.status(400).json({error: 'Cart not found for the user.'})
@@ -152,6 +152,50 @@ const createCart = async (req, res) => {
     }
 };
 
+const getTotalCartQuantity = async (req, res) => {
+    const userId = req.params.userId
+
+    try {
+        // Check if the user already has a cart
+        const existingCart = await Cart.findByUserId(userId);
+
+        // Calculate the total quantity of all items in the cart
+        const totalQuantity = existingCart ? existingCart.inventoryItems.reduce((acc, item) => acc + item.quantity, 0) : 0;
+
+        return res.status(200).json({ totalQuantity });
+    } catch (error) {
+        console.error('Error getting total cart item count:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+/* const updateTransactionType = async (req, res) => {
+    const userId = req.body.userId
+    const newTransactionType = req.body.transactionType; // Assuming the new transaction type is provided in the request body
+
+    try {
+        // Check if the user already has a cart
+        const existingCart = await Cart.findByUserId(userId);
+
+        if (!existingCart) {
+            return res.status(404).json({ message: 'Cart not found for the user' });
+        }
+
+        // Update the transaction type in the cart
+        existingCart.transactionType = newTransactionType;
+
+        // Save the updated cart
+        await existingCart.save();
+
+        return res.status(200).json({ message: 'Transaction type updated successfully', cart: existingCart });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}; */
+
+
+
 /* const getCartDetailsByUserId = async (req, res) => {
     const userId = req.params.userId
 
@@ -211,5 +255,7 @@ module.exports = {
     cancelOrder,
     confirmOrder,
     deleteItems,
-    createCart
+    createCart,
+    getTotalCartQuantity,
+    // updateTransactionType
 }
