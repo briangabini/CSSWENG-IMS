@@ -51,7 +51,8 @@ const SalesGraph = (props) => {
                 <Stack direction="horizontal">
                     <div className="fs-2 fw-bold">September 19, 2023</div>
                     <div className="ms-2">
-                        <img src="icon_arrowcircleleft_.png"></img>
+                        {/* #TODO: hi @devs lagay nalang kayo ng onClick event here */}
+                        <img src="icon_arrowcircleleft_.png" ></img>
                         <img src="icon_arrowcircleright_.png"></img>
                     </div>
                 </Stack>
