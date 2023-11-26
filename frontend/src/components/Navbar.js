@@ -30,41 +30,34 @@ const NavigationBar = () => {
 
     const handleTransactionClick = async (e) => {
         try {
-            let transactionType = e.target.id
-
+            let transactionType = e.target.id;
             const userId = user._id;
 
-            // TODO: function to check if a cart exists
-
-            const response = await fetch(`${DOMAIN }/cart/getCartDetailsByUserId/${userId}`, {
+            // Check if a cart exists
+            const response = await fetch(`${DOMAIN}/cart/getCartDetailsByUserId/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
                 },
             });
-            
-            // if cart exists
+
             if (response.ok) {
-                const json = await response.json()
+                const json = await response.json();
 
-                console.log(json)
+                console.log(json);
 
-                // console.log('TransactionType: ', json.userCart.transactionType)
-                // console.log('From button: ', transactionType) 
-
-                // if current transaction type is selected by user
-                if (json.transactionType === transactionType) { //navigate to existing shopping cart
-
-
-                    transactionType === 'retail' ? setRetail() : setWholesale()
+                // Check if the current transaction type is selected by the user
+                if (json.transactionType === transactionType) {
+                    // Navigate to the existing shopping cart
+                    transactionType === 'retail' ? setRetail() : setWholesale();
                     navigateShoppingCart();
 
-                    console.log('the cart exists with the same transaction type')
-                    return 
-                } else { 
-
-                    console.log('deleting cart')
+                    console.log('The cart exists with the same transaction type');
+                    return;
+                } else {
+                    console.log('Deleting cart');
+                    // Delete the existing cart
                     await fetch(`${DOMAIN}/cart/cancelOrder`, {
                         method: 'DELETE',
                         headers: {
@@ -76,9 +69,9 @@ const NavigationBar = () => {
                 }
             }
 
-            console.log('creating cart')
+            console.log('Creating cart');
 
-            // create cart
+            // Create a new cart
             const response2 = await fetch(`${DOMAIN}/cart/createCart`, {
                 method: 'POST',
                 headers: {
@@ -89,17 +82,25 @@ const NavigationBar = () => {
             });
 
             if (response2.ok) {
-                console.log('successful cart creation')
+                console.log('Successful cart creation');
+            } else {
+                console.log(response.error)
             }
 
-            // execute function based on value (transaction type)
-            transactionType === 'retail' ? setRetail() : setWholesale()
+            console.log('All requests completed');
+
+            // Execute function based on the value (transaction type)
+            transactionType === 'retail' ? setRetail() : setWholesale();
+
+            // Refresh the page
             navigateShoppingCart();
+
         } catch (error) {
             console.error('Error handling transaction click:', error.message);
             // Handle error, show an error message, or perform other actions
         }
     };
+
 
     const [show, setShow] = useState(false);
 

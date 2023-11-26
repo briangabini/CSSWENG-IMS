@@ -101,7 +101,7 @@ const cancelOrder = async (req, res) => {
     try {
         await userCart.cancelOrder()
 
-        return res.status(200)
+        return res.status(200).json({message: 'Successful cancellation of order.'})
     } catch (error) {
 
         console.error('Error cancelling order:', error.message)
