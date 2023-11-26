@@ -161,7 +161,7 @@
 
         const fetchInventoryItems = async () => {
 
-            console.log(DOMAIN)
+            // console.log(DOMAIN)
 
             let endpoint = DOMAIN + '/inventory' + '/?'
 
@@ -185,15 +185,15 @@
                 endpoint += `&brand=${brand}`
             }
 
-            console.log(sortBy)
-            console.log(endpoint)
+            // console.log(sortBy)
+            // console.log(endpoint)
 
             const response = await fetch(endpoint, {
                 headers: { 'Authorization': `Bearer ${user.token}` },
             }) // retrieves response from server as JSON
             const json = await response.json() // converts the json data into an array of objects
 
-            console.log(json.items)
+            // console.log(json.items)
 
             // console.log('Is json an array?', Array.isArray(json));
             if (response.ok) {
@@ -218,7 +218,7 @@
             if (response.ok) {
                 setCart(json)
                 setTotalPrice(json.totalPrice)
-                console.log(json.inventoryItems)
+                // console.log(json.inventoryItems)
             }
         }
         const handleSortByUpdate = (newSortByValue) => {
@@ -256,8 +256,8 @@
                 userId: user._id,
                 inventoryId: itemId
             };
-            console.log(data)
-            console.log(itemId)
+            // console.log(data)
+            // console.log(itemId)
             try {
                     await fetch(`${DOMAIN}/cart/addItemToCart`, {
                     method: 'POST',

@@ -27,8 +27,8 @@ const getCartDetailsByUserId = async (req, res) => {
         const userCart = await Cart.findByUserId(userId);
 
         if (userCart) {
-            console.log('User Cart:', userCart);
-            return res.status(200).json({userCart})
+            // console.log('User Cart:', userCart);
+            return res.status(200).json(userCart)
         } else {
             console.log('Cart not found for the user.');
             return res.status(400).json({error: 'Cart not found for the user.'})

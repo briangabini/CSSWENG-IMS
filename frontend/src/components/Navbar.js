@@ -44,22 +44,27 @@ const NavigationBar = () => {
                 },
             });
             
-            const json = response.json()
-
-            // console.log('TransactionType: ', json.transactionType)
-            // console.log(json.userCart)
-            // console.log('From button: ', transactionType)
-
             // if cart exists
             if (response.ok) {
+                const json = await response.json()
+
+                console.log(json)
+
+                // console.log('TransactionType: ', json.userCart.transactionType)
+                // console.log('From button: ', transactionType) 
+
                 // if current transaction type is selected by user
                 if (json.transactionType === transactionType) { //navigate to existing shopping cart
 
 
-                    // transactionType === 'retail' ? setRetail() : setWholesale()
+                    transactionType === 'retail' ? setRetail() : setWholesale()
                     navigateShoppingCart();
+
+                    console.log('the cart exists with the same transaction type')
                     return 
-                } else { //delete 
+                } else { 
+
+                    console.log('deleting cart')
                     await fetch(`${DOMAIN}/cart/cancelOrder`, {
                         method: 'DELETE',
                         headers: {
@@ -71,8 +76,10 @@ const NavigationBar = () => {
                 }
             }
 
+            console.log('creating cart')
+
             // create cart
-            await fetch(`${DOMAIN}/cart/createCart`, {
+            const response2 = await fetch(`${DOMAIN}/cart/createCart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,6 +87,10 @@ const NavigationBar = () => {
                 },
                 body: JSON.stringify({ userId, transactionType }),
             });
+
+            if (response2.ok) {
+                console.log('successful cart creation')
+            }
 
             // execute function based on value (transaction type)
             transactionType === 'retail' ? setRetail() : setWholesale()

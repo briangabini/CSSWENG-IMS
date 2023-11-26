@@ -102,6 +102,7 @@ cartSchema.methods.deductItemFromCart = async function (inventoryItemId) {
     } else {
         throw new Error('Item not found in the cart');
     }
+    
     inventoryItem.totalPrice = await this.calculateTotalPrice();
     // Save the cart document
     await this.save();
@@ -163,28 +164,25 @@ cartSchema.methods.deleteItems = async function (itemIds) {
 };
 
 cartSchema.methods.calculateTotalPrice = async function () {
-    try {
-        // Populate the inventoryItems array with details from the InventoryItem model
-        await this.populate('inventoryItems.inventoryItem').execPopulate();
+    let totalPrice = 0;
 
-        let totalPrice = 0;
+    for (const cartItem of this.inventoryItems) {
+        // Get indiv item in the CART
+        const inventoryItemId = cartItem.inventoryItem;
+        const quantity = cartItem.quantity;
 
-        for (const cartItem of this.inventoryItems) {
-            const quantity = cartItem.quantity;
-            const inventoryItem = cartItem.inventoryItem;
+        // Fetch the inventory item details
+        const inventoryItem = await InventoryItem.findById(inventoryItemId);
 
-            // Price based on transaction type
-            const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
+        // Price based on transaction type
+        const price = this.transactionType === 'retail' ? inventoryItem.retailPrice : inventoryItem.wholesalePrice;
 
-            // Add the total price for this item to the total price of the cart
-            totalPrice += price * quantity;
-        }
-
-        this.totalPrice = totalPrice; // Update the total price of the cart
-    } catch (error) {
-        throw new Error(`Error calculating total price: ${error.message}`);
+        // Add the total price for this item to the total price of the cart
+        totalPrice += price * quantity;
     }
-}
+
+    this.totalPrice = totalPrice; // Update the total price of the cart
+};
 
 
 const Cart = mongoose.model('Cart', cartSchema)
