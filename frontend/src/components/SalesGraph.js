@@ -299,8 +299,9 @@ const SalesGraph = (props) => {
         //salesData
         // const [topProductName, setTopProduct] = useState('')
         // const [topProductQuantity, setTopProductQuantity] = useState(0)
+        const firstItem = itemData[0]
+        return console.log("what: ", itemData[0].items)
 
-        return console.log("item: ", itemData[0])
     }
     // get the data from the database
     useEffect(() => {
@@ -320,8 +321,13 @@ const SalesGraph = (props) => {
     useEffect(() => {
         getRevenueProfit()
         getTotalOrderCount()
-        topDailyProduct()
     }, [salesData])
+
+    useEffect(() =>{
+        if(!(itemData.length === 0)){
+            topDailyProduct()
+        }
+    }, [itemData])
 
 
     const selectedPeriod = timeLabels.find(period => period.timeFrame === props.period);
