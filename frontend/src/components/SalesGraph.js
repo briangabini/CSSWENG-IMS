@@ -4,7 +4,7 @@ import Stack from 'react-bootstrap/Stack';
 import Chart from "chart.js/auto";
 import { useState, useEffect } from 'react'
 import { Line } from "react-chartjs-2";
-import moment from 'moment'
+import moment, { max } from 'moment'
 
 // local imports
 import { DOMAIN } from '../config'
@@ -299,10 +299,19 @@ const SalesGraph = (props) => {
         //salesData
         // const [topProductName, setTopProduct] = useState('')
         // const [topProductQuantity, setTopProductQuantity] = useState(0)
-        const firstItem = itemData[0]
-        return console.log("what: ", itemData[0].items)
+        let tempProdNameList = []
+        let tempProdQuantityList = []
+        for(let i = 1; i < itemData.length; i++){
+            tempProdNameList.push(itemData[i].items[0].productName)
+            tempProdQuantityList.push(itemData[i].items[0].quantity)
+        }
 
+        setTopProductQuantity(Math.max(...tempProdQuantityList))
+        let indexQuantity = tempProdQuantityList.indexOf(topProductQuantity)
+        let prodMaxName = tempProdNameList[indexQuantity]
+        setTopProduct(prodMaxName)
     }
+
     // get the data from the database
     useEffect(() => {
 
@@ -327,7 +336,7 @@ const SalesGraph = (props) => {
         if(!(itemData.length === 0)){
             topDailyProduct()
         }
-    }, [itemData])
+    }, [itemData, topProductName, topProductQuantity])
 
 
     const selectedPeriod = timeLabels.find(period => period.timeFrame === props.period);
@@ -400,11 +409,10 @@ const SalesGraph = (props) => {
                     <Row>
                         <Card className="bg-finances-positive w-100 txt-white py-2">
                             <Row className="fw-bold fs-6 text-wrap mx-1">
-
-                                Helmet Lorem Ipsum
+                                {topProductName}
                             </Row>
                             <Row className="mx-1">
-                                50 orders {selectedPeriod.current}
+                                {topProductQuantity} orders {selectedPeriod.current}
                             </Row>
                         </Card>
                     </Row>
