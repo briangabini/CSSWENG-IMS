@@ -10,6 +10,17 @@ import moment, { max } from 'moment'
 import { DOMAIN } from '../config'
 import { useAuthContext } from "../hooks/useAuthContext"
 
+import {
+    getGraphLabels,
+    getDate,
+    getOptions,
+    getRevenueProfit,
+    getTotalOrderCount,
+    topDailyProduct,
+    getValidDates,
+    formatDate
+} from '../helpers/salesGraphHelper';
+
 
 const timeLabels = [
     {
@@ -57,7 +68,18 @@ const SalesGraph = (props) => {
     const [topProductQuantity, setTopProductQuantity] = useState(0)
     const [itemData, setItemData] = useState([])
 
-    const fetchSalesData = async () => {
+    // store the valid dates based on dates with orders
+    const [validDates, setValidDates] = useState([])
+
+    const [dateIndex, setDateIndex] = useState()
+
+    let [dateSelected, setDateSelected] = useState(new Date()) // choose current date by default
+
+    const [doneLoading, setDoneLoading] = useState(false)
+
+    const [isCalled, setIsCalled] = useState(false)
+
+    const fetchSalesData = async (dateSelected) => {
 
         let localPeriod = ""
 
@@ -79,12 +101,14 @@ const SalesGraph = (props) => {
             // fetch the orders from the database
             const response = await fetch(`${DOMAIN}/orders/${localPeriod}`, {
                 method: "POST",
-                body: JSON.stringify({ date: new Date() }), // convert to json
+                body: JSON.stringify({ date: dateSelected }), // convert to json
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
                 }
             })
+
+            console.log('Date selected: ', dateSelected)
 
             // check if the status is not OK
             if (!response.ok) {
@@ -110,7 +134,7 @@ const SalesGraph = (props) => {
             // set sales data 
             setSalesData(data)
 
-            const labels = getGraphLabels(json)
+            const labels = getGraphLabels(json, period)
 
             // graph data
             const graphData = {
@@ -134,209 +158,170 @@ const SalesGraph = (props) => {
         }
     };
 
-    // TODO: implement the fetching of the monthly sales
+    /* const handlePrevClick = () => {
+        const newIndex = dateIndex - 1;
+        // console.log('Date index from useEffect: ', dateIndex)
 
-    // TODO: implement the fetching of the yearly sales
+        if (newIndex >= 0) {
+            setDateIndex(prevIndex => prevIndex - 1);
+            console.log('current index: ', newIndex)
 
-    const getGraphLabels = (json) => {
-        let labels = []
+            let newDate
 
-        switch (period) {
+            if (period !== 'Yearly') {
 
-            case 'Daily':
-                labels = json.map(order => moment(new Date(order.orderDate)).format('hh:mm A'))
+                if (!(validDates.length === 0)) {
 
-                break
-            case 'Monthly':
-                labels = json.map(order => moment(new Date(order.orderDate)).format('MMM D'))
-                break
-            case 'Yearly':
-                labels = json.map(order => moment(new Date(order.orderDate)).format('hh:mm A'))
-                break
-            default:
-                break
+                    switch (period) {
+                        case 'Daily':
+                            newDate = new Date(validDates[dateIndex]);
+                            break
+                        case 'Monthly':
+                            newDate = getDateFromMonth(validDates[dateIndex]);
+                            break
+                        case 'Yearly':
+                            break
+                        default:
+                            break
+                    }
+
+
+                    setDateSelected(newDate)
+
+                }
+            }
         }
 
-        return labels
-    }
+    };
+    
+    const handleNextClick = () => {
+        const newIndex = dateIndex + 1;
 
-    const getDate = () => {
-        switch (period) {
-            case 'Daily':
-                setDateDisplayed(moment(dateDisplayed).format('MMMM D, YYYY'))
-                break
-            case 'Monthly':
-                setDateDisplayed(moment(dateDisplayed).format('MMMM'))
-                break
-            case 'Yearly':
-                setDateDisplayed(moment(dateDisplayed).format('YYYY'))
-                break
-            default:
-                break
+        // console.log('Date index from useEffect: ', dateIndex)
+        if (newIndex < validDates.length) {
+            setDateIndex(prevIndex => prevIndex + 1);
+            console.log('current index: ', newIndex)
+
+            let newDate
+
+            if (period !== 'Yearly') {
+
+                if (!(validDates.length === 0)) {
+
+                    switch (period) {
+                        case 'Daily':
+                            newDate = new Date(validDates[dateIndex]);
+                            break
+                        case 'Monthly':
+                            newDate = getDateFromMonth(validDates[dateIndex]);
+                            break
+                        case 'Yearly':
+                            break
+                        default:
+                            break
+                    }
+
+                    setDateSelected(newDate)
+                    
+                    
+                }
+            }
         }
-    }
+    }; */
 
-    // TODO: do this function
-    const getOption = () => {
+    /* useEffect(() => {
+        if (doneLoading) {
+            fetchSalesData(dateSelected);
 
-        switch (period) {
-            case 'Daily':
-                setGraphOptions({
-                    scales: {
-                        x: {
-                            display: false, // Hides the x-axis labels
-                        },
-                        y: {
-                            display: true, // Hides the y-axis labels
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false, // Hides the legend (if you also want to hide it)
-                        }
-                    },
-                    elements: {
-                        point: {
-                            radius: 3 // Adjust the radius of the points on the line
-                        }
-                    },
-                    maintainAspectRatio: false // Optional, if you want a responsive chart
-                })
+            // set the date depending on the report
+            getDate(period, dateSelected, setDateDisplayed)
 
-                break
-            case 'Monthly':
-                setGraphOptions({
-                    scales: {
-                        x: {
-                            display: true, // Hides the x-axis labels
-                        },
-                        y: {
-                            display: true, // Hides the y-axis labels
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false, // Hides the legend (if you also want to hide it)
-                        }
-                    },
-                    elements: {
-                        point: {
-                            radius: 3 // Adjust the radius of the points on the line
-                        }
-                    },
-                    maintainAspectRatio: false // Optional, if you want a responsive chart
-                })
+            console.log('Date selected: ', dateSelected)
 
-                break
-            case 'Yearly':
-                setGraphOptions({
-                    scales: {
-                        x: {
-                            display: true, // Hides the x-axis labels
-                        },
-                        y: {
-                            display: true, // Hides the y-axis labels
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false, // Hides the legend (if you also want to hide it)
-                        }
-                    },
-                    elements: {
-                        point: {
-                            radius: 3 // Adjust the radius of the points on the line
-                        }
-                    },
-                    maintainAspectRatio: false // Optional, if you want a responsive chart
-                })
-                break
-            default:
-                break
+            // set the options based on report
+            getOptions(period, setGraphOptions)
         }
-    }
+    }, [dateSelected]) */
 
-    const getRevenueProfit = () => {
-        // store the sum of all order profits
-        let value = 0
+    /* const getDateFromMonth = (monthName) => {
+        const monthIndex = timeLabels.findIndex((label) => label.current === monthName);
+        const currentYear = dateDisplayed.getFullYear();
+        const newDate = new Date(currentYear, monthIndex, 1); // Assuming the day is 1st of the month
+        return newDate;
+    }; */
 
-        salesData.forEach((order) => {
-            value += order.totalPrice
-            console.log(order.totalPrice)
-        })
-
-        value = value.toFixed(2)
-
-        setProfit(value)
-        setRevenue(value)
-
-    }
-
-    const getTotalOrderCount = () => {
-        let orderCount = 0
-
-        switch (period) {
-            case 'Daily':
-
-                orderCount = salesData.length
-
-                break
-            case 'Monthly':
-                orderCount = 0
-
-                salesData.forEach(order => {
-                    orderCount += order.orderCount
-                })
-
-                break
-            default:
-                break
-        }
-        setTotalOrderCount(orderCount)
-    }
-
-    const topDailyProduct = () => {
-        //salesData
-        // const [topProductName, setTopProduct] = useState('')
-        // const [topProductQuantity, setTopProductQuantity] = useState(0)
-        let tempProdNameList = []
-        let tempProdQuantityList = []
-        for(let i = 1; i < itemData.length; i++){
-            tempProdNameList.push(itemData[i].items[0].productName)
-            tempProdQuantityList.push(itemData[i].items[0].quantity)
-        }
-
-        setTopProductQuantity(Math.max(...tempProdQuantityList))
-        let indexQuantity = tempProdQuantityList.indexOf(topProductQuantity)
-        let prodMaxName = tempProdNameList[indexQuantity]
-        setTopProduct(prodMaxName)
-    }
 
     // get the data from the database
     useEffect(() => {
 
-        fetchSalesData();
+        fetchSalesData(dateSelected);
 
         // set the date depending on the report
-        getDate()
+        getDate(period, dateSelected, setDateDisplayed)
 
         // set the options based on report
-        getOption()
+        getOptions(period, setGraphOptions)
 
-        console.log('done fetching')
+        /* if (!isCalled) {
+            getValidDates(period, user, setValidDates, setDateIndex, dateDisplayed)
+            setIsCalled(true)
+        } */
+
+
     }, []);
 
     // refresh when salesData has been retrieved
     useEffect(() => {
-        getRevenueProfit()
-        getTotalOrderCount()
+
+        getRevenueProfit(salesData, setProfit, setRevenue)
+        getTotalOrderCount(period, salesData, setTotalOrderCount)
     }, [salesData])
 
-    useEffect(() =>{
-        if(!(itemData.length === 0)){
-            topDailyProduct()
+    useEffect(() => {
+        if (!(itemData.length === 0)) {
+            topDailyProduct(itemData, topProductQuantity, setTopProduct, setTopProductQuantity)
         }
     }, [itemData, topProductName, topProductQuantity])
+
+    /* useEffect(() => {
+
+        let newDate
+
+        if (period !== 'Yearly') {
+
+            if (!(validDates.length === 0)) {
+    
+                switch (period) {
+                    case 'Daily':
+                        console.log('Date index from useEffect: ', dateIndex)
+                        newDate = new Date(validDates[dateIndex]);
+                        break
+                    case 'Monthly':
+                        newDate = getDateFromMonth(validDates[dateIndex]);
+                        break
+                    case 'Yearly':
+                        break
+                    default:
+                        break
+                }
+    
+                fetchSalesData(newDate);
+    
+                // set the date depending on the report
+                getDate(period, dateDisplayed, setDateDisplayed)
+    
+                // set the options based on report
+                getOptions(period, setGraphOptions)
+            }
+        }
+    }, [dateIndex]) */
+
+    // Update dateIndex when dateDisplayed changes
+    // useEffect(() => {
+    //     if (!(validDates.length === 0)) {
+    //         setDateIndex(validDates.indexOf(formatDate(dateDisplayed)));
+    //     }
+    // }, [dateDisplayed, validDates]);
 
 
     const selectedPeriod = timeLabels.find(period => period.timeFrame === props.period);
@@ -351,8 +336,23 @@ const SalesGraph = (props) => {
                     <div className="ms-2">
                         {/* #TODO: hi @devs lagay nalang kayo ng onClick event here */}
 
-                        {/* <img src="icon_arrowcircleleft_.png" ></img> */}
-                        {/* <img src="icon_arrowcircleright_.png"></img> */}
+                        {/* BUTTON FOR GOING TO PREVIOUS DAY/MONTH/YEAR */}
+
+
+                        {/* <img
+                            alt="Left Click button"
+                            src="icon_arrowcircleleft_.png"
+                            // onClick={handlePrevClick}
+                        >
+                        </img> */}
+
+                        {/* <img
+                            alt="Left Click button"
+                            src="icon_arrowcircleright_.png"
+                            // onClick={handleNextClick}
+                        >
+                        </img> */}
+
                     </div>
                 </Stack>
             </Row>
@@ -365,11 +365,11 @@ const SalesGraph = (props) => {
                         ₱ {revenue}
                     </Row>
                     <Row className="d-flex flex-row">
-                        vs. {selectedPeriod.prev}
                         {/* if there's loss its bg-finances-negative */}
+                        {/* vs. {selectedPeriod.prev}
                         <div className="rounded-pill border ms-2 px-3 w-auto txt-white bg-finances-positive">
                             +25%
-                        </div>
+                        </div> */}
                     </Row>
                 </Col>
                 <Col>
@@ -380,11 +380,11 @@ const SalesGraph = (props) => {
                         {totalOrderCount}
                     </Row>
                     <Row className="d-flex flex-row">
-                        vs. {selectedPeriod.prev}
                         {/* if there's loss its bg-finances-negative */}
+                        {/* vs. {selectedPeriod.prev}
                         <div className="rounded-pill border ms-2 px-3 w-auto txt-white bg-finances-positive">
                             +25%
-                        </div>
+                        </div> */}
                     </Row>
                 </Col>
                 <Col>
@@ -395,11 +395,11 @@ const SalesGraph = (props) => {
                         ₱ {profit}
                     </Row>
                     <Row className="d-flex flex-row">
-                        vs. {selectedPeriod.prev}
                         {/* if there's loss its bg-finances-negative */}
+                        {/* vs. {selectedPeriod.prev}
                         <div className="rounded-pill border ms-2 px-3 w-auto txt-white bg-finances-positive">
                             +25%
-                        </div>
+                        </div> */}
                     </Row>
                 </Col>
                 <Col>
@@ -431,96 +431,3 @@ const SalesGraph = (props) => {
 }
 
 export default SalesGraph
-
-// const sortedDailySalesData = dailySalesData.sort((a, b) => {
-//     const timeA = a.orderDate.getHours() * 100 + a.orderDate.getMinutes() + (a.orderDate.getHours() >= 12 ? 10000 : 0);
-//     const timeB = b.orderDate.getHours() * 100 + b.orderDate.getMinutes() + (b.orderDate.getHours() >= 12 ? 10000 : 0);
-//     return timeA - timeB;
-// });
-
-// const labels = sortedDailySalesData.map(entry => entry.orderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-// const dailySalesValues = sortedDailySalesData.map(entry => entry.totalPrice);
-
-//   const dailySalesData = [
-//     {
-//         totalPrice: 150.25,
-//         orderDate: new Date('2023-09-19T08:30:00Z'), // Adjust the date and time as needed
-//     },
-//     {
-//         totalPrice: 75.5,
-//         orderDate: new Date('2023-09-19T12:15:00Z'),
-//     },
-//     {
-//         totalPrice: 200,
-//         orderDate: new Date('2023-09-19T16:45:00Z'),
-//     },
-//     {
-//         totalPrice: 120.75,
-//         orderDate: new Date('2023-09-19T09:30:00Z'),
-//     },
-//     {
-//         totalPrice: 90.0,
-//         orderDate: new Date('2023-09-19T14:00:00Z'),
-//     },
-//     {
-//         totalPrice: 180.50,
-//         orderDate: new Date('2023-09-19T18:30:00Z'),
-//     },
-//     {
-//         totalPrice: 100.25,
-//         orderDate: new Date('2023-09-19T10:45:00Z'),
-//     },
-//     {
-//         totalPrice: 50.75,
-//         orderDate: new Date('2023-09-19T13:30:00Z'),
-//     },
-//     {
-//         totalPrice: 220.0,
-//         orderDate: new Date('2023-09-19T17:15:00Z'),
-//     },
-//     {
-//         totalPrice: 80.50,
-//         orderDate: new Date('2023-09-19T11:00:00Z'),
-//     },
-//     {
-//         totalPrice: 160.25,
-//         orderDate: new Date('2023-09-19T15:45:00Z'),
-//     },
-//     {
-//         totalPrice: 220.0,
-//         orderDate: new Date('2023-09-19T17:15:00Z'),
-//     },
-//     {
-//         totalPrice: 80.50,
-//         orderDate: new Date('2023-09-19T11:00:00Z'),
-//     },
-//     {
-//         totalPrice: 160.25,
-//         orderDate: new Date('2023-09-19T15:45:00Z'),
-//     },
-//     {
-//         totalPrice: 220.0,
-//         orderDate: new Date('2023-09-19T17:15:00Z'),
-//     },
-//     {
-//         totalPrice: 80.50,
-//         orderDate: new Date('2023-09-19T11:00:00Z'),
-//     },
-//     {
-//         totalPrice: 160.25,
-//         orderDate: new Date('2023-09-19T15:45:00Z'),
-//     },
-//     {
-//         totalPrice: 220.0,
-//         orderDate: new Date('2023-09-19T17:15:00Z'),
-//     },
-//     {
-//         totalPrice: 80.50,
-//         orderDate: new Date('2023-09-19T11:00:00Z'),
-//     },
-//     {
-//         totalPrice: 160.25,
-//         orderDate: new Date('2023-09-19T15:45:00Z'),
-//     },
-//     ];

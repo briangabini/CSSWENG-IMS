@@ -327,7 +327,7 @@
                                                     showPrice={transactionType}
                                                     onAddToCart={() => addInventoryItem(inventoryItem._id)}
                                                     />
-                                            ))}                                
+                                        ))}
                                 </Row>
                             </Col>
                             <Col className='col-6 nomargin nopadding scroll-space'>

@@ -13,4 +13,11 @@ router.post('/month', orderController.getOrdersByMonth)
 // Router to get orders by year
 router.post('/year', orderController.getOrdersByYear)
 
+// get the valid days by month
+router.post('/valid-days', orderController.getValidDaysByMonth)
+
+// get the valid monts by year
+router.post('/valid-months', orderController.getValidMonthsByYear)
+
+
 module.exports = router;

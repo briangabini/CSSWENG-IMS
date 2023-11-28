@@ -4,8 +4,69 @@ import { useNavigate } from 'react-router-dom'
 import ReminderAndStatistics from '../components/ReminderAndStatistics'
 import {useState, useEffect} from 'react'
 
+import { DOMAIN } from '../config'
+
 const Dashboard = () => {
     const [user, setUser] = useState({});
+
+    const [selectedPeriod, setSelectedPeriod] = useState('day'); // Default selection
+    const [profit, setProfit] = useState()
+
+    const getProfit = (salesData, setProfit) => {
+        let value = 0;
+
+        salesData.forEach((order) => {
+            value += order.totalPrice;
+        });
+
+        value = value.toFixed(2);
+
+        setProfit(value);
+        
+    }
+
+    const fetchSalesData = async (localPeriod) => {
+
+        switch (localPeriod) {
+            case 'Daily':
+                localPeriod = 'day'
+                break
+            case 'Monthly':
+                localPeriod = 'month'
+                break
+            case 'Yearly':
+                localPeriod = 'year'
+                break
+            default:
+                break
+        }
+
+        try {
+
+            // fetch the orders from the database
+            const response = await fetch(`${DOMAIN}/orders/${localPeriod}`, {
+                method: "POST",
+                body: JSON.stringify({ date: new Date() }), // convert to json
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+
+            // check if the status is not OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // deserialize json to js object
+            const json = await response.json()
+
+            getProfit(json, setProfit)
+
+        } catch (error) {
+            console.error('Error fetching daily sales data:', error);
+        }
+    };
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -13,12 +74,20 @@ const Dashboard = () => {
             setUser(user);
         }
 
+        fetchSalesData('day')
+
     }, []);
 
     const navigate = useNavigate();
 
     const navigateSales = () => {
         navigate(`/sales-page`);
+    };
+
+    const handlePeriodChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedPeriod(selectedValue);
+        fetchSalesData(selectedValue);
     };
 
     // Prevents the dropdown button from doing the click event (navigation)
@@ -45,25 +114,29 @@ const Dashboard = () => {
                                 <Card className='p-4 bg-main-dominant-red overlay-revenue'>
                                     <Row>
                                         {/* Would change the revenue amount depending on the option */}
-                                        <Form.Select    size="sm"
-                                                        className='w-auto ms-auto fw-bold'
-                                                        onClick={handleDropdownClick}>
-                                            <option>Day</option>
-                                            <option>Month</option>
-                                            <option>Year</option>
-                                        </Form.Select>
+                                            <Form.Select
+                                                size="sm"
+                                                className="w-auto ms-auto fw-bold"
+                                                onClick={handleDropdownClick}
+                                                onChange={handlePeriodChange} // Handle the selection change
+                                                value={selectedPeriod} // Set the selected value
+                                            >
+                                                <option value="day">Day</option>
+                                                <option value="month">Month</option>
+                                                <option value="year">Year</option>
+                                            </Form.Select>
                                     </Row>
                                     <Row>
                                         {/* The revenue amount of the selected option */}
-                                        <Col className='m-2 txt-white fs-1 fw-bold'>₱5,105,811.99</Col>
+                                        <Col className='m-2 txt-white fs-1 fw-bold'>₱ {profit}</Col>
                                     </Row>
                                     <Row>
-                                        <Button className='rounded-4 w-auto txt-profit-dark fw-bold shadow' 
+                                        {/* The perecentage of increase/decrese of revenue depending on the option selected */}
+                                        {/* {<Button className='rounded-4 w-auto txt-profit-dark fw-bold shadow' 
                                                 variant='light'>
                                             <img src='icon_up_.png'></img>
-                                            {/* The perecentage of increase/decrese of revenue depending on the option selected */}
                                             +28%
-                                        </Button>
+                                        </Button>} */}
                                     </Row>
                                 </Card>
                             </Row>
