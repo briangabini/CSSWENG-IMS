@@ -279,7 +279,7 @@ const SalesGraph = (props) => {
 
     useEffect(() => {
         if (!(itemData.length === 0)) {
-            topDailyProduct(itemData, topProductQuantity, setTopProduct, setTopProductQuantity)
+            topDailyProduct(itemData, setTopProduct, setTopProductQuantity)
         }
     }, [itemData, topProductName, topProductQuantity])
 

@@ -22,55 +22,91 @@ const SalesRank = (props) => {
     const test = () => {
 
         let tempArr = []
+        let itemsOnlyArr = []
         let date = ""
 
         if (orderItem && orderItem.length > 0) {
-            console.log("Order item:", (orderItem[0].items[0]).productPrice)
+            console.log("Order item:", (orderItem[0]))
 
-            orderItem.sort((a, b) => b.productPrice - a.totalPrice);
+            // orderItem.sort((a, b) => b.productPrice - a.productPrice);
             // sort orderItem
-
-
-
-            for (let i = 0; i < orderItem.length; i++) {
-
+            
+            // Put all orders to an array that only contains the aggregated items
+            for(let i = 0; i < orderItem.length; i++){
                 for (let j = 0; j < orderItem[i].items.length; j++) {
-                    switch (period) {
-                        case 'Daily':
-                            date = moment(orderItem[i].orderDate).format('hh:mm A')
-                            break
-                        case 'Monthly':
-                            date = moment(orderItem[i].orderDate).format('MMM DD')
-                            break
-                        case 'Yearly':
-                            date = moment(orderItem[i].orderDate).format('MMMM')
-                            break
-                        default:
-                            break
-                    }
+                    itemsOnlyArr.push(orderItem[i].items[j])
+                    
+                }
+            }
+            itemsOnlyArr.sort((a, b) => (b.productPrice * b.quantity) - (a.productPrice * a.quantity));
+            console.log(itemsOnlyArr)
 
-                    tempArr.push
+            for(let k = 0; k < itemsOnlyArr.length; k++){
+                tempArr.push
                         (<Row className="ps-2">
-                            <Col>
+                            {/* <Col>
 
                                 {date}
 
 
-                            </Col>
+                            </Col> */}
                             <Col>
-                                {orderItem[i].items[j].productName}
+                                {itemsOnlyArr[k].productName}
                             </Col>
                             <Col>
                                 {/* ₱{orderItem[i].items[j].productPrice.toFixed(2)} */}
-                                ₱{orderItem[i].items[j].productPrice}
+                                ₱{itemsOnlyArr[k].productPrice}
                             </Col>
                             <Col>
-                                {orderItem[i].items[j].quantity}
+                                {itemsOnlyArr[k].quantity}
+                            </Col>
+                            <Col>
+                                ₱{(itemsOnlyArr[k].productPrice * itemsOnlyArr[k].quantity).toFixed(2)}
                             </Col>
                         </Row>
                         )
-                }
             }
+            
+
+            // for (let i = 0; i < orderItem.length; i++) {
+
+            //     for (let j = 0; j < orderItem[i].items.length; j++) {
+            //         // switch (period) {
+            //         //     case 'Daily':
+            //         //         date = moment(orderItem[i].orderDate).format('hh:mm A')
+            //         //         break
+            //         //     case 'Monthly':
+            //         //         date = moment(orderItem[i].orderDate).format('MMM DD')
+            //         //         break
+            //         //     case 'Yearly':
+            //         //         date = moment(orderItem[i].orderDate).format('MMMM')
+            //         //         break
+            //         //     default:
+            //         //         break
+            //         // }
+
+            //         tempArr.push
+            //             (<Row className="ps-2">
+            //                 {/* <Col>
+
+            //                     {date}
+
+
+            //                 </Col> */}
+            //                 <Col>
+            //                     {orderItem[i].items[j].productName}
+            //                 </Col>
+            //                 <Col>
+            //                     {/* ₱{orderItem[i].items[j].productPrice.toFixed(2)} */}
+            //                     ₱{orderItem[i].items[j].productPrice}
+            //                 </Col>
+            //                 <Col>
+            //                     {orderItem[i].items[j].quantity}
+            //                 </Col>
+            //             </Row>
+            //             )
+            //     }
+            // }
 
         }
 
@@ -98,17 +134,20 @@ const SalesRank = (props) => {
                 <Col>
                     <Card className="mt-3 shadow border-0 p-4">
                         <Row className="ps-2 txt-gray-text">
-                            <Col>
+                            {/* <Col>
                                 Date
-                            </Col>
+                            </Col> */}
                             <Col>
                                 Product Name
                             </Col>
                             <Col>
-                                Price
+                                Product Price
                             </Col>
                             <Col>
-                                QTY
+                                Product Quantity
+                            </Col>
+                            <Col>
+                                Total Product Value
                             </Col>
                         </Row>
 

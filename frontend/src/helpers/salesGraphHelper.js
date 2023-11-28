@@ -17,6 +17,7 @@ export const getGraphLabels = (json, period) => {
 
     switch (period) {
         case 'Daily':
+            console.log("testest0", json)
             labels = json.map(order => moment(new Date(order.orderDate)).format('hh:mm A'));
             break;
         case 'Monthly':
@@ -54,7 +55,7 @@ export const getOptions = (period, setGraphOptions) => {
             setGraphOptions({
                 scales: {
                     x: {
-                        display: false,
+                        display: true,
                     },
                     y: {
                         display: true,
@@ -136,19 +137,27 @@ export const getTotalOrderCount = (period, salesData, setTotalOrderCount) => {
     setTotalOrderCount(orderCount);
 };
 
-export const topDailyProduct = (itemData, topProductQuantity, setTopProduct, setTopProductQuantity) => {
-    let tempProdNameList = [];
-    let tempProdQuantityList = [];
-
-    for (let i = 0; i < itemData.length; i++) {
-        tempProdNameList.push(itemData[i].items[0].productName);
-        tempProdQuantityList.push(itemData[i].items[0].quantity);
+export const topDailyProduct = (itemData, setTopProduct, setTopProductQuantity) => {
+    // let tempProdNameList = [];
+    // let tempProdQuantityList = [];
+    // let tempProdPriceList = [];
+    let itemsOnlyArr = [];
+    for(let i = 0; i < itemData.length; i++){
+        for (let j = 0; j < itemData[i].items.length; j++) {
+            itemsOnlyArr.push(itemData[i].items[j])
+        }
     }
-
-    setTopProductQuantity(Math.max(...tempProdQuantityList));
-    let indexQuantity = tempProdQuantityList.indexOf(topProductQuantity);
-    let prodMaxName = tempProdNameList[indexQuantity];
-    setTopProduct(prodMaxName);
+    itemsOnlyArr.sort((a, b) => {
+        // First, compare by quantity
+        if (b.quantity !== a.quantity) {
+            return b.quantity - a.quantity;
+        }
+    
+        // If quantities are the same, then compare by product price
+        return b.productPrice - a.productPrice;
+    });
+    setTopProduct(itemsOnlyArr[0].productName)
+    setTopProductQuantity(itemsOnlyArr[0].quantity)
 }
 
 const setDateIndexBasedOnPeriod = (period, json, dateDisplayed, setDateIndex) => {
