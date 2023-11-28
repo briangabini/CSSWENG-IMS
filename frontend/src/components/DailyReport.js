@@ -25,11 +25,15 @@ const DailyReport = () => {
 
         // check if the status is not OK
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            // throw new Error(`HTTP error! status: ${response.status}`);
+            return 
         }
 
         // deserialize json to js object
         const json = await response.json()
+
+        console.log("I AM JSON IN DAILY", json)
+
         setOrders(json)
 
     }

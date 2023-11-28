@@ -140,7 +140,7 @@ export const topDailyProduct = (itemData, topProductQuantity, setTopProduct, set
     let tempProdNameList = [];
     let tempProdQuantityList = [];
 
-    for (let i = 1; i < itemData.length; i++) {
+    for (let i = 0; i < itemData.length; i++) {
         tempProdNameList.push(itemData[i].items[0].productName);
         tempProdQuantityList.push(itemData[i].items[0].quantity);
     }

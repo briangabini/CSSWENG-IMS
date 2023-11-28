@@ -4,7 +4,7 @@ const Order = require('../../models/orderModel');
 
 // set the config data here
 const currentDate = new Date()
-const SAMPLE_ITEMS_NUM = 5
+const SAMPLE_ITEMS_NUM = 15
 
 const generateRandomItem = () => {
     const randomQuantity = Math.floor(Math.random() * 10) + 1;
@@ -12,6 +12,7 @@ const generateRandomItem = () => {
 
     return {
         "productName": `Item ${Math.floor(Math.random() * 10000)}`,
+        "productPrice": randomPrice,
         "quantity": randomQuantity,
     };
 };

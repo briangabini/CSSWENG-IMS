@@ -14,6 +14,7 @@ const time = {
 
 
 const SalesRank = (props) => {
+    // props is the parameters returned by the reports components
     const { period, orderItem } = props;
     // const [salesItem, setSalesItem] = useState()
 
@@ -24,16 +25,16 @@ const SalesRank = (props) => {
         let date = ""
 
         if (orderItem && orderItem.length > 0) {
-            console.log("Order item:", orderItem[0].items[0].productName)
+            console.log("Order item:", (orderItem[0].items[0]).productPrice)
 
-            orderItem.sort((a, b) => b.totalPrice - a.totalPrice);
+            orderItem.sort((a, b) => b.productPrice - a.totalPrice);
             // sort orderItem
 
-            
 
-            for(let i = 0; i < orderItem.length; i++){
-                
-                for(let j = 0; j < orderItem[i].items.length; j++){
+
+            for (let i = 0; i < orderItem.length; i++) {
+
+                for (let j = 0; j < orderItem[i].items.length; j++) {
                     switch (period) {
                         case 'Daily':
                             date = moment(orderItem[i].orderDate).format('hh:mm A')
@@ -49,27 +50,28 @@ const SalesRank = (props) => {
                     }
 
                     tempArr.push
-                    (<Row className="ps-2">
-                        <Col>
+                        (<Row className="ps-2">
+                            <Col>
 
-                            {date}
+                                {date}
 
-                            
-                        </Col>
-                        <Col>
-                            {orderItem[i].items[j].productName}
-                        </Col>
-                        <Col>
-                            ₱{orderItem[i].totalPrice.toFixed(2)}
-                        </Col>
-                        <Col>
-                            {orderItem[i].items[j].quantity}
-                        </Col>
-                    </Row>
-                    )
+
+                            </Col>
+                            <Col>
+                                {orderItem[i].items[j].productName}
+                            </Col>
+                            <Col>
+                                {/* ₱{orderItem[i].items[j].productPrice.toFixed(2)} */}
+                                ₱{orderItem[i].items[j].productPrice}
+                            </Col>
+                            <Col>
+                                {orderItem[i].items[j].quantity}
+                            </Col>
+                        </Row>
+                        )
                 }
             }
-                
+
         }
 
         return tempArr.slice(0, 5)

@@ -75,6 +75,9 @@ const orderController = {
             if (orders.length === 0)
                 return res.status(404).json({ message: 'No orders found for this month' });
 
+            // console.log(orders)
+
+
             // Aggregate orders based on the day
             const aggregatedOrders = aggregateOrdersByDay(orders);
 
@@ -147,7 +150,7 @@ const orderController = {
             // Sort the uniqueDays array
             const sortedDays = uniqueDays.sort((a, b) => new Date(a) - new Date(b));
 
-            return res.status(200).json( sortedDays );
+            return res.status(200).json(sortedDays);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
@@ -185,8 +188,8 @@ const orderController = {
             // Sort the uniqueMonths array based on the actual order of the months
             const sortedMonths = sortMonths(uniqueMonths);
 
-            return res.status(200).json( sortedMonths );
-            
+            return res.status(200).json(sortedMonths);
+
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
@@ -218,6 +221,8 @@ const aggregateOrdersByDay = (orders) => {
         // Get the total orders count for a specific day 
         aggregatedOrders[orderDate].orderCount += 1
 
+
+
         // Update the items array
         order.items.forEach(item => {
 
@@ -234,6 +239,7 @@ const aggregateOrdersByDay = (orders) => {
                 // Add a new item to the items array
                 aggregatedOrders[orderDate].items.push({
                     productName: item.productName,
+                    productPrice: item.productPrice,
                     quantity: item.quantity
                 });
             }
@@ -285,6 +291,7 @@ const aggregateOrdersByMonth = (orders) => {
                 // Add a new item to the items array
                 aggregatedOrders[orderMonth].items.push({
                     productName: item.productName,
+                    productPrice: item.productPrice,
                     quantity: item.quantity
                 });
             }

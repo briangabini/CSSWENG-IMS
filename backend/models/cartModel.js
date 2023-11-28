@@ -125,8 +125,10 @@ cartSchema.methods.confirmOrder = async function () {
             // Assuming your order model has fields like this
             items: this.inventoryItems.map(item => ({
                 productName: item.inventoryItem.partName,
+                productPrice: item.inventoryItem.retailPrice,
                 quantity: item.quantity
-            })),
+            }
+            )),
             totalPrice: this.totalPrice,
             transactionType: this.transactionType,
             // Other relevant fields like user, etc.

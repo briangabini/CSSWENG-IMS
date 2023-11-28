@@ -25,7 +25,8 @@ const MonthlyReport = () => {
 
         // check if the status is not OK
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            // throw new Error(`HTTP error! status: ${response.status}`);
+            return 
         }
 
         // deserialize json to js object
