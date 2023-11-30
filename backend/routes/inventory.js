@@ -36,7 +36,7 @@ router.get('/print-csv', getInventoryItemsForPrint)
 // router.get('/:partName', getInventoryItem)   
 
 // GET a single item using ID
-// router.get('/:id', getInventoryItemById)
+router.get('/:id', getInventoryItemById)
 
 // POST an inventory item
 router.post('/add-item', createInventoryItem)

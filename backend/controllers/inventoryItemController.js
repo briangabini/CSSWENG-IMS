@@ -292,7 +292,7 @@ module.exports = {
     updateInventoryItemById,
     // searchInventoryItemByPartname,
     getInventory,
-    // getInventoryItemById,
+    getInventoryItemById,
     getInventoryItemsForPrint,
     checkPartNameBrand,
     getDangerZoneItemCount
