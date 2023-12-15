@@ -119,8 +119,6 @@ cartSchema.methods.confirmOrder = async function () {
 
         const arr = this.inventoryItems.map(item => item.inventoryItem);
 
-        console.log("TESTINGTESTES", arr)
-
         const newOrder = new Order ({
             // Assuming your order model has fields like this
             items: this.inventoryItems.map(item => ({
