@@ -180,7 +180,7 @@ cartSchema.methods.deleteItems = async function (itemIds) {
     try {
         // Remove the items from the inventoryItems array based on itemIds
         this.inventoryItems = this.inventoryItems.filter(item => !itemIds.includes(item._id.toString()));
-
+        this.totalPrice = await this.calculateTotalPrice();
         // Save the changes
         await this.save();
     } catch (error) {

@@ -96,17 +96,25 @@ const ShoppingCart = () => {
     }
 
     const deleteItems = async () => {
+        const data = {
+            userId: user._id,
+            itemIds: selectedItems
+        }
         try {
             // Send a request to delete items based on selectedItems
             const response = await fetch(DOMAIN + '/cart/deleteItems', {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
-                body: JSON.stringify({ userId: user._id, itemIds: selectedItems }),
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                },
+                body: JSON.stringify(data),
             });
 
             if (response.ok) {
                 // Update the cart and selectedItems state after successful deletion
                 // fetchCart();
+                console.log(data)
                 setSelectedItems([]);
 
                 setTick(prevTick => prevTick + 1)
