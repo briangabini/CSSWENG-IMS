@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import Sidebar from './Sidebar.js'
 import { Container, Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap'
 import { useState } from 'react';
@@ -21,11 +21,19 @@ const NavigationBar = () => {
     }
 
     const navigate = useNavigate();
-
+    
+    const location = useLocation();
+    
     const navigateShoppingCart = (e) => {
+
         navigate(`/shopping-cart`);
 
         handleClose();
+
+        if (location.pathname === '/shopping-cart') {
+            window.location.reload();
+        }
+        
     };
 
     const handleTransactionClick = async (e) => {

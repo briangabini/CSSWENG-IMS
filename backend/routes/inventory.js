@@ -42,10 +42,10 @@ router.get('/:id', getInventoryItemById)
 router.post('/add-item', createInventoryItem)
 
 // DELETE an inventory item
-router.delete('/delete-item/:id', deleteInventoryItemById) 
+router.delete('/delete-item/:id', deleteInventoryItemById)
 
 // UPDATE an inventory item 
-router.patch('/edit-item/:id', updateInventoryItemById) 
+router.patch('/edit-item/:id', updateInventoryItemById)
 
 router.post('/checkPartNameBrand', checkPartNameBrand)
 

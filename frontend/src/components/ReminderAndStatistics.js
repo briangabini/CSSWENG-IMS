@@ -59,7 +59,7 @@ const ReminderAndStatistics = () => {
 
     useEffect(() => {
         getTotalCartQuantity()
-        getDangerZoneItemCount()
+        // getDangerZoneItemCount()
     }, [])
 
     const navigate = useNavigate();

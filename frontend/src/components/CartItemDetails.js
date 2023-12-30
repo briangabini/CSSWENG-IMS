@@ -3,7 +3,7 @@ import { DOMAIN } from '../config';
 import { useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext.js';
 
-const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelected }) => {
+const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelected, tick, setTick }) => {
     const { user } = useAuthContext();
     const [quantity, setQuantity] = useState(item.quantity);
     const [loading, setLoading] = useState(false);
@@ -31,6 +31,8 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
                 if (response.ok) {
                     setQuantity((prevQuantity) => prevQuantity - 1);
                     console.log('Quantity deducted successfully');
+
+                    setTick((prevTick) => prevTick + 1);
                 } else {
                     console.log('Failed to deduct quantity');
                 }
@@ -68,6 +70,8 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
                     setQuantity((prevQuantity) => prevQuantity + 1);
                     console.log('Quantity added successfully');
                     console.log('New quantity: ', quantity);
+
+                    setTick((prevTick) => prevTick + 1);
                 } else {
                     console.log('Failed to add quantity');
                 }
@@ -76,6 +80,15 @@ const CartItemDetails = ({ _id, item, showPrice, handleCheckboxChange, isSelecte
             }
         }
     };
+
+    /* return (
+        <>
+            <div>{showPrice}</div>
+            <div>{item.inventoryItem.wholesalePrice}</div>
+            <div>{item.inventoryItem.retailPrice}</div>
+        </>
+
+    ) */
 
     return (
         <Row fluid className='mb-2'>
