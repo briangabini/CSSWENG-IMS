@@ -10,12 +10,12 @@ This project was done in partial fulfillment for CSSWENG(Introduction to Softwar
 ## Credits
 |     Role      |      Name     |
 | ------------- | ------------- |
-| Scrum Master  | Content Cell  |
-| Business Analyst  | Content Cell  |
-| Frontend Developer  | Content Cell  |
-| Frontend Developer  | Content Cell  |
-| Backend Developer  | Content Cell  |
-| Backend Developer  | Content Cell  |
-| Backend Developer  | Content Cell  |
-| Quality Assurance  | Content Cell  |
-| Quality Assurance  | Content Cell  |
+| Scrum Master  | Yu, Hanz Patrick  |
+| Business Analyst  | Muriel, Gabriel  |
+| Frontend Developer  | Dela Cruz, Frances Julianne  |
+| Frontend Developer  | Villamiel, Denis Leeroi  |
+| Backend Developer  | Gabini, Brian  |
+| Backend Developer  | Verano, Carl Matthew  |
+| Backend Developer  | Bernardo, Noah  |
+| Quality Assurance  | Gamboa, Mikkel Dominic  |
+| Quality Assurance  | De Leon, Francis Zaccharie  |
