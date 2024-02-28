@@ -1,8 +1,8 @@
 /* OUTDATED DON'T USE */
 
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '../../.env' });
 const mongoose = require('mongoose');
-const InventoryItem = require('../models/inventoryItemModel');
+const InventoryItem = require('../../models/inventoryItemModel');
 
 mongoose.connect(process.env.MONGO_URI_DEV, {
     useNewUrlParser: true,

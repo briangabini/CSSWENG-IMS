@@ -6,6 +6,7 @@ const cors = require('cors')
 const inventoryRoutes = require('./routes/inventory')
 const verifiedUserRoutes = require('./routes/verified-users')
 const cartRoutes = require('./routes/cart')
+const orderRoutes = require('./routes/order')
 
 
 // express app
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 app.use('/users', verifiedUserRoutes)
 app.use('/inventory', inventoryRoutes)
 app.use('/cart', cartRoutes)
+app.use('/orders', orderRoutes)
 
 let MONGO_URI = ""
 

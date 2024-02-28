@@ -22,7 +22,7 @@ const requireAuth = async (req, res, next) => {
     // "Bearer token..." hence a need to split by a space
     const token = authorization.split(' ')[1]
 
-    console.log(token)
+    // console.log(token)
 
     try{
         // it needs secret to verify the signature from token

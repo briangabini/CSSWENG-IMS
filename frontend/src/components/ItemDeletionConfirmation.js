@@ -5,7 +5,7 @@ import { DOMAIN } from '../config'
 import { useInventoryContext } from '../hooks/useInventoryContext'
 import { useAuthContext } from "../hooks/useAuthContext"
 
-const ItemDeletionConfirmation = ({_id}) => {
+const ItemDeletionConfirmation = ({ _id }) => {
     // show     boolean variable that determines if a component is visisble or not
     // setShow  function that changes the variable 'show'
     const [show, setShow] = useState(false);
@@ -13,7 +13,7 @@ const ItemDeletionConfirmation = ({_id}) => {
     const { user } = useAuthContext()
 
     const { dispatch } = useInventoryContext()
-    
+
     // function that hides the component
     const handleClose = () => setShow(false);
     // function that shows the component
@@ -22,9 +22,9 @@ const ItemDeletionConfirmation = ({_id}) => {
     const handleDelete = async (e) => {
 
         if (!user) {
-            return 
+            return
         }
-        
+
         const response = await fetch(DOMAIN + `/inventory/delete-item/${_id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${user.token}` },
@@ -36,7 +36,7 @@ const ItemDeletionConfirmation = ({_id}) => {
             setError(json.error)
         }
         if (response.ok) {
-            dispatch({type: 'DELETE_INVENTORY_ITEM', payload: json})
+            dispatch({ type: 'DELETE_INVENTORY_ITEM', payload: json })
 
             // 
             console.log('deleted inventory item:', json) // print to console
@@ -44,17 +44,22 @@ const ItemDeletionConfirmation = ({_id}) => {
 
         handleClose()
     }
-
+    const showDelete = () => {
+        if (user.role === "Admin") {
+            return <Button onClick={handleShow}
+                size='sm' variant='danger'
+                className='shadow rounded-2 col-4 txt-16'
+            >
+                Delete
+            </Button>
+        }
+    }
 
 
     return (
-        <>  
+        <>
             {/* Button to delete an item */}
-            <Button onClick={handleShow} 
-                    size='sm' variant='danger' 
-                    className='shadow rounded-2 col-4 txt-16' >
-                Delete
-            </Button>
+            {showDelete()}
 
             {/* Modal that would ask for confirmation of item deletion */}
             <Modal show={show} onHide={handleClose}>
@@ -81,7 +86,7 @@ const ItemDeletionConfirmation = ({_id}) => {
                 </Modal.Footer>
             </Modal>
         </>
-        
+
     )
 }
 

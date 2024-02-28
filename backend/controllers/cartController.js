@@ -25,22 +25,22 @@ const getCartDetailsByUserId = async (req, res) => {
         const userCart = await Cart.findByUserId(userId);
 
         if (userCart) {
-            console.log('User Cart:', userCart);
+            // console.log('User Cart:', userCart);
             return res.status(200).json(userCart)
         } else {
             console.log('Cart not found for the user.');
-            return res.status(400).json({error: 'Cart not found for the user.'})
+            return res.status(400).json({ error: 'Cart not found for the user.' })
         }
 
-    } catch (error) { 
-        console.error('Error fetching cart details:', error.message); 
-        return res.status(400).json({ error: error.message }) 
+    } catch (error) {
+        console.error('Error fetching cart details:', error.message);
+        return res.status(400).json({ error: error.message })
     }
 }
 
 const deductItemFromCart = async (req, res) => {
 
-    const {userId, inventoryId} = req.body
+    const { userId, inventoryId } = req.body
 
     const userCart = await Cart.findByUserId(userId);
 
@@ -67,7 +67,7 @@ const addItemToCart = async (req, res) => {
     try {
         await userCart.addItemToCart(inventoryId)
 
-        return res.status(200).json({message: 'Item added successfully'})
+        return res.status(200).json({ message: 'Item added successfully' })
     } catch (error) {
 
         console.error('Error adding item to cart:', error.message)
@@ -83,7 +83,7 @@ const confirmOrder = async (req, res) => {
     try {
         await userCart.confirmOrder()
 
-        return res.status(200)
+        return res.status(200).json({ message: 'Order confirmed successfully' })
     } catch (error) {
 
         console.error('Error confirming order:', error.message)
@@ -99,7 +99,7 @@ const cancelOrder = async (req, res) => {
     try {
         await userCart.cancelOrder()
 
-        return res.status(200)
+        return res.status(200).json({ message: 'Successful cancellation of order.' })
     } catch (error) {
 
         console.error('Error cancelling order:', error.message)
@@ -108,18 +108,18 @@ const cancelOrder = async (req, res) => {
 }
 
 const deleteItems = async (req, res) => {
-    const {userId, itemIds} = req.body // returns an array containing the ids of items to delete and the user id
+    const { userId, itemIds } = req.body // returns an array containing the ids of items to delete and the user id
 
     const userCart = await Cart.findByUserId(userId)
 
     try {
         await userCart.deleteItems(itemIds)
 
-        return res.status(200)
+        return res.status(200).json({message: 'Items deleted successfully'})
     } catch (error) {
         console.error('Error deleting items:', error.message);
-        
-        return res.status(400).json({error: error.message})
+
+        return res.status(400).json({ error: error.message })
     }
 }
 
@@ -149,6 +149,50 @@ const createCart = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+const getTotalCartQuantity = async (req, res) => {
+    const userId = req.params.userId
+
+    try {
+        // Check if the user already has a cart
+        const existingCart = await Cart.findByUserId(userId);
+
+        // Calculate the total quantity of all items in the cart
+        const totalQuantity = existingCart ? existingCart.inventoryItems.reduce((acc, item) => acc + item.quantity, 0) : 0;
+
+        return res.status(200).json({ totalQuantity });
+    } catch (error) {
+        console.error('Error getting total cart item count:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+/* const updateTransactionType = async (req, res) => {
+    const userId = req.body.userId
+    const newTransactionType = req.body.transactionType; // Assuming the new transaction type is provided in the request body
+
+    try {
+        // Check if the user already has a cart
+        const existingCart = await Cart.findByUserId(userId);
+
+        if (!existingCart) {
+            return res.status(404).json({ message: 'Cart not found for the user' });
+        }
+
+        // Update the transaction type in the cart
+        existingCart.transactionType = newTransactionType;
+
+        // Save the updated cart
+        await existingCart.save();
+
+        return res.status(200).json({ message: 'Transaction type updated successfully', cart: existingCart });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}; */
+
+
 
 /* const getCartDetailsByUserId = async (req, res) => {
     const userId = req.params.userId
@@ -209,5 +253,7 @@ module.exports = {
     cancelOrder,
     confirmOrder,
     deleteItems,
-    createCart
+    createCart,
+    getTotalCartQuantity,
+    // updateTransactionType
 }

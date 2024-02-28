@@ -2,8 +2,66 @@
 import {Container, Row, Col, Card, Dropdown, DropdownButton} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { DOMAIN } from '../config';
+import { useAuthContext } from '../hooks/useAuthContext.js'
 
 const ReminderAndStatistics = () => {
+
+    const [cartItemQuantity, setCartItemQuantity] = useState(0)
+    const [lowStockItemQuantity, setLowStockItemQuantity] = useState(0)
+
+    // get the data of the user from the context
+    const { user } = useAuthContext()
+    
+
+    const getTotalCartQuantity = async () => {
+    try {
+        const response = await fetch(`${DOMAIN}/cart/getTotalCartQuantity/${user._id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
+        });
+
+        if (response.ok) {
+            const json = await response.json();
+            setCartItemQuantity(json.totalQuantity);
+        } else {
+            // Handle non-successful response (e.g., show an error message)
+            console.error(`Error: ${response.status} - ${response.statusText}`);
+        }
+    } catch (error) {
+        // Handle network or unexpected errors
+        console.error('Error fetching cart quantity:', error.message);
+    }
+}
+    const getDangerZoneItemCount = async () => {
+        try {
+            const response = await fetch(`${DOMAIN}/inventory/getDangerZoneItemCount`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                },
+            });
+
+            if (response.ok) {
+                const json = await response.json();
+                setLowStockItemQuantity(json.dangerZoneItemCount);
+            } else {
+                // Handle non-successful response (e.g., show an error message) 
+                // console.error(`Error: ${response.status} - ${response.statusText}`); 
+            }
+        } catch (error) {
+            // Handle network or unexpected errors
+            // console.error('Error fetching danger zone item count:', error.message);
+        }
+    };
+
+    useEffect(() => {
+        getTotalCartQuantity()
+        // getDangerZoneItemCount()
+    }, [])
+
     const navigate = useNavigate();
 
     const navigateCalendar = () => {
@@ -58,7 +116,7 @@ const ReminderAndStatistics = () => {
                         <Card className='w-auto bg-card1-red overlay-items-in-cart h-100'>
                             <Card.Body>
                                 {/* Number of items in cart */}
-                                <Card.Title className='txt-32 fw-bold'>5</Card.Title>
+                                <Card.Title className='txt-32 fw-bold'>{cartItemQuantity}</Card.Title>
                                 <Card.Subtitle className='txt-14'>Items in Cart</Card.Subtitle>
                             </Card.Body>
                         </Card>
@@ -82,7 +140,7 @@ const ReminderAndStatistics = () => {
                         <Card className='bg-main-dominant-red overlay-low-stock h-100'>
                             <Card.Body>
                                 {/* Number of Low-Stock Items */}
-                                <Card.Title className='txt-32 fw-bold'>6</Card.Title>
+                                <Card.Title className='txt-32 fw-bold'>{lowStockItemQuantity}</Card.Title>
                                 <Card.Subtitle className='txt-14'>Low-Stock Items</Card.Subtitle>
                             </Card.Body>
                         </Card>

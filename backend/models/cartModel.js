@@ -1,5 +1,6 @@
 const InventoryItem = require('../models/inventoryItemModel')
 const mongoose = require('mongoose')
+const Order = require('./orderModel');
 
 const Schema = mongoose.Schema
 
@@ -102,6 +103,7 @@ cartSchema.methods.deductItemFromCart = async function (inventoryItemId) {
     } else {
         throw new Error('Item not found in the cart');
     }
+    
     inventoryItem.totalPrice = await this.calculateTotalPrice();
     // Save the cart document
     await this.save();
@@ -109,6 +111,30 @@ cartSchema.methods.deductItemFromCart = async function (inventoryItemId) {
 
 cartSchema.methods.confirmOrder = async function () {
     try {
+
+
+        // const arr = this.inventoryItems.map(item => 
+        //     item.inventoryItem)
+                // quantity: item.quantity
+
+        const arr = this.inventoryItems.map(item => item.inventoryItem);
+
+        const newOrder = new Order ({
+            // Assuming your order model has fields like this
+            items: this.inventoryItems.map(item => ({
+                productName: item.inventoryItem.partName,
+                productPrice: item.inventoryItem.retailPrice,
+                quantity: item.quantity
+            }
+            )),
+            totalPrice: this.totalPrice,
+            transactionType: this.transactionType,
+            // Other relevant fields like user, etc.
+        });
+
+        console.log(newOrder)
+        await newOrder.save();
+        
         // Loop through each inventory item in the cart
         for (const cartItem of this.inventoryItems) {
             const inventoryItemId = cartItem.inventoryItem._id;
@@ -154,7 +180,7 @@ cartSchema.methods.deleteItems = async function (itemIds) {
     try {
         // Remove the items from the inventoryItems array based on itemIds
         this.inventoryItems = this.inventoryItems.filter(item => !itemIds.includes(item._id.toString()));
-
+        this.totalPrice = await this.calculateTotalPrice();
         // Save the changes
         await this.save();
     } catch (error) {
@@ -180,6 +206,7 @@ cartSchema.methods.calculateTotalPrice = async function () {
         totalPrice += price * quantity;
     }
 
+    totalPrice = parseFloat(totalPrice.toFixed(2));
     this.totalPrice = totalPrice; // Update the total price of the cart
 };
 

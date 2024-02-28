@@ -9,7 +9,8 @@ const {
     getInventory,
     getInventoryItemById,
     getInventoryItemsForPrint,
-    checkPartNameBrand
+    checkPartNameBrand,
+    getDangerZoneItemCount
 } = require('../controllers/inventoryItemController')
 
 const requireAuth = require('../middleware/requireAuth')
@@ -41,12 +42,14 @@ router.get('/:id', getInventoryItemById)
 router.post('/add-item', createInventoryItem)
 
 // DELETE an inventory item
-router.delete('/delete-item/:id', deleteInventoryItemById) 
+router.delete('/delete-item/:id', deleteInventoryItemById)
 
 // UPDATE an inventory item 
-router.patch('/edit-item/:id', updateInventoryItemById) 
+router.patch('/edit-item/:id', updateInventoryItemById)
 
 router.post('/checkPartNameBrand', checkPartNameBrand)
+
+router.get('/getDangerZoneItemCount', getDangerZoneItemCount)
 
 // SEARCH and display 50 inventory items based on partName
 // router.get('/search', searchInventoryItemByPartname)

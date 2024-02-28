@@ -23,7 +23,8 @@ import { Row, Col, Container } from 'react-bootstrap';
 import Sidebar from './components/Sidebar'
 import NavigationBar from './components/Navbar';
 import Header from './components/Header';
-import { useState, useEffect } from 'react';
+import { useState, useEffect  } from 'react';
+import Payments from './pages/Payments';
 
 function App() {
   const { user, isLoading } = useAuthContext()
@@ -77,6 +78,11 @@ function App() {
               path="/inventory/add-items"
               element={user && !isLoading ? <AddInventoryItems /> : <Navigate to="/" />}
             />
+            
+              <Route
+                path="/payments"
+                element={(user && !isLoading && user.role === "Admin") ? <Payments /> : <Navigate to="/"/>}
+              />  
 
             <Route
               path="/shopping-cart"

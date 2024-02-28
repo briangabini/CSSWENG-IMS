@@ -38,7 +38,7 @@ const getInventoryItem = async (req, res) => {
 
 // get a single inventory item using id
 const getInventoryItemById = async (req, res) => {
-    const { id } = req.params
+    const id  = req.params.id
 
     const inventoryItem = await InventoryItem.findById(id)
 
@@ -269,6 +269,19 @@ const checkPartNameBrand = async (req, res) => {
     }
 }
 
+const getDangerZoneItemCount = async (req, res) => {
+    try {
+        // Use the InventoryItem model to find items with stockStatus 'Danger Zone'
+        const dangerZoneItemCount = await InventoryItem.countDocuments({ stockStatus: 'Danger Zone' });
+
+        return res.status(200).json({ dangerZoneItemCount });
+    } catch (error) {
+        console.error('Error getting danger zone item count:', error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -281,5 +294,6 @@ module.exports = {
     getInventory,
     getInventoryItemById,
     getInventoryItemsForPrint,
-    checkPartNameBrand
+    checkPartNameBrand,
+    getDangerZoneItemCount
 }
